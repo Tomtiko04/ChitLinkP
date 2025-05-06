@@ -1,21 +1,55 @@
+import { useState } from 'react';
+import Sidebar from '../Sidebar';
+import Header from '../Header';
 import { Outlet } from 'react-router-dom';
 
 const MainLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
-    <div className="min-h-screen bg-amber-100">
-      <header className="bg-white shadow-sm">
-        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Add your navigation here */}
-        </nav>
-      </header>
-      <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <Outlet />
-      </main>
-      <footer className="border-t bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          {/* Add your footer content here */}
-        </div>
-      </footer>
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-gray-900/50 z-30 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+      <div className="flex-1 lg:pl-64">
+        <header className="fixed top-0 right-0 left-0 lg:left-64 bg-white h-16 border-b z-20">
+          <div className="h-full px-4 lg:px-8 flex items-center">
+            {/* Hamburger button */}
+            <button
+              onClick={toggleSidebar}
+              className="p-2 -ml-2 mr-2 text-gray-600 hover:text-gray-900 lg:hidden"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+            <Header />
+          </div>
+        </header>
+        <main className="pt-16 px-4 lg:px-8">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
