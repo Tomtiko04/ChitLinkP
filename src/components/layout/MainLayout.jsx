@@ -46,7 +46,7 @@ const MainLayout = () => {
             <Header />
           </div>
         </header>
-        <main className="pt-16 px-4 lg:px-8">
+        <main className="pt-20 px-4 lg:px-8">
           <Outlet />
         </main>
       </div>

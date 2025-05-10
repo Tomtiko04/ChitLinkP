@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 
-const Dashboard = () => <div className="py-12 text-center">Dashboard Page</div>;
+import Dashboard from './pages/Dashboard';
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
 const Contacts = () => <div className="py-12 text-center">Contacts Page</div>;
 const Finance = () => <div className="py-12 text-center">Finance Page</div>;
