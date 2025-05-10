@@ -29,17 +29,12 @@ export default function Dashboard() {
       {/* User greeting */}
       <h1 className="text-[#22180E] text-xl font-medium">Hello, marriam</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-        {/* BalanceCard spans 2 columns on large screens, full width on small */}
-        <div className="col-span-1 lg:col-span-2">
-          <BalanceCard />
-        </div>
-        {/* Stat cards are narrower */}
+        <BalanceCard />
         {statCards.map((card, idx) => (
-          <div key={idx} className="col-span-1">
-            <DashboardStatCard {...card} />
-          </div>
+          <DashboardStatCard key={idx} {...card} />
         ))}
       </div>
+      {/* In a flex Quick links and balance graph goes here*/}
     </div>
   );
 }
