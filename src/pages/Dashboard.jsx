@@ -1,6 +1,8 @@
 import React from 'react'
 import BalanceCard from '../components/BalanceCard';
 import DashboardStatCard from '../components/DashboardStatCard';
+import QuickLinks from '../components/QuickLinks';
+import BalanceGraphCard from '../components/BalanceGraphCard';
 
 const statCards = [
   {
@@ -35,6 +37,14 @@ export default function Dashboard() {
         ))}
       </div>
       {/* In a flex Quick links and balance graph goes here*/}
+      <div className="flex flex-col lg:flex-row gap-4 mt-8 w-full">
+        <div className="flex-1 max-w-md w-full">
+          <QuickLinks />
+        </div>
+        <div className="flex-[2] w-full">
+          <BalanceGraphCard />
+        </div>
+      </div>
     </div>
   );
 }
