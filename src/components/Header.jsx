@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import ProfileImage from "../assets/images/Profile-image.png";
+import { Icon } from '@iconify/react';
 
 const routeTitles = {
   '/': 'Dashboard',
@@ -14,31 +16,36 @@ export default function Header() {
   const title = routeTitles[location.pathname] || 'Dashboard';
 
   return (
-    <div className="flex items-center justify-between px-6 py-4">
-      {title === 'Dashboard' ? (
-        <div>
-          <h1 className="text-2xl font-bold text-amber-900">{title}</h1>
-        </div>
-      ) : (
-        <div>
-          <p>Back</p>
-          <h1 className="text-2xl font-bold text-amber-900">{title}</h1>
-        </div>
-      )}
-      <div className="flex items-center space-x-4">
+    <header className="flex items-center justify-between px-8 py-6">
+      <div className="flex items-center gap-2">
+        {title !== 'Dashboard' && <Icon icon="weui:back-filled" className="text-xl" />}
+        <h1
+          className={`font-bold ${title === 'Dashboard' ? 'text-[32px] text-[#1A1A1A]' : 'text-2xl text-amber-900'}`}
+        >
+          {title}
+        </h1>
+      </div>
+
+      <div className="flex items-center gap-3">
         {/* Notification bell */}
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100">
-          <span role="img" aria-label="bell">
-            🔔
-          </span>
-        </div>
+        <button className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#CE973A] transition-colors duration-200 hover:bg-[#CE973A]/80">
+          <Icon icon="garden:notification-fill-12" fontSize={16} color="#ffffff" />
+        </button>
         {/* Merchant profile */}
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-200">
-          <span role="img" aria-label="profile">
-            👤
-          </span>
+        <div className="flex items-center justify-center gap-3">
+          <img
+            src={ProfileImage}
+            alt="Merchant image"
+            className="h-12 w-12 rounded-full object-cover"
+          />
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-[#241505]">Merchant's Name</span>
+            <span className="text-[10px] font-semibold text-[#241505]/50">
+              Merchant's@email.com
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
