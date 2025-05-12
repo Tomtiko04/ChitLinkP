@@ -22,12 +22,12 @@ const MainLayout = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 lg:pl-64">
-        <header className="fixed top-0 right-0 left-0 lg:left-64 bg-white h-16 shadow-2xs z-20">
-          <div className="h-full px-4 lg:px-8 flex items-center">
+        <div className="fixed top-0 right-0 left-0 lg:left-64 bg-white shadow-2xs z-20">
+          <div className="flex items-center h-16 px-4">
             {/* Hamburger button */}
             <button
               onClick={toggleSidebar}
-              className="p-2 -ml-2 mr-2 text-black hover:text-gray-900 lg:hidden"
+              className="p-1.5 -ml-1.5 text-gray-800 hover:text-gray-900 lg:hidden"
             >
               <svg
                 className="w-7 h-7"
@@ -43,9 +43,11 @@ const MainLayout = () => {
                 />
               </svg>
             </button>
-            <Header />
+            <div className="flex-1">
+              <Header />
+            </div>
           </div>
-        </header>
+        </div>
         <main className="pt-20 px-4 lg:px-8">
           <Outlet />
         </main>
