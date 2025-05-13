@@ -39,9 +39,11 @@ export default function Dashboard() {
         <div className="sm:col-span-2 lg:col-span-3">
           <BalanceCard />
         </div>
-        {statCards.map((card, idx) => (
-          <DashboardStatCard key={idx} {...card} />
-        ))}
+        <div className="sm:col-span-2 lg:col-span-3 grid grid-cols-2 gap-4">
+          {statCards.map((card, idx) => (
+            <DashboardStatCard key={idx} {...card} />
+          ))}
+        </div>
       </div>
       {/* In a flex Quick links and balance graph goes here*/}
       <div className="mt-8 flex w-full flex-col gap-4 lg:flex-row">
