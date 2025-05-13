@@ -34,7 +34,7 @@ const transactions = [
 ];
 
 const TransactionItem = ({ name, amount, date, isCredit }) => (
-  <div className="flex items-center justify-between py-3">
+  <div className="flex items-center justify-between py-3 cursor-pointer hover:bg-[#F4F3F0]">
     <div>
       <h3 className="text-sm font-bold text-[#563F17]">{name}</h3>
       <p className="mt-1 text-xs text-[#563F17]">{date}</p>

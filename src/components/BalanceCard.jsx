@@ -9,7 +9,7 @@ export default function BalanceCard() {
     <div className="balance-card-gradient flex min-h-[200px] w-full max-w-sm flex-col justify-between rounded-[20px] px-6 py-4 text-white">
       <div className="mb-2 flex items-center justify-between">
         <div>
-          <span className="text-sm font-bold">Balance:</span>
+          <span className="text-sm font-bold">Balance</span>
         </div>
         <button
           onClick={() => setShowBalance(!showBalance)}

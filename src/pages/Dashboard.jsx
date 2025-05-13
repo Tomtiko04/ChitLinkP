@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import BalanceCard from '../components/BalanceCard';
 import DashboardStatCard from '../components/DashboardStatCard';
 import QuickLinks from '../components/QuickLinks';
@@ -32,14 +32,14 @@ const statCards = [
 
 export default function Dashboard() {
   return (
-    <div>
+    <div className="pb-10">
       {/* User greeting */}
       <h1 className="text-xl font-medium text-[#22180E]">Hello, marriam</h1>
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
         <div className="sm:col-span-2 lg:col-span-3">
           <BalanceCard />
         </div>
-        <div className="sm:col-span-2 lg:col-span-3 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:col-span-2 lg:col-span-3">
           {statCards.map((card, idx) => (
             <DashboardStatCard key={idx} {...card} />
           ))}
