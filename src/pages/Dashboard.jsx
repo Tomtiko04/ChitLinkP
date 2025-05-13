@@ -55,9 +55,13 @@ export default function Dashboard() {
         </div>
       </div>
       {/* Ongoing Savings and Recent Transactions */}
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <OngoingSavings />
-        <RecentTransactions />
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
+        <div className="lg:col-span-3">
+          <OngoingSavings />
+        </div>
+        <div className="lg:col-span-2">
+          <RecentTransactions />
+        </div>
       </div>
     </div>
   );
