@@ -55,7 +55,7 @@ export default function Dashboard() {
         </div>
       </div>
       {/* Ongoing Savings and Recent Transactions */}
-      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <OngoingSavings />
         <RecentTransactions />
       </div>

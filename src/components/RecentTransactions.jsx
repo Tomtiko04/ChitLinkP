@@ -1,58 +1,60 @@
 import React from 'react';
 
+const transactions = [
+  {
+    name: 'Arike & Friends',
+    amount: '40000',
+    date: '08:18 pm 28-08-2024',
+    isCredit: false,
+  },
+  {
+    name: 'Lovely Sisters',
+    amount: '1000000',
+    date: '08:18 pm 28-08-2024',
+    isCredit: true,
+  },
+  {
+    name: 'Lovely Sisters',
+    amount: '1000000',
+    date: '08:18 pm 28-08-2024',
+    isCredit: true,
+  },
+  {
+    name: 'Lovely Sisters',
+    amount: '1000000',
+    date: '08:18 pm 28-08-2024',
+    isCredit: true,
+  },
+  {
+    name: 'Lovely Sisters',
+    amount: '1000000',
+    date: '08:18 pm 28-08-2024',
+    isCredit: true,
+  },
+];
+
 const TransactionItem = ({ name, amount, date, isCredit }) => (
   <div className="flex items-center justify-between py-3">
     <div>
-      <h3 className="font-medium text-[#22180E]">{name}</h3>
-      <p className="text-sm text-[#9F9F9F]">{date}</p>
+      <h3 className="text-sm font-bold text-[#563F17]">{name}</h3>
+      <p className="mt-1 text-xs text-[#563F17]">{date}</p>
     </div>
-    <p className={`font-medium ${isCredit ? 'text-green-600' : 'text-red-600'}`}>
+    <p className={`font-bold ${isCredit ? 'text-[#563F17]' : 'text-red-600'}`}>
       {isCredit ? '+' : '-'}${Number(amount).toLocaleString()}
     </p>
   </div>
 );
 
 export default function RecentTransactions() {
-  const transactions = [
-    {
-      name: "Arike & Friends",
-      amount: "40000",
-      date: "08:18 pm 28-08-2024",
-      isCredit: false
-    },
-    {
-      name: "Lovely Sisters",
-      amount: "1000000",
-      date: "08:18 pm 28-08-2024",
-      isCredit: true
-    },
-    {
-      name: "Lovely Sisters",
-      amount: "1000000",
-      date: "08:18 pm 28-08-2024",
-      isCredit: true
-    },
-    {
-      name: "Lovely Sisters",
-      amount: "1000000",
-      date: "08:18 pm 28-08-2024",
-      isCredit: true
-    },
-    {
-      name: "Lovely Sisters",
-      amount: "1000000",
-      date: "08:18 pm 28-08-2024",
-      isCredit: true
-    }
-  ];
-
   return (
-    <div className="rounded-lg bg-white p-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-medium text-[#22180E]">Recent Transactions</h2>
-        <button className="text-sm text-[#9F9F9F]">See All</button>
+    <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
+      <div className=" flex items-center justify-between text-xs">
+        <h2 className="text-sm font-bold text-[#89785C]">Recent Transactions</h2>
+        <button className="cursor-pointer font-light text-[#AC927A] hover:underline">
+          See All
+        </button>
       </div>
-      <div className="mt-4 divide-y">
+      <div className="divide-y text-[#f4f3f0]">
         {transactions.map((transaction, idx) => (
           <TransactionItem key={idx} {...transaction} />
         ))}
