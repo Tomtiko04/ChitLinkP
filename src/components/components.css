@@ -1,0 +1,11 @@
+.balance-card-gradient {
+  background: linear-gradient(40deg, #CE973A, #A4782E 22%, #B48433 23%, #684C1D 74%, #C79238 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #CE973A, #A4782E 22%, #B48433 23%, #684C1D 74%, #C79238 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

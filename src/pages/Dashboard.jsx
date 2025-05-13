@@ -5,25 +5,28 @@ import QuickLinks from '../components/QuickLinks';
 import BalanceGraphCard from '../components/BalanceGraphCard';
 import OngoingSavings from '../components/OngoingSavings';
 import RecentTransactions from '../components/RecentTransactions';
+import { Icon } from '@iconify/react';
 
 const statCards = [
   {
     title: 'Amount Managed',
     subtitle: 'In the last 7 days',
     value: '$100m',
+    // icon: <Icon icon="lucide:arrow-up" />,
     icon: '↑',
-    iconColor: 'text-amber-500',
-    bg: 'bg-white',
-    textColor: 'text-amber-900',
+    // iconColor: 'text-amber-500',
+    // bg: 'bg-white',
+    // textColor: '#89785C',
   },
   {
     title: 'No. of Clients',
     subtitle: 'In the last 7 days',
     value: '2,000',
     icon: '↑',
-    iconColor: 'text-amber-500',
-    bg: 'bg-white',
-    textColor: 'text-amber-900',
+    // icon: <Icon icon="lucide:arrow-up" />,
+    // iconColor: 'text-amber-500',
+    // bg: 'bg-white',
+    // textColor: '#89785C',
   },
 ];
 
