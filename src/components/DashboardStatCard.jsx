@@ -41,7 +41,7 @@ export default function DashboardStatCard({
 
   return (
     <div
-      className={`flex min-h-[180px] w-full max-w-sm flex-col justify-between rounded-2xl px-6 py-4 bg-white border-2 border-[#EDEAE4]`}
+      className={`flex min-h-[180px] w-full max-w-sm flex-col justify-between rounded-2xl px-6 py-4 bg-white border border-[#EDEAE4]`}
     >
       <div className="mb-2 flex-col items-center justify-start">
         <span className={`text-sm font-bold text-[#89785C]`}>{title}</span>

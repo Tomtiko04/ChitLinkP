@@ -1,28 +1,30 @@
 import React from 'react';
+import { Icon } from '@iconify/react';
 
 const links = [
-  { label: 'Create savings', icon: '🪙' },
-  { label: 'Share savings link', icon: '📤' },
-  { label: 'Share profile link', icon: '🔗' },
-  { label: 'Create Contact', icon: '👥' },
+  { label: 'Create savings', icon: 'material-symbols-light:add-box-outline-rounded' },
+  { label: 'Share savings link', icon: 'uit:upload-alt' },
+  { label: 'Share profile link', icon: 'fluent:share-20-regular' },
+  { label: 'Create Contact', icon: 'proicons:person-add-2' },
 ];
 
 export default function QuickLinks() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow flex flex-col w-full max-w-md min-h-[340px]">
-      <h2 className="text-amber-900 text-lg font-semibold mb-4">Quick Links</h2>
-      <div className="grid grid-cols-2 gap-4">
+    <div className="w-full rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
+      <h2 className="mb-4 text-sm font-bold text-[#89785C]">Quick Links</h2>
+      <div className="grid grid-cols-2 gap-2">
         {links.map((link, idx) => (
           <button
             key={idx}
-            className="flex flex-col items-center justify-center bg-amber-50 rounded-xl py-6 transition hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400"
-            aria-label={link.label}
+            className="flex cursor-pointer flex-col items-center justify-center rounded-[10px] bg-[#F4F3F0] p-6 transition hover:bg-[#F5EFE8] focus:outline-none"
           >
-            <span className="bg-amber-200 text-amber-700 rounded-full p-3 mb-2 text-2xl">{link.icon}</span>
-            <span className="text-amber-900 font-medium text-sm">{link.label}</span>
+            <span className="mb-2 rounded-full bg-[#CE973A] p-2 text-white">
+              <Icon icon={link.icon} className="text-2xl" />
+            </span>
+            <span className="text-xs font-bold text-[#62340A]">{link.label}</span>
           </button>
         ))}
       </div>
     </div>
   );
-} 
+}

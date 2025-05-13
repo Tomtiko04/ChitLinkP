@@ -46,8 +46,8 @@ export default function Dashboard() {
         </div>
       </div>
       {/* In a flex Quick links and balance graph goes here*/}
-      <div className="mt-8 flex w-full flex-col gap-4 lg:flex-row">
-        <div className="w-full max-w-md flex-1">
+      <div className="mt-4 flex w-full flex-col gap-4 lg:flex-row">
+        <div className="w-full max-w-md flex-[1.5]">
           <QuickLinks />
         </div>
         <div className="w-full flex-[2]">

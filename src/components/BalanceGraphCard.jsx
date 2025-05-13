@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const data = [
   { month: 'Jan', profit: 1000, expense: 500 },
@@ -18,33 +18,64 @@ const data = [
 
 export default function BalanceGraphCard() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow flex flex-col w-full max-w-2xl min-h-[340px]">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-amber-900">Balance:</span>
-        <div className="flex items-center gap-4">
-          <span className="flex items-center text-xs text-amber-700 font-semibold"><span className="w-3 h-3 rounded-sm bg-amber-400 inline-block mr-1"></span>Profit</span>
-          <span className="flex items-center text-xs text-rose-300 font-semibold"><span className="w-3 h-3 rounded-sm bg-rose-200 inline-block mr-1"></span>Expense</span>
+    <div className="w-full rounded-[20px] border border-[#EDEAE4] bg-white p-6">
+      <div className="mb-6 flex-col items-center justify-between">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="mb-1 text-sm font-bold text-[#89785C]">Balance</h2>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center text-xs font-medium text-[#B19A85]">
+              <span className="mr-2 inline-block h-2 w-2 bg-[#CE973A]"></span>
+              Profit
+            </span>
+            <span className="flex items-center text-xs font-medium text-[#B19A85]">
+              <span className="mr-2 inline-block h-2 w-2 bg-[#E06E65]"></span>
+              Expense
+            </span>
+          </div>
         </div>
+
+        <div className="mt-3 text-2xl font-extrabold text-[#4C3308]">$7,000,000,000</div>
+        <div className="text-xs font-medium text-[#2E1B07]/50">Awaiting balance: $78,234.00</div>
       </div>
-      <div className="mb-1">
-        <span className="text-3xl font-bold tracking-tight text-amber-900">$7,000,000,000</span>
-      </div>
-      <div className="mb-4">
-        <span className="text-sm text-amber-500">Awaiting balance: $78,234.00</span>
-      </div>
-      {/* Real Graph with Recharts */}
-      <div className="flex-1 flex flex-col justify-end min-h-[180px]">
-        <ResponsiveContainer width="100%" height={120}>
-          <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-            <XAxis dataKey="month" tick={{ fill: '#bfa76a', fontSize: 12 }} axisLine={false} tickLine={false} />
+      <div className="h-[160px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#89785C', fontSize: 12 }}
+            />
             <YAxis hide />
-            <Tooltip />
-            <Legend verticalAlign="top" height={36} iconType="plainline"/>
-            <Line type="monotone" dataKey="profit" stroke="#FDE68A" strokeWidth={3} dot={false} name="Profit" />
-            <Line type="monotone" dataKey="expense" stroke="#FCA5A5" strokeWidth={3} dot={false} name="Expense" />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              }}
+            />
+            <Line
+              type="monotone"
+              dataKey="profit"
+              stroke="#CE973A"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4, fill: '#CE973A' }}
+            />
+            <Line
+              type="monotone"
+              dataKey="expense"
+              stroke="#FCA5A5"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4, fill: '#FCA5A5' }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
-} 
+}
