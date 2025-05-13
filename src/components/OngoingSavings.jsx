@@ -1,27 +1,27 @@
 import React from 'react';
+import ProfileImage from '../assets/images/Profile-image.png';
 
 const SavingsCard = ({ name, nextCollector, currentSlot, totalSlots }) => (
-  <div className="rounded-lg bg-white p-4">
-    <div className="flex items-center gap-3">
-      <img 
-        src="/avatar-placeholder.jpg" 
-        alt={name} 
-        className="h-10 w-10 rounded-full object-cover"
-      />
-      <div>
-        <h3 className="text-sm font-medium text-[#22180E]">Savings Name</h3>
-        <p className="text-[#22180E]">{name}</p>
-      </div>
+  <div className="rounded-[20px] border border-[#F4F3F0] bg-white p-4">
+    <div className="flex items-center justify-end">
+      <img src={ProfileImage} alt={name} className="h-10 w-10 rounded-full object-cover" />
     </div>
-    <div className="mt-4">
-      <p className="text-sm text-[#9F9F9F]">Collecting Next</p>
-      <p className="text-[#22180E]">{nextCollector}</p>
+
+    <div>
+      <h3 className="text-sm text-[#89785C]">Savings Name</h3>
+      <p className="mt-1 text-[15px] font-bold text-[#4C3308]">{name}</p>
     </div>
+
+    <div className="mt-4 rounded-[7px] bg-[#F4F3F0]">
+      <h3 className="text-sm text-[#89785C]">Collecting Next</h3>
+      <p className="mt-1 text-[15px] font-bold text-[#4C3308]">{nextCollector}</p>
+    </div>
+
     <div className="mt-4">
-      <p className="text-sm text-[#9F9F9F]">Slot No.</p>
+      <h3 className="text-sm text-[#89785C]">Slot No.</h3>
       <div className="relative mt-1 h-2 w-full rounded-full bg-[#F5F5F5]">
-        <div 
-          className="absolute left-0 top-0 h-full rounded-full bg-[#E9B86C]" 
+        <div
+          className="absolute top-0 left-0 h-full rounded-full bg-[#E9B86C]"
           style={{ width: `${(currentSlot / totalSlots) * 100}%` }}
         />
       </div>
@@ -50,12 +50,12 @@ export default function OngoingSavings() {
   ];
 
   return (
-    <div className="rounded-lg bg-white p-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-medium text-[#22180E]">Ongoing Savings</h2>
-        <button className="text-sm text-[#9F9F9F]">See All</button>
+    <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
+      <div className="mb-4 flex items-center justify-between text-xs">
+        <h2 className="text-sm font-bold text-[#89785C]">Ongoing Savings</h2>
+        <button className=" font-light text-[#AC927A] cursor-pointer hover:underline">See All</button>
       </div>
-      <div className="mt-4 grid gap-4">
+      <div className="mt-4 grid sm:grid-cols-2 gap-4">
         {savingsData.map((savings, idx) => (
           <SavingsCard key={idx} {...savings} />
         ))}
