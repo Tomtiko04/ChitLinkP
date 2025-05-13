@@ -35,8 +35,10 @@ export default function Dashboard() {
     <div>
       {/* User greeting */}
       <h1 className="text-xl font-medium text-[#22180E]">Hello, marriam</h1>
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <BalanceCard />
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="sm:col-span-2 lg:col-span-3">
+          <BalanceCard />
+        </div>
         {statCards.map((card, idx) => (
           <DashboardStatCard key={idx} {...card} />
         ))}
