@@ -47,18 +47,32 @@ const TransactionItem = ({ name, amount, date, isCredit }) => (
 
 export default function RecentTransactions() {
   return (
-    <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
-      <div className=" flex items-center justify-between text-xs">
+    <div className="h-full rounded-[31.32px] border border-[#EDEAE4] bg-white p-6 flex flex-col">
+      <div className="flex items-center justify-between">
         <h2 className="text-sm font-bold text-[#89785C]">Recent Transactions</h2>
-        <button className="cursor-pointer font-light text-[#AC927A] hover:underline">
+        <button className="cursor-pointer text-xs font-light text-[#AC927A] hover:underline">
           See All
         </button>
       </div>
-      <div className="divide-y text-[#f4f3f0]">
+      <div className="mt-4 divide-y text-[#f4f3f0] flex-1 overflow-y-auto">
         {transactions.map((transaction, idx) => (
           <TransactionItem key={idx} {...transaction} />
         ))}
       </div>
     </div>
+
+    // <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
+    //   <div className=" flex items-center justify-between text-xs">
+    //     <h2 className="text-sm font-bold text-[#89785C]">Recent Transactions</h2>
+    //     <button className="cursor-pointer font-light text-[#AC927A] hover:underline">
+    //       See All
+    //     </button>
+    //   </div>
+    //   <div className="divide-y text-[#f4f3f0]">
+    //     {transactions.map((transaction, idx) => (
+    //       <TransactionItem key={idx} {...transaction} />
+    //     ))}
+    //   </div>
+    // </div>
   );
 }

@@ -50,16 +50,30 @@ export default function OngoingSavings() {
   ];
 
   return (
-    <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
-      <div className="mb-4 flex items-center justify-between text-xs">
+    <div className="h-full rounded-[31.32px] border border-[#EDEAE4] bg-white p-6 flex flex-col">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-bold text-[#89785C]">Ongoing Savings</h2>
-        <button className=" font-light text-[#AC927A] cursor-pointer hover:underline">See All</button>
+        <button className="cursor-pointer text-xs font-light text-[#AC927A] hover:underline">
+          See All
+        </button>
       </div>
-      <div className="mt-4 grid sm:grid-cols-2 gap-4">
+      <div className="mt-4 grid flex-1 gap-4 sm:grid-cols-2 overflow-y-auto">
         {savingsData.map((savings, idx) => (
           <SavingsCard key={idx} {...savings} />
         ))}
       </div>
     </div>
+
+    // <div className="rounded-[31.32px] border border-[#EDEAE4] bg-white p-6">
+    //   <div className="mb-4 flex items-center justify-between text-xs">
+    //     <h2 className="text-sm font-bold text-[#89785C]">Ongoing Savings</h2>
+    //     <button className=" font-light text-[#AC927A] cursor-pointer hover:underline">See All</button>
+    //   </div>
+    //   <div className="mt-4 grid sm:grid-cols-2 gap-4">
+    //     {savingsData.map((savings, idx) => (
+    //       <SavingsCard key={idx} {...savings} />
+    //     ))}
+    //   </div>
+    // </div>
   );
 }
