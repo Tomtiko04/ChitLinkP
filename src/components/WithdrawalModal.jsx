@@ -79,55 +79,59 @@ export default function WithdrawalModal({ isOpen, onClose, accounts = [] }) {
 
           {/* Destinations Section */}
           <div className="mb-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-[#CE973A]">Select Account</h3>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-base font-medium text-[#CE973A]">Destinations</h3>
+              {accounts.length > 0 && (
+                <button 
+                  className="flex items-center gap-2 rounded-xl bg-[#CE973A] px-4 py-2 text-sm text-white transition hover:bg-[#B07E2B]"
+                  onClick={() => setSelectedAccount(null)}
+                >
+                  <Icon icon="material-symbols:add" className="text-lg" />
+                  <span>Add Account</span>
+                </button>
+              )}
             </div>
 
             {/* Accounts List or Empty State */}
-            <div className="mt-4">
+            <div>
               {accounts.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {accounts.map(account => (
-                    <button
+                    <div 
                       key={account.id}
-                      className={`flex w-full items-center justify-between rounded-xl border p-4 transition ${
-                        selectedAccount?.id === account.id 
-                          ? 'border-[#CE973A] bg-[#FFF9E5]' 
-                          : 'border-gray-200 hover:border-[#CE973A]/50'
-                      }`}
-                      onClick={() => setSelectedAccount(account)}
+                      className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-3"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FFF9E5]">
-                          <Icon icon="material-symbols:account-balance" className="text-2xl text-[#CE973A]" />
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4F3F0]">
+                          <Icon icon="solar:card-bold" className="text-xl text-[#CE973A]" />
                         </div>
-                        <div className="text-left">
-                          <p className="font-semibold text-gray-900">{account.bankName}</p>
-                          <p className="text-sm text-gray-600">{account.accountNumber}</p>
+                        <div>
+                          <p className="text-sm text-gray-900">{account.accountNumber}</p>
+                          <p className="text-xs text-gray-600">{account.accountName}</p>
                         </div>
                       </div>
-                      {selectedAccount?.id === account.id && (
-                        <Icon icon="material-symbols:check-circle" className="text-xl text-[#CE973A]" />
-                      )}
-                    </button>
+                      <button 
+                        className="rounded-full p-1 text-gray-400 hover:bg-gray-50 hover:text-gray-500"
+                        onClick={() => {
+                          setAccounts(accounts.filter(a => a.id !== account.id));
+                        }}
+                      >
+                        <Icon icon="material-symbols:close" className="text-lg" />
+                      </button>
+                    </div>
                   ))}
                 </div>
               ) : (
-                <div className="mt-4 rounded-xl bg-[#FFF9E5] p-6 text-center">
-                  <div className="mb-4 flex justify-center">
-                    <div className="rounded-full bg-[#CE973A]/10 p-3">
-                      <Icon icon="material-symbols:account-balance" className="text-3xl text-[#CE973A]" />
-                    </div>
-                  </div>
-                  <p className="mb-4 text-[#8B5800]">
+                <div className="mt-4 text-center">
+                  <p className="mb-4 text-sm text-[#8B5800]">
                     You need to add a bank account before making a withdrawal
                   </p>
                   <Link
                     to="/bank-accounts"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#CE973A] px-6 py-3 text-white transition hover:bg-[#B07E2B]"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#CE973A] px-6 py-3 text-sm text-white transition hover:bg-[#B07E2B]"
                     onClick={onClose}
                   >
-                    <Icon icon="material-symbols:add" />
+                    <Icon icon="material-symbols:add" className="text-lg" />
                     <span>Add Account</span>
                   </Link>
                 </div>
@@ -138,7 +142,7 @@ export default function WithdrawalModal({ isOpen, onClose, accounts = [] }) {
           {/* Submit Button */}
           {accounts.length > 0 && (
             <button 
-              className={`mt-4 w-full rounded-xl py-4 text-center text-lg font-semibold transition ${
+              className={`mt-4 w-full rounded-xl py-3 text-center text-sm font-medium transition ${
                 selectedAccount && amount !== '000.00'
                   ? 'bg-[#CE973A] text-white hover:bg-[#B07E2B]'
                   : 'cursor-not-allowed bg-gray-100 text-gray-400'
@@ -151,7 +155,7 @@ export default function WithdrawalModal({ isOpen, onClose, accounts = [] }) {
                 }
               }}
             >
-              Withdraw
+              + Add Account
             </button>
           )}
         </div>
