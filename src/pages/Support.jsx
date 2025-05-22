@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Support() {
   const [selectedItem, setSelectedItem] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const supportItems = [
     {
@@ -66,26 +69,30 @@ export default function Support() {
     }
   ];
 
+  useEffect(() => {
+    // Get the current path from URL using react-router's location
+    const path = location.pathname.split('/support/')[1];
+    
+    if (path) {
+      // Find the matching support item
+      const matchingItem = supportItems.find(item => item.path === path);
+      if (matchingItem) {
+        setSelectedItem(matchingItem);
+      } else {
+        // If no matching path, redirect to support base
+        navigate('/support');
+      }
+    }
+  }, [location.pathname]); // Run when pathname changes
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
-    // Update URL without navigation
-    window.history.pushState({}, '', `/support/${item.path}`);
+    navigate(`/support/${item.path}`);
   };
 
   return (
     <div className="flex">
       <div className="w-1/3 p-6">
-        {/* <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <Icon icon="mdi:headphones-settings" className="w-20 h-20 text-primary" />
-          </div>
-          <h2 className="text-xl font-semibold mb-2">Hi, How may we help you?</h2>
-          <p className="text-gray-600">
-            Welcome to Chitlink, your ultimate destination for smart savings and sustainable living. 
-            Our thrift mobile app is designed to help you save money while making eco-friendly choices
-          </p>
-        </div> */}
-
         <div className="bg-white rounded-lg shadow">
           {supportItems.map((item, index) => (
             <div
