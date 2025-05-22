@@ -4,8 +4,36 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Support() {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [expandedFaq, setExpandedFaq] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const faqItems = [
+    {
+      question: "How do i download the app?",
+      answer: "You can download our app from the App Store or Google Play Store. Search for 'ChitLink' and look for our official app."
+    },
+    {
+      question: "How do i reset my password?",
+      answer: "To reset your password, go to the login page and click on 'Forgot Password'. Follow the instructions sent to your email."
+    },
+    {
+      question: "How do i create a savings?",
+      answer: "Navigate to the Savings section, click on 'Create New Savings', and follow the guided setup process."
+    },
+    {
+      question: "How do i add my bank card?",
+      answer: "Go to the Finance section, select 'Add Payment Method', and follow the secure card addition process."
+    },
+    {
+      question: "Is my personal and payment information secure?",
+      answer: "Yes, we use industry-standard encryption and security measures to protect all your personal and payment information."
+    },
+    {
+      question: "How do i contact customer support?",
+      answer: "You can reach our customer support team through the Contact Us section, email, or in-app chat support."
+    }
+  ];
 
   const supportItems = [
     {
@@ -28,13 +56,30 @@ export default function Support() {
       path: 'faq-section',
       content: (
         <div className="p-6">
-          <h3 className="text-xl font-semibold mb-4">Frequently Asked Questions</h3>
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-medium mb-2">How does ChitLink work?</h4>
-              <p className="text-gray-600">Detailed explanation of the service...</p>
-            </div>
-            {/* Add more FAQ items as needed */}
+          <h3 className="text-xl font-semibold mb-4">FAQ Section</h3>
+          <div className="space-y-2">
+            {faqItems.map((faq, index) => (
+              <div 
+                key={index}
+                className="bg-gray-50 rounded-lg overflow-hidden"
+              >
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  className="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 transition-colors"
+                >
+                  <span className="text-brown-600">{faq.question}</span>
+                  <Icon 
+                    icon={expandedFaq === index ? "mdi:chevron-up" : "mdi:chevron-down"}
+                    className="w-6 h-6 text-primary"
+                  />
+                </button>
+                {expandedFaq === index && (
+                  <div className="p-4 pt-0 text-gray-600">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       )
@@ -49,7 +94,6 @@ export default function Support() {
           <p className="text-gray-600">
             We value your feedback! Help us improve our service.
           </p>
-          {/* Add feedback form or content */}
         </div>
       )
     },
@@ -63,27 +107,23 @@ export default function Support() {
           <p className="text-gray-600">
             Get in touch with our support team.
           </p>
-          {/* Add contact information or form */}
         </div>
       )
     }
   ];
 
   useEffect(() => {
-    // Get the current path from URL using react-router's location
     const path = location.pathname.split('/support/')[1];
     
     if (path) {
-      // Find the matching support item
       const matchingItem = supportItems.find(item => item.path === path);
       if (matchingItem) {
         setSelectedItem(matchingItem);
       } else {
-        // If no matching path, redirect to support base
         navigate('/support');
       }
     }
-  }, [location.pathname]); // Run when pathname changes
+  }, [location.pathname]);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
