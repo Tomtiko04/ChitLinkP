@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 
 const routeTitles = {
   '/': 'Dashboard',
+  '/bank-accounts': 'Bank Account',
   '/savings': 'Savings',
   '/contacts': 'Contacts',
   '/finance': 'Finance',

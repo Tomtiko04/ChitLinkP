@@ -22,6 +22,41 @@ const navItems = [
     ),
   },
   {
+    label: 'Bank Accounts',
+    path: '/bank-accounts',
+    icon: (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 8.5H5C4.44772 8.5 4 8.94772 4 9.5V19.5C4 20.0523 4.44772 20.5 5 20.5H19C19.5523 20.5 20 20.0523 20 19.5V9.5C20 8.94772 19.5523 8.5 19 8.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 3.5L20 8.5H4L12 3.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 15.5C13.1046 15.5 14 14.6046 14 13.5C14 12.3954 13.1046 11.5 12 11.5C10.8954 11.5 10 12.3954 10 13.5C10 14.6046 10.8954 15.5 12 15.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
+  {
     label: 'Savings',
     path: '/savings',
     icon: (
