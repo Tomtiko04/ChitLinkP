@@ -4,7 +4,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export default function Support() {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  const [expandedFaqs, setExpandedFaqs] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -58,34 +58,42 @@ export default function Support() {
         <div className="p-4 sm:p-6">
           <h3 className="text-lg sm:text-xl font-semibold mb-4">FAQ Section</h3>
           <div className="space-y-3">
-            {faqItems.map((faq, index) => (
-              <div 
-                key={index}
-                className="bg-gray-50 rounded-lg overflow-hidden"
-              >
-                <button
-                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  className="w-full p-3 sm:p-4 text-left flex items-center justify-between hover:bg-gray-100 transition-colors duration-200"
-                >
-                  <span className="text-gray-700 text-sm sm:text-base pr-4">{faq.question}</span>
-                  <Icon 
-                    icon="mdi:chevron-down"
-                    className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-200 ${
-                      expandedFaq === index ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
+            {faqItems.map((faq, index) => {
+              const isExpanded = expandedFaqs[index];
+              return (
                 <div 
-                  className={`transition-all duration-200 ease-in-out overflow-hidden ${
-                    expandedFaq === index ? 'max-h-40' : 'max-h-0'
-                  }`}
+                  key={index}
+                  className="bg-gray-50 rounded-lg overflow-hidden"
                 >
-                  <div className="p-3 sm:p-4 pt-0 text-gray-600 text-sm sm:text-base">
-                    {faq.answer}
+                  <button
+                    onClick={() => {
+                      setExpandedFaqs(prev => ({
+                        ...prev,
+                        [index]: !prev[index]
+                      }));
+                    }}
+                    className="w-full p-3 sm:p-4 text-left flex items-center justify-between hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <span className="text-gray-700 text-sm sm:text-base pr-4">{faq.question}</span>
+                    <Icon 
+                      icon="mdi:chevron-down"
+                      className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-200 ${
+                        isExpanded ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div 
+                    className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                      isExpanded ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <div className="p-3 sm:p-4 pt-0 text-gray-600 text-sm sm:text-base">
+                      {faq.answer}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )
