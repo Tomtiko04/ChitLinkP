@@ -21,12 +21,7 @@ function App() {
           <Route path="contacts" element={<Contacts />} />
           <Route path="finance" element={<Finance />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="support" element={<Support />}>
-            <Route path="about-app" element={<Support />} />
-            <Route path="faq-section" element={<Support />} />
-            <Route path="feedbacks" element={<Support />} />
-            <Route path="contact-us" element={<Support />} />
-          </Route>
+          <Route path="support/*" element={<Support />} />
         </Route>
       </Routes>
     </Router>
