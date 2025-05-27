@@ -4,6 +4,7 @@ import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import BankAccounts from './pages/BankAccounts';
 import Support from './pages/Support';
+import Login from './pages/Login';
 
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
 const Contacts = () => <div className="py-12 text-center">Contacts Page</div>;
@@ -14,6 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="bank-accounts" element={<BankAccounts />} />
