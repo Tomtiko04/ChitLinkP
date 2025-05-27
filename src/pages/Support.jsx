@@ -148,10 +148,155 @@ const FeedbackForm = ({ onClose }) => {
   );
 };
 
+const ContactForm = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Contact form submitted:', formData);
+    setSubmitted(true);
+  };
+
+  const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  if (submitted) {
+    return (
+      <div className="bg-white rounded-lg p-8 text-center">
+        <div className="text-primary mb-4">
+          <Icon icon="mdi:check-circle" className="w-16 h-16 mx-auto" />
+        </div>
+        <h2 className="text-2xl font-semibold mb-4">Message Sent!</h2>
+        <p className="text-gray-600 mb-6">We'll get back to you as soon as possible.</p>
+        <button
+          onClick={onClose}
+          className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
+        >
+          Close
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-lg p-8">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold">Contact Us</h2>
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <Icon icon="mdi:close" className="w-6 h-6" />
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="Your name"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="Your email"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+            Subject
+          </label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="What is this about?"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            rows={4}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="How can we help you?"
+            required
+          />
+        </div>
+
+        <div className="flex gap-4 mt-6">
+          <button
+            type="submit"
+            className="flex-1 py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
+          >
+            Send Message
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Icon icon="mdi:email" className="w-5 h-5 text-primary" />
+            <a href="mailto:support@chitlink.com" className="text-gray-600 hover:text-primary">
+              support@chitlink.com
+            </a>
+          </div>
+          <div className="flex items-center gap-3">
+            <Icon icon="mdi:phone" className="w-5 h-5 text-primary" />
+            <a href="tel:+1234567890" className="text-gray-600 hover:text-primary">
+              +1 (234) 567-890
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Support() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -223,23 +368,22 @@ export default function Support() {
       icon: 'mdi:feedback',
       path: 'feedbacks',
       content: (
-        <div className="p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-semibold mb-4">Feedback</h3>
-          <p className="text-gray-600 text-sm sm:text-base mb-6">
-            We value your feedback! Help us improve our service.
-          </p>
-          <button
-            onClick={() => setShowFeedback(true)}
-            className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
-          >
-            Give Feedback
-          </button>
-          
-          {/* Feedback Modal Overlay */}
+        <div className="p-4 sm:p-6 flex items-center justify-center min-h-[200px]">
           {showFeedback && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="max-w-md w-full mx-4">
-                <FeedbackForm onClose={() => setShowFeedback(false)} />
+            <div 
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setShowFeedback(false);
+                  navigate('/support/about-app');
+                }
+              }}
+            >
+              <div className="max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+                <FeedbackForm onClose={() => {
+                  setShowFeedback(false);
+                  navigate('/support/about-app');
+                }} />
               </div>
             </div>
           )}
@@ -251,11 +395,25 @@ export default function Support() {
       icon: 'mdi:email',
       path: 'contact-us',
       content: (
-        <div className="p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-semibold mb-4">Contact Us</h3>
-          <p className="text-gray-600 text-sm sm:text-base">
-            Get in touch with our support team.
-          </p>
+        <div className="p-4 sm:p-6 flex items-center justify-center min-h-[200px]">
+          {showContact && (
+            <div 
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setShowContact(false);
+                  navigate('/support/about-app');
+                }
+              }}
+            >
+              <div className="max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+                <ContactForm onClose={() => {
+                  setShowContact(false);
+                  navigate('/support/about-app');
+                }} />
+              </div>
+            </div>
+          )}
         </div>
       )
     }
@@ -277,9 +435,25 @@ export default function Support() {
     }
   }, [location.pathname, navigate]);
 
+  useEffect(() => {
+    if (location.pathname === '/support/feedbacks') {
+      setShowFeedback(true);
+    } else if (location.pathname === '/support/contact-us') {
+      setShowContact(true);
+    } else {
+      setShowFeedback(false);
+      setShowContact(false);
+    }
+  }, [location.pathname]);
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setExpandedIndex(null); // Reset expanded FAQ when changing sections
+    if (item.path === 'feedbacks') {
+      setShowFeedback(true);
+    } else if (item.path === 'contact-us') {
+      setShowContact(true);
+    }
     navigate(`/support/${item.path}`);
   };
 
