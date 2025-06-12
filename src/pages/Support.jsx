@@ -330,25 +330,25 @@ export default function Support() {
   const supportItems = [
     {
       title: 'About App',
-      icon: 'mdi:information',
+      icon: 'bx:book-alt',
       path: 'about-app',
       content: (
         <div className="p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-semibold mb-4">About ChitLink</h3>
-          <p className="text-gray-600 text-sm sm:text-base">
-            ChitLink is your ultimate destination for smart savings and sustainable living. 
-            Our platform helps you make eco-friendly choices while saving money.
+          <h3 className="mb-4 text-lg font-semibold sm:text-xl">About ChitLink</h3>
+          <p className="text-sm text-gray-600 sm:text-base">
+            ChitLink is your ultimate destination for smart savings and sustainable living. Our
+            platform helps you make eco-friendly choices while saving money.
           </p>
         </div>
-      )
+      ),
     },
     {
       title: 'FAQ Section',
-      icon: 'mdi:frequently-asked-questions',
+      icon: 'qlementine-icons:faq-16',
       path: 'faq-section',
       content: (
         <div className="p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-semibold mb-4">FAQ Section</h3>
+          <h3 className="mb-4 text-lg font-semibold sm:text-xl">FAQ Section</h3>
           <div className="space-y-3">
             {faqItems.map((faq, index) => (
               <FaqItem
@@ -361,17 +361,17 @@ export default function Support() {
             ))}
           </div>
         </div>
-      )
+      ),
     },
     {
       title: 'Feedbacks',
-      icon: 'mdi:feedback',
+      icon: 'mdi:feedback-outline',
       path: 'feedbacks',
       content: (
-        <div className="p-4 sm:p-6 flex items-center justify-center min-h-[200px]">
+        <div className="flex min-h-[200px] items-center justify-center p-4 sm:p-6">
           {showFeedback && (
-            <div 
-              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setShowFeedback(false);
@@ -379,26 +379,28 @@ export default function Support() {
                 }
               }}
             >
-              <div className="max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-                <FeedbackForm onClose={() => {
-                  setShowFeedback(false);
-                  navigate('/support/about-app');
-                }} />
+              <div className="mx-4 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+                <FeedbackForm
+                  onClose={() => {
+                    setShowFeedback(false);
+                    navigate('/support/about-app');
+                  }}
+                />
               </div>
             </div>
           )}
         </div>
-      )
+      ),
     },
     {
       title: 'Contact us',
-      icon: 'mdi:email',
+      icon: 'akar-icons:envelope',
       path: 'contact-us',
       content: (
-        <div className="p-4 sm:p-6 flex items-center justify-center min-h-[200px]">
+        <div className="flex min-h-[200px] items-center justify-center p-4 sm:p-6">
           {showContact && (
-            <div 
-              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setShowContact(false);
@@ -406,17 +408,19 @@ export default function Support() {
                 }
               }}
             >
-              <div className="max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-                <ContactForm onClose={() => {
-                  setShowContact(false);
-                  navigate('/support/about-app');
-                }} />
+              <div className="mx-4 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+                <ContactForm
+                  onClose={() => {
+                    setShowContact(false);
+                    navigate('/support/about-app');
+                  }}
+                />
               </div>
             </div>
           )}
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -458,26 +462,49 @@ export default function Support() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto max-w-7xl py-6">
+        <div className="flex flex-col gap-6 lg:flex-row">
           {/* Sidebar */}
-          <div className="w-full lg:w-1/3">
-            <div className="bg-white rounded-lg shadow">
+          <div className="w-full rounded-[22px] bg-amber-100 px-4 py-12 lg:w-1/3">
+            <div className="flex flex-col items-center justify-center">
+              <Icon icon="streamline:customer-support-1" color="#C59139" fontSize={32} />
+              <p className="mt-2 text-base font-semibold text-[#22180E] sm:text-sm">
+                Hi, How may we help you?
+              </p>
+            </div>
+            <div className="mt-7 bg-red-100 shadow">
               {supportItems.map((item, index) => (
                 <div
                   key={item.title}
                   onClick={() => handleItemClick(item)}
-                  className={`flex items-center p-3 sm:p-4 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
-                    selectedItem?.path === item.path ? 'bg-gray-50 border-l-4 border-primary' : ''
-                  } ${
-                    index < supportItems.length - 1 ? 'border-b border-gray-200' : ''
-                  }`}
+                  className={`flex mb-1 cursor-pointer items-center justify-between rounded-[5px] p-3 transition-colors duration-200 hover:bg-[#C59139] sm:p-3 ${
+                    selectedItem?.path === item.path ? 'bg-[#C59139]' : ''
+                  } ${index < supportItems.length - 1 ? '' : ''}`}
                 >
-                  <div className="text-primary mr-3 sm:mr-4">
-                    <Icon icon={item.icon} className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <div className="flex flex-row items-center gap-3 sm:gap-4">
+                    <div className={`text-primary transition-colors duration-200 ${
+                      selectedItem?.path === item.path ? 'text-white' : ''
+                    }`}>
+                      <Icon 
+                        icon={item.icon} 
+                        color={selectedItem?.path === item.path ? "#FFFFFF" : "#CE973A"} 
+                        className="h-6 w-6 sm:h-5 sm:w-5" 
+                      />
+                    </div>
+                    <span className={`text-base font-bold transition-colors duration-200 ${
+                      selectedItem?.path === item.path ? 'text-white' : 'text-[#62340A]'
+                    } sm:text-sm`}>
+                      {item.title}
+                    </span>
                   </div>
-                  <span className="text-sm sm:text-base">{item.title}</span>
+                  <div>
+                    <Icon 
+                      icon="ic:round-arrow-back-ios" 
+                      color={selectedItem?.path === item.path ? "#FFFFFF" : "#B88743"} 
+                      className="rotate-180" 
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -485,9 +512,7 @@ export default function Support() {
 
           {/* Content */}
           <div className="w-full lg:w-2/3">
-            <div className="bg-white rounded-lg shadow">
-              {selectedItem?.content}
-            </div>
+            <div className="rounded-lg bg-white shadow">{selectedItem?.content}</div>
           </div>
         </div>
       </div>
