@@ -19,6 +19,7 @@ export default {
       },
       borderRadius: {
         '4xl': '2rem',
+        'custom': '1.375rem',
       },
     },
   },

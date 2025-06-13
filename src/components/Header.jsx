@@ -5,15 +5,18 @@ import { Icon } from '@iconify/react';
 
 const routeTitles = {
   '/': 'Dashboard',
+  '/bank-accounts': 'Bank Account',
   '/savings': 'Savings',
   '/contacts': 'Contacts',
   '/finance': 'Finance',
   '/profile': 'Profile',
+  '/support': 'Support',
 };
 
 export default function Header() {
   const location = useLocation();
-  const title = routeTitles[location.pathname] || 'Dashboard';
+  const basePath = '/' + location.pathname.split('/').filter(Boolean)[0];
+  const title = routeTitles[basePath] || 'Dashboard';
 
   return (
     <div className="flex items-center justify-between px-2 lg:px-4">
