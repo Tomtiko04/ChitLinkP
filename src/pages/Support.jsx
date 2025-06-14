@@ -4,27 +4,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const FaqItem = ({ faq, index, isExpanded, onToggle }) => {
   return (
-    <div className="bg-gray-50 rounded-lg overflow-hidden">
+    <div
+      className={`overflow-hidden rounded-[5px] ${isExpanded ? 'bg-[#C59139]' : 'bg-[#F8F8F8]'}`}
+    >
       <button
         onClick={() => onToggle(index)}
-        className="w-full p-3 sm:p-4 text-left flex items-center justify-between hover:bg-gray-100 transition-colors duration-200"
+        className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left transition-colors duration-200 hover:bg-gray-100 sm:px-5 sm:py-3"
       >
-        <span className="text-gray-700 text-sm sm:text-base pr-4">{faq.question}</span>
-        <Icon 
+        <span className="pr-4 text-sm font-semibold text-[#62340A] sm:text-sm">{faq.question}</span>
+        <Icon
           icon="mdi:chevron-down"
-          className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-200 ${
+          className={`h-5 w-5 transform text-[#B88743] transition-transform duration-200 sm:h-6 sm:w-6 ${
             isExpanded ? 'rotate-180' : ''
           }`}
         />
       </button>
-      <div 
+      <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
           isExpanded ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="p-3 sm:p-4 pt-0 text-gray-600 text-sm sm:text-base">
-          {faq.answer}
-        </div>
+        <div className="p-3 pt-0 text-sm text-gray-600 sm:p-4 sm:text-base">{faq.answer}</div>
       </div>
     </div>
   );
@@ -32,29 +32,29 @@ const FaqItem = ({ faq, index, isExpanded, onToggle }) => {
 
 const FeedbackForm = ({ onClose }) => {
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  // const [comment, setComment] = useState('');
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would send the feedback data to your backend
-    console.log({ rating, comment, name, email });
     setSubmitted(true);
   };
 
   if (submitted) {
     return (
-      <div className="bg-white rounded-lg p-8 text-center">
-        <div className="text-primary mb-4">
-          <Icon icon="mdi:check-circle" className="w-16 h-16 mx-auto" />
+      <div className="rounded-[20px] bg-white p-8 text-center">
+        <div className="mb-4 text-[#C59139]">
+          <Icon icon="mdi:check-circle" className="mx-auto h-16 w-16" />
         </div>
-        <h2 className="text-2xl font-semibold mb-4">Thank You!</h2>
-        <p className="text-gray-600 mb-6">Your feedback has been submitted successfully.</p>
+        <h2 className="mb-4 text-2xl font-semibold">Thank You!</h2>
+        <p className="mb-6 text-base text-gray-600">
+          Your feedback has been submitted successfully.
+        </p>
         <button
           onClick={onClose}
-          className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
+          className="w-64 cursor-pointer rounded-[5px] bg-[#C59139] py-3 font-semibold text-white transition-colors duration-200 hover:bg-[#A77420]"
         >
           Close
         </button>
@@ -63,231 +63,63 @@ const FeedbackForm = ({ onClose }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Feedback</h2>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-          <Icon icon="mdi:close" className="w-6 h-6" />
-        </button>
+    <div className="rounded-[20px] bg-white">
+      <div className="flex items-center justify-center rounded-t-[20px] bg-[#EDEAE4]">
+        <h2 className="py-5 text-xl font-bold text-[#22180E]">Feedback</h2>
+        {/* <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <Icon icon="mdi:close" className="h-6 w-6" />
+        </button> */}
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <p className="text-gray-600 mb-4">How would you rate your experience?</p>
-          <div className="flex gap-2 justify-center">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                type="button"
-                key={star}
-                onClick={() => setRating(star)}
-                className="focus:outline-none"
-              >
-                <Icon
-                  icon="mdi:star"
-                  className={`w-8 h-8 ${
-                    star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                  } transition-colors duration-200 hover:text-yellow-400`}
-                />
-              </button>
-            ))}
+        <div className="flex flex-col items-center justify-center pb-20">
+          <div className="mb-12">
+            <div className="flex flex-col items-center justify-center gap-y-1 py-8 text-center text-[#22180E]">
+              <h4 className="text-base font-semibold">We Value Your Feedback</h4>
+              <p className="text-sm font-normal">Please kindly rate your experience with us</p>
+            </div>
+            <div className="flex w-64 items-center justify-center gap-2 rounded-[5px] bg-[#F2F2F2] px-12 py-3.5">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  type="button"
+                  key={star}
+                  onClick={() => setRating(star)}
+                  className="focus:outline-none"
+                >
+                  <Icon
+                    icon="uiw:star-on"
+                    className={`h-6 w-6 cursor-pointer ${
+                      star <= rating ? 'text-[#C59139]' : 'text-black/25'
+                    } transition-colors duration-200 hover:text-[#C59139]`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex w-64 items-center justify-center text-base font-bold text-[#62340A] hover:text-white">
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-[5px] bg-[#F2F2F2] py-2 transition-colors duration-200 hover:bg-[#C59139]"
+            >
+              Submit
+            </button>
           </div>
         </div>
-
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-              placeholder="Your name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-              placeholder="Your email"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
-              Comments
-            </label>
-            <textarea
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-              placeholder="Share your thoughts..."
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full mt-6 py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
-        >
-          Submit Feedback
-        </button>
       </form>
     </div>
   );
 };
 
-const ContactForm = ({ onClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    setSubmitted(true);
-  };
-
-  const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  if (submitted) {
-    return (
-      <div className="bg-white rounded-lg p-8 text-center">
-        <div className="text-primary mb-4">
-          <Icon icon="mdi:check-circle" className="w-16 h-16 mx-auto" />
-        </div>
-        <h2 className="text-2xl font-semibold mb-4">Message Sent!</h2>
-        <p className="text-gray-600 mb-6">We'll get back to you as soon as possible.</p>
-        <button
-          onClick={onClose}
-          className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
-        >
-          Close
-        </button>
-      </div>
-    );
-  }
-
+const ContactForm = ({onClose}) => {
   return (
-    <div className="bg-white rounded-lg p-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="rounded-lg bg-white p-8">
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Contact Us</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-          <Icon icon="mdi:close" className="w-6 h-6" />
+          <Icon icon="mdi:close" className="h-6 w-6" />
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-            placeholder="Your name"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-            placeholder="Your email"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-            Subject
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-            placeholder="What is this about?"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
-            placeholder="How can we help you?"
-            required
-          />
-        </div>
-
-        <div className="flex gap-4 mt-6">
-          <button
-            type="submit"
-            className="flex-1 py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
-          >
-            Send Message
-          </button>
-        </div>
-      </form>
-
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <Icon icon="mdi:email" className="w-5 h-5 text-primary" />
-            <a href="mailto:support@chitlink.com" className="text-gray-600 hover:text-primary">
-              support@chitlink.com
-            </a>
-          </div>
-          <div className="flex items-center gap-3">
-            <Icon icon="mdi:phone" className="w-5 h-5 text-primary" />
-            <a href="tel:+1234567890" className="text-gray-600 hover:text-primary">
-              +1 (234) 567-890
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
@@ -302,29 +134,35 @@ export default function Support() {
 
   const faqItems = [
     {
-      question: "How do i download the app?",
-      answer: "You can download our app from the App Store or Google Play Store. Search for 'ChitLink' and look for our official app."
+      question: 'How do i download the app?',
+      answer:
+        "You can download our app from the App Store or Google Play Store. Search for 'ChitLink' and look for our official app.",
     },
     {
-      question: "How do i reset my password?",
-      answer: "To reset your password, go to the login page and click on 'Forgot Password'. Follow the instructions sent to your email."
+      question: 'How do i reset my password?',
+      answer:
+        "To reset your password, go to the login page and click on 'Forgot Password'. Follow the instructions sent to your email.",
     },
     {
-      question: "How do i create a savings?",
-      answer: "Navigate to the Savings section, click on 'Create New Savings', and follow the guided setup process."
+      question: 'How do i create a savings?',
+      answer:
+        "Navigate to the Savings section, click on 'Create New Savings', and follow the guided setup process.",
     },
     {
-      question: "How do i add my bank card?",
-      answer: "Go to the Finance section, select 'Add Payment Method', and follow the secure card addition process."
+      question: 'How do i add my bank card?',
+      answer:
+        "Go to the Finance section, select 'Add Payment Method', and follow the secure card addition process.",
     },
     {
-      question: "Is my personal and payment information secure?",
-      answer: "Yes, we use industry-standard encryption and security measures to protect all your personal and payment information."
+      question: 'Is my personal and payment information secure?',
+      answer:
+        'Yes, we use industry-standard encryption and security measures to protect all your personal and payment information.',
     },
     {
-      question: "How do i contact customer support?",
-      answer: "You can reach our customer support team through the Contact Us section, email, or in-app chat support."
-    }
+      question: 'How do i contact customer support?',
+      answer:
+        'You can reach our customer support team through the Contact Us section, email, or in-app chat support.',
+    },
   ];
 
   const supportItems = [
@@ -333,11 +171,14 @@ export default function Support() {
       icon: 'bx:book-alt',
       path: 'about-app',
       content: (
-        <div className="p-4 sm:p-6">
-          <h3 className="mb-4 text-lg font-semibold sm:text-xl">About ChitLink</h3>
-          <p className="text-sm text-gray-600 sm:text-base">
-            ChitLink is your ultimate destination for smart savings and sustainable living. Our
-            platform helps you make eco-friendly choices while saving money.
+        <div className="px-4 py-2">
+          <h3 className="border-b border-[#D9D8D5] pb-2 text-base font-semibold text-[#BD882D] sm:text-lg">
+            About App
+          </h3>
+          <p className="my-[50px] text-sm font-normal text-black sm:text-base">
+            Welcome to <b>Chitlink,</b> your ultimate destination for smart savings and sustainable
+            living. Our thrift mobile app is designed to help you save money while making
+            eco-friendly choices.
           </p>
         </div>
       ),
@@ -347,9 +188,11 @@ export default function Support() {
       icon: 'qlementine-icons:faq-16',
       path: 'faq-section',
       content: (
-        <div className="p-4 sm:p-6">
-          <h3 className="mb-4 text-lg font-semibold sm:text-xl">FAQ Section</h3>
-          <div className="space-y-3">
+        <div className="px-4 py-2">
+          <h3 className="border-b border-[#D9D8D5] pb-2 text-base font-semibold text-[#BD882D] sm:text-lg">
+            FAQ Section
+          </h3>
+          <div className="my-7 space-y-2">
             {faqItems.map((faq, index) => (
               <FaqItem
                 key={index}
@@ -371,7 +214,7 @@ export default function Support() {
         <div className="flex min-h-[200px] items-center justify-center p-4 sm:p-6">
           {showFeedback && (
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/81"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setShowFeedback(false);
@@ -379,7 +222,7 @@ export default function Support() {
                 }
               }}
             >
-              <div className="mx-4 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+              <div className="mx-4 w-full max-w-xs" onClick={(e) => e.stopPropagation()}>
                 <FeedbackForm
                   onClose={() => {
                     setShowFeedback(false);
@@ -429,7 +272,7 @@ export default function Support() {
       navigate('/support/about-app');
       setSelectedItem(supportItems[0]);
     } else {
-      const matchingItem = supportItems.find(item => item.path === path);
+      const matchingItem = supportItems.find((item) => item.path === path);
       if (matchingItem) {
         setSelectedItem(matchingItem);
       } else {
@@ -462,11 +305,11 @@ export default function Support() {
   };
 
   return (
-    <div className="rounded-[22px] min-h-screen bg-red-200">
-      <div className="mx-auto max-w-7xl py-6">
-        <div className="flex flex-col gap-6 lg:flex-row">
+    <div className="rounded-[22px">
+      <div className="mx-auto max-w-7xl !rounded-[22px] bg-white">
+        <div className="flex h-auto flex-col px-1 sm:px-4 lg:flex-row">
           {/* Sidebar */}
-          <div className="rounded-custom w-full px-4 py-12 lg:w-1/3">
+          <div className="rounded-custom w-full px-4 py-[55px] lg:w-1/3">
             <div className="flex flex-col items-center justify-center">
               <Icon icon="streamline:customer-support-1" color="#C59139" fontSize={32} />
               <p className="mt-2 text-base font-semibold text-[#22180E] sm:text-sm">
@@ -514,9 +357,12 @@ export default function Support() {
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="hidden w-px bg-[#E3E2DF] lg:flex" />
+
           {/* Content */}
           <div className="w-full lg:w-2/3">
-            <div className="rounded-lg bg-white shadow">{selectedItem?.content}</div>
+            <div>{selectedItem?.content}</div>
           </div>
         </div>
       </div>
