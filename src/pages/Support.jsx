@@ -265,7 +265,7 @@ export default function Support() {
                 }
               }}
             >
-              <div className="mx-4 w-full max-w-xs" onClick={(e) => e.stopPropagation()}>
+              <div className="mx-4 w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
                 <FeedbackForm
                   onClose={() => {
                     setShowFeedback(false);
