@@ -110,16 +110,59 @@ const FeedbackForm = ({ onClose }) => {
   );
 };
 
-const ContactForm = ({onClose}) => {
+const ContactForm = () => {
   return (
-    <div className="rounded-lg bg-white p-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Contact Us</h2>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-          <Icon icon="mdi:close" className="h-6 w-6" />
-        </button>
+    <div className="relative mx-auto w-full max-w-[370px] rounded-[20px] bg-white pb-5">
+      {/* Close button
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 z-10"
+        aria-label="Close"
+      >
+        <Icon icon="mdi:close" className="h-6 w-6" />
+      </button> */}
+
+      <div className="rounded-t-[20px] bg-[#EDEAE4] px-0 py-6 text-center">
+        <h2 className="text-xl font-bold text-[#22180E]">Contact us</h2>
       </div>
 
+      <div className="px-3 pt-14 pb-9">
+        <div className="flex items-center rounded-[5px] bg-[#F8F8F8] px-4 py-3">
+          <span className="flex-1 border-r-1 border-[#CECBCB] text-base font-semibold text-[#62340A]">
+            Info@example.com
+          </span>
+          <span className="ml-4 flex items-center justify-center rounded-[5px] bg-[#F8F6F3]">
+            <Icon icon="mdi:email-outline" className="h-6 w-6 text-[#CE973A]" />
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-center px-4 py-2">
+        <div className="h-px flex-1 bg-[#ECEBEB]" />
+        <span className="mx-1 text-sm font-medium text-[#62340A]">Follow us on</span>
+        <div className="h-px flex-1 bg-[#ECEBEB]" />
+      </div>
+
+      <div className="flex justify-center gap-10 py-4">
+        <div className="flex cursor-pointer flex-col items-center">
+          <span className="mb-1">
+            <Icon icon="iconoir:facebook" className="h-6 w-6 text-[#CE973A]" />
+          </span>
+          <span className="text-xs font-medium text-[#62340A]">Facebook</span>
+        </div>
+        <div className="flex cursor-pointer flex-col items-center">
+          <span className="mb-1">
+            <Icon icon="pajamas:twitter" className="h-6 w-6 text-[#CE973A]" />
+          </span>
+          <span className="text-xs font-medium text-[#62340A]">Twitter</span>
+        </div>
+        <div className="flex cursor-pointer flex-col items-center">
+          <span className="mb-1">
+            <Icon icon="ph:telegram-logo" className="h-6 w-6 text-[#CE973A]" />
+          </span>
+          <span className="text-xs font-medium text-[#62340A]">Telegram</span>
+        </div>
+      </div>
     </div>
   );
 };
@@ -243,7 +286,7 @@ export default function Support() {
         <div className="flex min-h-[200px] items-center justify-center p-4 sm:p-6">
           {showContact && (
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/81"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setShowContact(false);
