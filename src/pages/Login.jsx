@@ -1,143 +1,187 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import AuthLogo from '../assets/images/AuthLogo.png';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/Logo.png';
 import { Icon } from '@iconify/react';
 
-const Login = () => {
+export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    rememberMe: false
   });
+  const [errors, setErrors] = useState({});
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login logic here
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('rememberedEmail');
+    if (storedEmail) {
+      setFormData((prev) => ({
+        ...prev,
+        email: storedEmail.startsWith('"') ? JSON.parse(storedEmail) : storedEmail,
+      }));
+      setRememberMe(true);
+    }
+  }, []);
+
+  function handleSubmit() {
+    console.log('submitted');
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="grid grid-cols-12 gap-4 h-screen place-items-center">
-        {/* Left column - smaller */}
-        <div className="col-span-2 flex items-center justify-center bg-green-100">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37] flex items-center justify-center">
-              <span className="text-white font-semibold">I</span>
-            </div>
-            <span className="text-xl font-semibold text-[#05243F]">ChitLink</span>
-          </div>
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#000000CF]/81 px-4 py-8 sm:py-0">
+      <div className="flex w-full max-w-4xl flex-col gap-6 rounded-3xl bg-white p-6 shadow-lg sm:p-9 md:flex-row md:gap-12">
+        {/* Logo */}
+        <div className="flex justify-center md:w-1/6 md:items-start">
+          <img src={AuthLogo} alt="ChitLink" className="h-10 object-contain md:h-12" />
         </div>
 
-        {/* Middle column - larger, contains form */}
-        <div className="col-span-8 flex items-center justify-center bg-red-200">
-          <div className="w-full max-w-md">
-            {/* Header Section */}
-            <div className="flex items-center justify-between mb-8">
-              {/* Title and Signup */}
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-medium text-[#05243F]">Login</h1>
-                <span className="text-sm text-[#9E9E9E]">Don't have an account?</span>
-                <Link to="/signup" className="text-sm font-medium text-[#D4AF37] hover:text-[#B08E2D]">
-                  Signup
-                </Link>
-              </div>
+        {/* Form */}
+        <div className="mt-0 flex-1 sm:mt-8">
+          <div className="mb-6 flex flex-row items-center justify-between gap-2">
+            <h2 className="text-xl font-bold text-[#22180E]">Login</h2>
+            <div className="text-sm text-[#697B8C]">
+              <span className="opacity-80">Don't have an account?</span>
+              <Link
+                to="/auth/signup"
+                className="ml-1 text-[#C59139] transition-colors duration-300 hover:text-[#9A2D41B0]"
+              >
+                Signup
+              </Link>
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="mb-2 block text-sm font-medium text-[#22180E]">
+                Email/Phone no.
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="text"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="tomtiko@gmail.com"
+                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
+              />
+              {errors.email && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
+              )}
             </div>
 
-            {/* Form Section */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-[#05243F] mb-2">
-                  Email/Phone no.
-                </label>
-                <input
-                  id="email"
-                  type="text"
-                  name="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="sample@gmail.com"
-                  className="w-full px-4 py-3 rounded-lg bg-[#FFFDE7] border border-transparent text-[#05243F] placeholder-[#9E9E9E] focus:outline-none focus:border-[#D4AF37] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-[#05243F] mb-2">
-                  Password
-                </label>
+            {/* Password */}
+            <div>
+              <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#22180E]">
+                Password
+              </label>
+              <div className="relative">
                 <input
                   id="password"
-                  type="password"
                   name="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="********"
-                  className="w-full px-4 py-3 rounded-lg bg-white border border-[#E0E0E0] text-[#05243F] placeholder-[#9E9E9E] focus:outline-none focus:border-[#D4AF37] transition-colors"
+                  onChange={handleChange}
+                  className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
                 />
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#05243F] opacity-40 transition-opacity duration-300 hover:opacity-100 sm:right-4"
+                >
+                  {!showPassword ? (
+                    <Icon icon="mdi:eye-outline" fontSize={18} />
+                  ) : (
+                    <Icon icon="mdi:eye-off-outline" fontSize={18} />
+                  )}
+                </div>
               </div>
+              {errors.password && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password}</p>
+              )}
+            </div>
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    name="rememberMe"
-                    checked={formData.rememberMe}
-                    onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                    className="w-4 h-4 rounded border-[#E0E0E0] text-[#D4AF37] focus:ring-[#D4AF37]"
-                  />
-                  <span className="ml-2 text-sm text-[#05243F]">Remember me</span>
-                </label>
-                <Link to="/forgot-password" className="text-sm text-[#D32F2F] hover:text-[#B71C1C]">
-                  Forgot Password?
-                </Link>
-              </div>
+            {/* Remember me / Forgot password */}
+            <div className="flex flex-row items-center justify-between gap-2">
+              <label className="flex cursor-pointer items-center text-sm font-medium text-[#22180E66] opacity-70">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="mr-2 h-3 w-3 rounded border-[#F4F5FC]"
+                />
+                Remember me
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-sm font-medium text-[#9A2D41B0] opacity-69 transition-opacity duration-300 hover:opacity-100"
+              >
+                Forgot Password?
+              </Link>
+            </div>
 
+            {/* Submit Button */}
+            <div>
               <button
                 type="submit"
-                className="w-full bg-[#D4AF37] text-white py-3 rounded-lg hover:bg-[#B08E2D] transition-colors font-medium"
+                disabled={isLoggingIn}
+                className={`mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 sm:mt-6 ${
+                  isLoggingIn ? 'cursor-not-allowed opacity-50' : ''
+                }`}
               >
                 Login
               </button>
+            </div>
+          </form>
 
-              {/* Social Login Section */}
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-[#E0E0E0]"></div>
-                </div>
-                <div className="relative flex justify-center">
-                  <span className="px-4 bg-white text-sm text-[#9E9E9E]">or</span>
-                </div>
+          <div className="mt-4">
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#F2F2F2]"></div>
               </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-white px-2 text-[#D9D9D9]">or</span>
+              </div>
+            </div>
 
-              <div>
-                <p className="text-center text-sm text-[#9E9E9E] mb-4">Login with socials</p>
-                <div className="flex justify-center gap-4">
-                  <button
-                    type="button"
-                    className="w-12 h-12 rounded-full bg-white border border-[#E0E0E0] flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                  >
-                    <Icon icon="flat-color-icons:google" className="w-6 h-6" />
-                  </button>
-                  <button
-                    type="button"
-                    className="w-12 h-12 rounded-full bg-white border border-[#E0E0E0] flex items-center justify-center hover:bg-[#F5F5F5] transition-colors"
-                  >
-                    <Icon icon="logos:facebook" className="w-6 h-6" />
-                  </button>
-                </div>
+            {/* Social login */}
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <span className="text-center text-sm font-medium text-[#22180E66] opacity-70">
+                Login with socials
+              </span>
+              <div className="flex justify-center gap-3 mt-2 sm:mt-0">
+                <button className="h-10 w-10 cursor-pointer rounded-full bg-[#F4F5FC] transition duration-300 hover:bg-[#FFF4DD] active:scale-95 sm:h-12 sm:w-12">
+                  <Icon icon="flat-color-icons:google" fontSize={24} className="mx-auto" />
+                </button>
+                <button className="h-10 w-10 cursor-pointer rounded-full bg-[#F4F5FC] transition duration-300 hover:bg-[#FFF4DD] active:scale-95 sm:h-12 sm:w-12">
+                  <Icon icon="logos:facebook" fontSize={24} className="mx-auto" />
+                </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
 
-        {/* Right column - smaller */}
-        <div className="col-span-2 flex items-center justify-center bg-amber-200">
-          <div>
-            <span>Right section</span>
-          </div>
+        <div className="hidden md:block md:w-1/4">
+          {/* You can put a decorative image or quote here */}
         </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}

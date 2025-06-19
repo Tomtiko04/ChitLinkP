@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from "../assets/images/Logo.png";
+import LogoutModal from './LogoutModal';
 
 const navItems = [
   {
@@ -204,80 +205,100 @@ const bottomItems = [
 ];
 
 export default function Sidebar({ isOpen, onClose }) {
+  const [logoutOpen, setLogoutOpen] = useState(false);
   return (
-    <aside
-      className={`fixed top-0 left-0 z-40 flex h-screen w-64 flex-col bg-white shadow-md transition-transform duration-500 ${!isOpen ? '-translate-x-full lg:translate-x-0' : 'translate-x-0'}`}
-    >
-      {/* Logo section */}
-      <div className="flex items-center justify-between p-8">
-        <img src={logo} alt="chitLink" className="h-8" />
-        <button onClick={onClose} className="-mr-2 p-2 text-gray-600 hover:text-gray-900 lg:hidden">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
+    <>
+      <aside
+        className={`fixed top-0 left-0 z-40 flex h-screen w-64 flex-col bg-white shadow-md transition-transform duration-500 ${!isOpen ? '-translate-x-full lg:translate-x-0' : 'translate-x-0'}`}
+      >
+        {/* Logo section */}
+        <div className="flex items-center justify-between p-8">
+          <img src={logo} alt="chitLink" className="h-8" />
+          <button onClick={onClose} className="-mr-2 p-2 text-gray-600 hover:text-gray-900 lg:hidden">
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
-      {/* Main navigation */}
-      <nav className="flex-1">
-        <ul className="space-y-3">
-          {navItems.map((item) => (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                onClick={() => {
-                  if (window.innerWidth < 1024) onClose();
-                }}
-                className={({ isActive }) =>
-                  `relative flex items-center gap-3 px-8 py-3 text-[16px] transition-colors duration-200 [&>svg]:transition-colors [&>svg]:duration-200 ${
-                    isActive
-                      ? 'border-r-4 border-[#C59139] bg-[#F4F3F0] font-bold text-[#C59139] [&>svg]:text-[#C59139]'
-                      : 'font-semibold text-[#000000]/67 hover:border-r-4 hover:border-[#C59139] hover:bg-[#F4F3F0] hover:text-[#C59139] hover:[&>svg]:text-[#C59139]'
-                  }`
-                }
-                end={item.path === '/'}
-              >
-                <span className="w-5 text-center">{item.icon}</span>
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Bottom section with divider */}
-      <div className="pb-6">
-        <div className="mb-4 px-4 h-px bg-gray-200"></div>
-        <ul className="space-y-3">
-          {bottomItems.map((item) => (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                onClick={() => {
-                  if (window.innerWidth < 1024) onClose(); 
-                }}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-8 py-3 text-[16px] transition-colors duration-200 [&>svg]:transition-colors [&>svg]:duration-200 ${
-                    item.label === 'Logout'
-                      ? 'text-red-500 hover:text-red-600'
-                      : isActive
+        {/* Main navigation */}
+        <nav className="flex-1">
+          <ul className="space-y-3">
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <NavLink
+                  to={item.path}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) onClose();
+                  }}
+                  className={({ isActive }) =>
+                    `relative flex items-center gap-3 px-8 py-3 text-[16px] transition-colors duration-200 [&>svg]:transition-colors [&>svg]:duration-200 ${
+                      isActive
                         ? 'border-r-4 border-[#C59139] bg-[#F4F3F0] font-bold text-[#C59139] [&>svg]:text-[#C59139]'
                         : 'font-semibold text-[#000000]/67 hover:border-r-4 hover:border-[#C59139] hover:bg-[#F4F3F0] hover:text-[#C59139] hover:[&>svg]:text-[#C59139]'
-                  }`
-                }
-              >
-                <span className="w-5 text-center">{item.icon}</span>
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </aside>
+                    }`
+                  }
+                  end={item.path === '/'}
+                >
+                  <span className="w-5 text-center">{item.icon}</span>
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Bottom section with divider */}
+        <div className="pb-6">
+          <div className="mb-4 px-4 h-px bg-gray-200"></div>
+          <ul className="space-y-3">
+            {bottomItems.map((item) => (
+              <li key={item.path}>
+                {item.label === 'Logout' ? (
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-3 px-8 py-3 text-[16px] font-semibold text-red-500 transition-colors duration-200 hover:text-red-600 [&>svg]:transition-colors [&>svg]:duration-200"
+                    onClick={() => setLogoutOpen(true)}
+                  >
+                    <span className="w-5 text-center">{item.icon}</span>
+                    {item.label}
+                  </button>
+                ) : (
+                  <NavLink
+                    to={item.path}
+                    onClick={() => {
+                      if (window.innerWidth < 1024) onClose(); 
+                    }}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-8 py-3 text-[16px] transition-colors duration-200 [&>svg]:transition-colors [&>svg]:duration-200 ${
+                        isActive
+                          ? 'border-r-4 border-[#C59139] bg-[#F4F3F0] font-bold text-[#C59139] [&>svg]:text-[#C59139]'
+                          : 'font-semibold text-[#000000]/67 hover:border-r-4 hover:border-[#C59139] hover:bg-[#F4F3F0] hover:text-[#C59139] hover:[&>svg]:text-[#C59139]'
+                      }`
+                    }
+                  >
+                    <span className="w-5 text-center">{item.icon}</span>
+                    {item.label}
+                  </NavLink>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+      <LogoutModal
+        open={logoutOpen}
+        onClose={() => setLogoutOpen(false)}
+        onConfirm={() => {
+          setLogoutOpen(false);
+          // Place your logout logic here (e.g., redirect, clear auth, etc.)
+        }}
+      />
+    </>
   );
 }
