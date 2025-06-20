@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import BankAccounts from './pages/BankAccounts';
 import Support from './pages/Support';
 import Login from './pages/Login';
+import VerifyAccount from './pages/VerifyAccount';
 
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
 const Contacts = () => <div className="py-12 text-center">Contacts Page</div>;
@@ -16,6 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path='/auth/verify' element={<VerifyAccount />}/>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="bank-accounts" element={<BankAccounts />} />
