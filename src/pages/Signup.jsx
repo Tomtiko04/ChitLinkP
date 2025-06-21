@@ -3,7 +3,7 @@ import AuthLogo from '../assets/images/AuthLogo.png';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
-export default function Login() {
+export default function Signup() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -44,7 +44,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-[#000000CF]/80 px-4 py-8 sm:py-0">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#000000CF]/80 px-4 py-8 sm:py-10">
       <div className="flex w-full max-w-4xl flex-col gap-6 rounded-3xl bg-white p-6 shadow-lg sm:p-10 md:flex-row md:gap-12">
         {/* Logo */}
         <div className="flex justify-center md:w-1/6 md:items-start">
@@ -54,17 +54,19 @@ export default function Login() {
         {/* Form */}
         <div className="mt-0 flex-1 sm:mt-8">
           <div className="mb-6 flex flex-row items-center justify-between gap-2">
-            <h2 className="text-xl font-bold text-[#22180E]">Login</h2>
+            <h2 className="text-xl font-bold text-[#22180E]">Signup</h2>
             <div className="text-sm text-[#697B8C]">
-              <span className="opacity-80">Don't have an account?</span>
+              <span className="opacity-80">Have an account?</span>
               <Link
-                to="/auth/signup"
+                to="/auth/login"
                 className="ml-1 text-[#C59139] transition-colors duration-300 hover:text-[#9A2D41B0]"
               >
-                Signup
+                Login
               </Link>
             </div>
           </div>
+
+          {/* Progress bar: Personal Info, Company Info */}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -117,23 +119,120 @@ export default function Login() {
               )}
             </div>
 
-            {/* Remember me / Forgot password */}
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label className="flex cursor-pointer items-center text-sm font-medium text-[#22180E66] opacity-70">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="mr-2 h-3 w-3 rounded border-[#F4F5FC]"
-                />
-                Remember me
+            {/* Confirm password */}
+            <div>
+              <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#22180E]">
+                Confirm Password
               </label>
-              <Link
-                to="/forgot-password"
-                className="text-sm font-medium text-[#9A2D41B0] opacity-69 transition-opacity duration-300 hover:opacity-100"
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
+                />
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#05243F] opacity-40 transition-opacity duration-300 hover:opacity-100 sm:right-4"
+                >
+                  {!showPassword ? (
+                    <Icon icon="mdi:eye-outline" fontSize={18} />
+                  ) : (
+                    <Icon icon="mdi:eye-off-outline" fontSize={18} />
+                  )}
+                </div>
+              </div>
+              {errors.password && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password}</p>
+              )}
+            </div>
+
+            {/* Company Info */}
+            {/* Company name */}
+            <div>
+              <label
+                htmlFor="companyname"
+                className="mb-2 block text-sm font-medium text-[#22180E]"
               >
-                Forgot Password?
-              </Link>
+                Company Name
+              </label>
+              <input
+                id="text"
+                name="companyname"
+                type="text"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="TikoLab"
+                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
+              />
+              {errors.email && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Address */}
+            <div>
+              <label htmlFor="address" className="mb-2 block text-sm font-medium text-[#22180E]">
+                Address
+              </label>
+              <input
+                id="text"
+                name="address"
+                type="text"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Oblende"
+                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
+              />
+              {errors.email && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Registration number */}
+            <div>
+              <label
+                htmlFor="registrationNo"
+                className="mb-2 block text-sm font-medium text-[#22180E]"
+              >
+                Reg Number
+              </label>
+              <input
+                id="number"
+                name="registrationNo"
+                type="number"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="TikoLab"
+                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
+              />
+              {errors.email && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
+              )}
+            </div>
+
+            {/* CAC Certificate upload */}
+            <div>
+              <label
+                htmlFor="certificate"
+                className="mb-2 block text-sm font-medium text-[#22180E]"
+              >
+                Cac Certificate
+              </label>
+              <input
+                id="file"
+                name="certificate"
+                type="file"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="TikoLab"
+                className="w-full cursor-pointer rounded-lg border border-[EEEBE7] bg-transparent text-center px-6 py-5 text-base font-normal text-[#62340A] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-8"
+              />
+              {errors.email && (
+                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
+              )}
             </div>
 
             {/* Submit Button */}
@@ -166,7 +265,7 @@ export default function Login() {
               <span className="text-center text-sm font-medium text-[#22180E66] opacity-70">
                 Login with socials
               </span>
-              <div className="flex justify-center gap-3 mt-2 sm:mt-0">
+              <div className="mt-2 flex justify-center gap-3 sm:mt-0">
                 <button className="h-10 w-10 cursor-pointer rounded-full bg-[#F4F5FC] transition duration-300 hover:bg-[#FFF4DD] active:scale-95 sm:h-12 sm:w-12">
                   <Icon icon="flat-color-icons:google" fontSize={24} className="mx-auto" />
                 </button>
@@ -178,8 +277,7 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="hidden md:block md:w-1/4">
-        </div>
+        <div className="hidden md:block md:w-1/4"></div>
       </div>
     </div>
   );
