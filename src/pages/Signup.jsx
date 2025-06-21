@@ -61,7 +61,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-[#000000CF]/80 px-4 py-8 sm:py-10">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#000000CF]/80 px-4 py-8 sm:py-0">
       <div className="flex w-full max-w-4xl flex-col gap-6 rounded-3xl bg-white p-6 shadow-lg sm:p-10 md:flex-row md:gap-12">
         <div className="flex justify-center md:w-1/6 md:items-start">
           <img src={AuthLogo} alt="ChitLink" className="h-10 object-contain md:h-12" />
