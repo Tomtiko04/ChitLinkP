@@ -2,30 +2,35 @@ import React, { useEffect, useState } from 'react';
 import AuthLogo from '../assets/images/AuthLogo.png';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import PersonInfoForm from '../components/PersonInfoForm';
+import CompanyInfoForm from '../components/CompanyInfoForm';
 
 export default function Signup() {
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
+    companyName: '',
+    address: '',
+    regNumber: '',
+    cacCertificate: null,
   });
   const [errors, setErrors] = useState({});
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  useEffect(() => {
-    const storedEmail = localStorage.getItem('rememberedEmail');
-    if (storedEmail) {
-      setFormData((prev) => ({
-        ...prev,
-        email: storedEmail.startsWith('"') ? JSON.parse(storedEmail) : storedEmail,
-      }));
-      setRememberMe(true);
-    }
-  }, []);
+  const nextStep = () => {
+    setStep((step) => step + 1);
+  };
 
-  function handleSubmit() {
-    console.log('submitted');
+  const prevStep = () => {
+    setStep((step) => step - 1);
+  };
+
+  function handleFinalSubmit(e) {
+    e.preventDefault();
+    console.log('Form Data Submitted:', formData);
   }
 
   const handleChange = (e) => {
@@ -53,7 +58,7 @@ export default function Signup() {
 
         {/* Form */}
         <div className="mt-0 flex-1 sm:mt-8">
-          <div className="mb-6 flex flex-row items-center justify-between gap-2">
+          <div className="mb-4 flex flex-row items-center justify-between gap-2">
             <h2 className="text-xl font-bold text-[#22180E]">Signup</h2>
             <div className="text-sm text-[#697B8C]">
               <span className="opacity-80">Have an account?</span>
@@ -67,187 +72,53 @@ export default function Signup() {
           </div>
 
           {/* Progress bar: Personal Info, Company Info */}
+          <div className="mb-6 flex">
+            <div className="w-1/2 text-left text-xs sm:text-sm">
+              <button
+                onClick={() => setStep(1)}
+                className={`font-bold ${step === 1 ? 'text-[#6C4119]' : 'text-[#6C4119]'}`}
+              >
+                Personal info
+              </button>
+              <div
+                className={`mt-1 h-1 rounded-full ${step === 1 ? 'bg-[#C59139]' : 'bg-[#C59139]'}`}
+              ></div>
+            </div>
+            <div className="ml-2 w-1/2 text-left text-xs sm:text-sm">
+              <button
+                onClick={() => setStep(2)}
+                className={`font-bold ${step === 2 ? 'text-[#6C4119]' : 'text-[#6C4119]'}`}
+              >
+                Company info
+              </button>
+              <div
+                className={`mt-1 h-1 rounded-full ${step === 2 ? 'bg-[#C59139]' : 'bg-[#F8F8F8]'}`}
+              ></div>
+            </div>
+          </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-medium text-[#22180E]">
-                Email/Phone no.
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="text"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="tomtiko@gmail.com"
-                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-              />
-              {errors.email && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#22180E]">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-                />
-                <div
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#05243F] opacity-40 transition-opacity duration-300 hover:opacity-100 sm:right-4"
-                >
-                  {!showPassword ? (
-                    <Icon icon="mdi:eye-outline" fontSize={18} />
-                  ) : (
-                    <Icon icon="mdi:eye-off-outline" fontSize={18} />
-                  )}
-                </div>
-              </div>
-              {errors.password && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Confirm password */}
-            <div>
-              <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#22180E]">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-                />
-                <div
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#05243F] opacity-40 transition-opacity duration-300 hover:opacity-100 sm:right-4"
-                >
-                  {!showPassword ? (
-                    <Icon icon="mdi:eye-outline" fontSize={18} />
-                  ) : (
-                    <Icon icon="mdi:eye-off-outline" fontSize={18} />
-                  )}
-                </div>
-              </div>
-              {errors.password && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Company Info */}
-            {/* Company name */}
-            <div>
-              <label
-                htmlFor="companyname"
-                className="mb-2 block text-sm font-medium text-[#22180E]"
-              >
-                Company Name
-              </label>
-              <input
-                id="text"
-                name="companyname"
-                type="text"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="TikoLab"
-                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-              />
-              {errors.email && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Address */}
-            <div>
-              <label htmlFor="address" className="mb-2 block text-sm font-medium text-[#22180E]">
-                Address
-              </label>
-              <input
-                id="text"
-                name="address"
-                type="text"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Oblende"
-                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-              />
-              {errors.email && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Registration number */}
-            <div>
-              <label
-                htmlFor="registrationNo"
-                className="mb-2 block text-sm font-medium text-[#22180E]"
-              >
-                Reg Number
-              </label>
-              <input
-                id="number"
-                name="registrationNo"
-                type="number"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="TikoLab"
-                className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
-              />
-              {errors.email && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-              )}
-            </div>
-
-            {/* CAC Certificate upload */}
-            <div>
-              <label
-                htmlFor="certificate"
-                className="mb-2 block text-sm font-medium text-[#22180E]"
-              >
-                Cac Certificate
-              </label>
-              <input
-                id="file"
-                name="certificate"
-                type="file"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="TikoLab"
-                className="w-full cursor-pointer rounded-lg border border-[EEEBE7] bg-transparent text-center px-6 py-5 text-base font-normal text-[#62340A] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-8"
-              />
-              {errors.email && (
-                <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <div>
-              <button
-                type="submit"
-                disabled={isLoggingIn}
-                className={`mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 sm:mt-6 ${
-                  isLoggingIn ? 'cursor-not-allowed opacity-50' : ''
-                }`}
-              >
-                Login
-              </button>
-            </div>
-          </form>
+          {step === 1 && (
+            <PersonInfoForm
+              formData={formData}
+              setFormData={setFormData}
+              nextStep={nextStep}
+              showPassword={showPassword}
+              showConfirmPassword={showConfirmPassword}
+              setShowConfirmPassword={setShowConfirmPassword}
+              setShowPassword={setShowPassword}
+              errors={errors}
+            />
+          )}
+          {step === 2 && (
+            <CompanyInfoForm
+              formData={formData}
+              errors={errors}
+              setFormData={setFormData}
+              prevStep={prevStep}
+              handleSubmit={handleFinalSubmit}
+            />
+          )}
 
           <div className="mt-4">
             {/* Divider */}
