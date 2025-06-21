@@ -1,53 +1,29 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 
-export default function PersonInfoForm({
-  formData,
-  setFormData,
-  nextStep,
-  errors,
-  showPassword,
-  setShowPassword,
-  showConfirmPassword,
-  setShowConfirmPassword,
-}) {
-  const isLoggingIn = false;
+const PersonInfoForm = ({ register, errors, onNext, watch, showPassword, setShowPassword, showConfirmPassword, setShowConfirmPassword }) => {
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleNext = (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match.');
-      return;
-    }
-    nextStep();
+    onNext();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Email */}
+    <form onSubmit={handleNext} className="space-y-4">
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm font-medium text-[#22180E]">
+        <label htmlFor="emailOrPhone" className="mb-2 block text-sm font-medium text-[#22180E]">
           Email/Phone no.
         </label>
         <input
-          id="email"
-          name="email"
+          id="emailOrPhone"
           type="text"
-          value={formData.email}
-          onChange={handleChange}
+          {...register('emailOrPhone')}
           placeholder="tomtiko@gmail.com"
           className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
         />
-        {errors.email && (
-          <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.email}</p>
-        )}
+        {errors.emailOrPhone && <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.emailOrPhone.message}</p>}
       </div>
 
-      {/* Password */}
       <div>
         <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#22180E]">
           Password
@@ -55,10 +31,8 @@ export default function PersonInfoForm({
         <div className="relative">
           <input
             id="password"
-            name="password"
             type={showPassword ? 'text' : 'password'}
-            value={formData.password}
-            onChange={handleChange}
+            {...register('password')}
             className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
           />
           <div
@@ -72,23 +46,18 @@ export default function PersonInfoForm({
             )}
           </div>
         </div>
-        {errors.password && (
-          <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password}</p>
-        )}
+        {errors.password && <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.password.message}</p>}
       </div>
 
-      {/* Confirm password */}
       <div>
-        <label htmlFor="comfirmpassword" className="mb-2 block text-sm font-medium text-[#22180E]">
+        <label htmlFor="confirmPassword" className="mb-2 block text-sm font-medium text-[#22180E]">
           Confirm Password
         </label>
         <div className="relative">
           <input
-            id="comfirmpassword"
-            name="comfirmpassword"
+            id="confirmPassword"
             type={showConfirmPassword ? 'text' : 'password'}
-            value={formData.confirmPassword}
-            onChange={handleChange}
+            {...register('confirmPassword')}
             className="w-full rounded-xl bg-[#F8F8F8] px-6 py-3 text-base font-normal text-[#22180E99] transition-colors duration-300 placeholder:text-[#22180E99]/60 hover:bg-[#FFF4DD]/50 focus:bg-[#FFF4DD] focus:outline-none sm:px-6 sm:py-3"
           />
           <div
@@ -102,23 +71,19 @@ export default function PersonInfoForm({
             )}
           </div>
         </div>
-        {errors.confirmPassword && (
-          <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.confirmPassword}</p>
-        )}
+        {errors.confirmPassword && <p className="animate-shake mt-1 text-xs text-[#A73957]">{errors.confirmPassword.message}</p>}
       </div>
 
-      {/* Submit Button */}
       <div>
         <button
           type="submit"
-          disabled={isLoggingIn}
-          className={`mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 sm:mt-6 ${
-            isLoggingIn ? 'cursor-not-allowed opacity-50' : ''
-          }`}
+          className="mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 sm:mt-6"
         >
           Next
         </button>
       </div>
     </form>
   );
-}
+};
+
+export default PersonInfoForm;
