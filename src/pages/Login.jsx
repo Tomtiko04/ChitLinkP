@@ -5,17 +5,28 @@ import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import AuthLogo from '../assets/images/AuthLogo.png';
+import { useLogin } from '../components/features/authetication/useAuth';
 
 const loginSchema = yup.object().shape({
   email: yup.string().required('Email or Phone is required'),
   password: yup.string().required('Password is required'),
 });
 
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
+  const { isLogin, isLoggingIn, isErrorLogIn } = useLogin();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(loginSchema),
   });
+
 
   useEffect(() => {
     const rememberedEmail = localStorage.getItem('rememberedEmail');
@@ -26,13 +37,21 @@ const Login = () => {
   }, [setValue]);
 
   const onLoginSubmit = (data) => {
-    if (data.rememberMe) {
-      localStorage.setItem('rememberedEmail', data.email);
-    } else {
-      localStorage.removeItem('rememberedEmail');
-    }
-    console.log('Login Data:', data);
-    alert('Login successful!');
+    console.log(data);
+    isLogin(data, {
+      onSuccess: ()=>{
+        if (getValues('rememberMe')) {
+          localStorage.setItem('rememberedEmail', getValues('email'));
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
+      }, 
+      onSettled: () =>{
+        setValue("email", "");
+        setValue("password", "");
+        setValue("rememberMe", false);
+      }
+    })
   };
 
   return (
@@ -108,30 +127,33 @@ const Login = () => {
                   id="rememberMe"
                   type="checkbox"
                   {...register('rememberMe')}
-                  className="h-3 w-3 cursor-pointer border-[#F4F5FC] text-[#C59139] focus:ring-[#C59139]"
+                  className="h-4 w-4 rounded border-gray-300 text-[#C59139] focus:ring-[#C59139]"
                 />
-                <label
-                  htmlFor="rememberMe"
-                  className="ml-2 block text-sm font-medium text-[#22180E66] opacity-70"
-                >
+                <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-900">
                   Remember me
                 </label>
               </div>
               <div className="text-sm">
-                <Link to="#" className="font-medium text-[#C59139] hover:text-[#9A2D41B0]">
+                <a href="#" className="font-medium text-[#C59139] hover:text-[#9A2D41B0]">
                   Forgot Password?
-                </Link>
+                </a>
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 sm:mt-6"
+                disabled={isLoggingIn}
+                className="mt-4 w-full cursor-pointer rounded-3xl bg-[#D29C3E] px-4 py-2 !text-lg font-bold text-white transition-all duration-300 hover:bg-[#FFF4DD] hover:text-[#05243F] focus:ring-2 focus:ring-[#D29C3E] focus:ring-offset-2 focus:outline-none active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 sm:mt-6"
               >
-                Login
+                {isLoggingIn ? 'Logging in...' : 'Login'}
               </button>
             </div>
+            {isErrorLogIn && (
+              <p className="animate-shake mt-2 text-center text-sm text-[#A73957]">
+                {isErrorLogIn?.response?.data?.message || 'An unexpected error occurred.'}
+              </p>
+            )}
           </form>
 
           <div className="mt-4">
