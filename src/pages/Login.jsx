@@ -179,7 +179,6 @@ export default function Login() {
         </div>
 
         <div className="hidden md:block md:w-1/4">
-          {/* You can put a decorative image or quote here */}
         </div>
       </div>
     </div>
