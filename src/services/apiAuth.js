@@ -30,4 +30,10 @@ const {data} = await apiClient.post("/api/verify/user", details);
 return data;
 }
 
-export {loginUser, signupUser, verifyAccount}
+const resendCode = async (email) => {
+  const { data } = await apiClient.post('/api/verify/email/resend', email);
+
+  return data;
+}
+
+export { loginUser, signupUser, verifyAccount, resendCode };

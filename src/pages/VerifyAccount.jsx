@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useVerifyAccount } from '../components/features/authetication/useAuth';
+import { useResendCode, useVerifyAccount } from '../components/features/authetication/useAuth';
 import useAuthStore from '../store/authStore';
 
 export default function VerifyAccount() {
-  const email = useAuthStore((state) => state.email) || 'ritixej144@forcrack.com';
+  const emailStored = useAuthStore((state) => state.user);
+  const email = emailStored?.email;
   
   const { isVerifyingAccount, isVerifyAccount } = useVerifyAccount();
+  const {isResend, isResending} = useResendCode();
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [timeLeft, setTimeLeft] = useState(600);
+  const [timeLeft, setTimeLeft] = useState(6);
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -57,8 +59,12 @@ export default function VerifyAccount() {
   };
 
   const handleResend = () => {
-    setTimeLeft(60);
-    // TODO: Implement resend logic
+    console.log("resend", email);
+    isResend(email, {
+      onSuccess: () => {
+        setTimeLeft(600);
+      }
+    });
   };
 
   const handleVerify = async (fullCode) => {
@@ -81,7 +87,7 @@ export default function VerifyAccount() {
         <div className="mx-auto flex flex-col items-center">
           <h4 className="text-center text-xl font-semibold text-[#22180E]">Verify Account</h4>
           <p className="mt-1 text-center text-sm text-[#22180E]/60 sm:text-base">
-            Check your mail/sms for the verification code sent to {email}
+            Check your mail/sms for the verification code.
           </p>
 
           <div className="mt-6 w-full max-w-sm sm:mt-8">
@@ -114,10 +120,10 @@ export default function VerifyAccount() {
               </p>
               <button
                 onClick={handleResend}
-                disabled={timeLeft > 0}
-                className="text-sm text-[#D29C3E] transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+                disabled={timeLeft > 0 || isResending}
+                className="text-sm text-[#D29C3E] cursor-pointer transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
               >
-                Resend
+                {isResending ? 'Resending...' : 'Resend'}
               </button>
             </div>
           </div>

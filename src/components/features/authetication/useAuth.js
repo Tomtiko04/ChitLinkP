@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   loginUser as loginUserApi,
+  resendCode as resendCodeApi,
   signupUser as signupUserApi,
   verifyAccount as verifyAccountApi,
 } from '../../../services/apiAuth';
@@ -78,4 +79,19 @@ const useVerifyAccount = () =>{
   return {isErrorVerifyAccount, isVerifyingAccount, isVerifyAccount}
 }
 
-export { useLogin, useSignup, useVerifyAccount };
+const useResendCode = () => {
+  const { mutate:isResend, isPending:isResending, error:isResendError } = useMutation({
+    mutationFn: resendCodeApi,
+    onSuccess: (data) => {
+      toast.success(data?.message || "Code has been resent successfully");
+    },
+    onError: (err)=>{
+      console.log(err);
+      toast.error(err.response?.data?.message || 'An unexpected error occurred.');
+    }
+  });
+
+  return {isResend, isResending, isResendError}
+}
+
+export { useLogin, useSignup, useVerifyAccount, useResendCode };
