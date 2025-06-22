@@ -23,7 +23,7 @@ const useLogin = () => {
       storeLogin(data.user, data.token);
       toast.success('Login successful!');
       queryClient.setQueryData(['user'], data.user);
-      navigate('/dashboard', { replace: true });
+      navigate('/', { replace: true });
     },
 
     onError: (err) => {
@@ -57,6 +57,7 @@ const useSignup = () => {
 };
 
 const useVerifyAccount = () =>{
+  const navigate = useNavigate();
   const {
     mutate: isVerifyAccount,
     isPending: isVerifyingAccount,
