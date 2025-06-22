@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import AuthLogo from '../assets/images/AuthLogo.png';
 import PersonInfoForm from '../components/PersonInfoForm';
 import CompanyInfoForm from '../components/CompanyInfoForm';
+import { useSignup } from '../components/features/authetication/useAuth';
 
 const validationSchema = yup.object().shape({
   emailOrPhone: yup.string().required('Email or Phone is required'),
@@ -31,6 +32,7 @@ const Signup = () => {
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { isSigningUp, isSignup, isErrorSignUP } = useSignup();
 
   const { register, handleSubmit, trigger, formState: { errors }, watch } = useForm({
     resolver: yupResolver(validationSchema),
@@ -39,7 +41,7 @@ const Signup = () => {
     reValidateMode: 'onChange',
   });
 
-  const nextStep = async (e) => {
+  const nextStep = async () => {
     const fieldsToValidate = ['emailOrPhone', 'password', 'confirmPassword'];
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
@@ -53,11 +55,17 @@ const Signup = () => {
 
   const onFinalSubmit = (data) => {
     const finalData = {
-      ...data,
-      cacCertificate: data.cacCertificate[0],
+      user_type: 'merchant',
+      business_name: data.companyName,
+      email: data.emailOrPhone,
+      phone_number: '08023620892',
+      reg_number: data.regNumber,
+      address: data.address,
+      cac_certificate: data.cacCertificate[0],
+      password: data.password.trim(),
+      password_confirmation: data.confirmPassword.trim(),
     };
-    console.log('Form Data Submitted:', finalData);
-    alert('Signup successful!');
+    isSignup(finalData);
   };
 
   return (
@@ -109,6 +117,7 @@ const Signup = () => {
               register={register}
               errors={errors}
               prevStep={prevStep}
+              isSigningUp={isSigningUp}
               handleSubmit={handleSubmit(onFinalSubmit)}
             />
           )}

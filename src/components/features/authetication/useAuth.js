@@ -1,26 +1,55 @@
-import { useMutation } from "@tanstack/react-query"
-import { loginUser as loginUserApi } from "../../../../services/apiAuth"
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../store/authStore";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { loginUser as loginUserApi, signupUser as signupUserApi } from '../../../services/apiAuth';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import useAuthStore from '../../../store/authStore';
 
-const useLogin = () =>{
-    const navigate = useNavigate();
-    const storeLogin = useAuthStore((state) => state.login);
-    const { mutate:isLogin, isPending:isLoggingIn, error: isErrorLogIn } = useMutation({
-      mutationFn: loginUserApi,
-      onSuccess: (data) =>{
-        storeLogin(data.user, data.token);
+const useLogin = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const storeLogin = useAuthStore((state) => state.login);
 
-        alert('Login successful!');
-        navigate('/dashboard');
-      }, 
+  const {
+    mutate: isLogin,
+    isPending: isLoggingIn,
+    error: isErrorLogIn,
+  } = useMutation({
+    mutationFn: ({ email, password }) => loginUserApi({ email, password }),
+    onSuccess: (data) => {
+      storeLogin(data.user, data.token);
+      toast.success('Login successful!');
+      queryClient.setQueryData(['user'], data.user);
+      navigate('/dashboard', { replace: true });
+    },
 
-      onError: (error) =>{
-        console.log(error.message);
-      }
-    });
+    onError: (err) => {
+      toast.error(err.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
 
-    return { isLogin, isLoggingIn, isErrorLogIn };
-}
+  return { isLogin, isLoggingIn, isErrorLogIn };
+};
 
-export {useLogin}
+const useSignup = () => {
+  const navigate = useNavigate();
+  const storeSignup = useAuthStore((state) => state.signup);
+  const {
+    mutate: isSignup,
+    isPending: isSigningUp,
+    error: isErrorSignUP,
+  } = useMutation({
+    mutationFn: signupUserApi,
+    onSuccess: (data) => {
+      storeSignup(data.user, null, data.user.email);
+      toast.success(data.message || 'Account Created! Please check your email to verify your account.');
+      navigate('/auth/verify');
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
+
+  return { isSigningUp, isSignup, isErrorSignUP };
+};
+
+export { useLogin, useSignup };

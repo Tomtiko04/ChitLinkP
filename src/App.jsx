@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import MainLayout from './components/layout/MainLayout';
 
 import Dashboard from './pages/Dashboard';
@@ -17,6 +18,27 @@ const Profile = () => <div className="py-12 text-center">Profile Page</div>;
 function App() {
   return (
     <Router>
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: '8px' }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+            style: {
+              background: '#D29C3E',
+              color: 'white',
+            },
+          },
+          error: {
+            duration: 5000,
+            style: {
+              background: '#A73957',
+              color: 'white',
+            },
+          },
+        }}
+      />
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />
