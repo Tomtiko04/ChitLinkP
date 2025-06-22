@@ -24,4 +24,10 @@ const signupUser = async (credentials) => {
   return data;
 }
 
-export {loginUser, signupUser}
+const verifyAccount = async (details) =>{
+const {data} = await apiClient.post("/api/verify/user");
+
+return data;
+}
+
+export {loginUser, signupUser, verifyAccount}

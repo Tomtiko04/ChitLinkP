@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser as loginUserApi, signupUser as signupUserApi } from '../../../services/apiAuth';
+import {
+  loginUser as loginUserApi,
+  signupUser as signupUserApi,
+  verifyAccount as verifyAccountApi,
+} from '../../../services/apiAuth';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useAuthStore from '../../../store/authStore';
@@ -52,4 +56,23 @@ const useSignup = () => {
   return { isSigningUp, isSignup, isErrorSignUP };
 };
 
-export { useLogin, useSignup };
+const useVerifyAccount = () =>{
+  const {
+    mutate: isVerifyAccount,
+    isPending: isVerifingAccount,
+    error: isErrorVerifyAccount,
+  } = useMutation({
+    mutationFn: verifyAccountApi,
+    onSuccess: (data)=>{
+      console.log("Verify data", data);
+      toast.success(data?.message || "Account verified successfully")
+    }, 
+    onError: (err)=>{
+      toast.error(err.response?.data?.message || 'An unexpected error occurred.');
+    }
+  });
+
+  return {isErrorVerifyAccount, isVerifingAccount, isVerifyAccount}
+}
+
+export { useLogin, useSignup, useVerifyAccount };

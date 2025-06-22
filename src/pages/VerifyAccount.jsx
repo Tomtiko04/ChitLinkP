@@ -1,116 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import useAuthStore from '../store/authStore';
+import { useVerifyAccount } from '../components/features/authetication/useAuth';
 
 export default function VerifyAccount() {
-     const navigate = useNavigate();
-    //  const { verifyAccount, isVerifying } = useVerifyAccount();
-     const [email, setEmail] = useState(null);
-     const [loading, setLoading] = useState(true);
-     const [code, setCode] = useState(['', '', '', '', '', '']);
-     const [timeLeft, setTimeLeft] = useState(600); // 10 minute countdown
-     const inputRefs = useRef([]);
+  const email = 'ritixej144@forcrack.com';
+  
+  const {isErrorVerifyAccount, isVerifingAccount, isVerifyAccount} = useVerifyAccount();
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minute countdown
+  const inputRefs = useRef([]);
 
-    //  useEffect(() => {
-    //    const storedEmail = localStorage.getItem('pendingVerificationEmail');
-    //    if (storedEmail) {
-    //      setEmail(storedEmail);
-    //    } else {
-    //      navigate('/auth/signup', { replace: true });
-    //      return; 
-    //    }
-    //    setLoading(false);
-    //  }, [navigate]);
+  const handleChange = (index, value) => {
+    // Only allow numbers
+    if (!/^\d*$/.test(value)) return;
 
-    //  useEffect(() => {
-    //    if (loading) return; // Prevents running before email is checked
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
 
-    //    // Focus the first input on mount
-    //    if (inputRefs.current[0]) {
-    //      inputRefs.current[0].focus();
-    //    }
+    if (value && index < 5 && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
 
-    //    // Start countdown timer
-    //    const timer = setInterval(() => {
-    //      setTimeLeft((prevTime) => {
-    //        if (prevTime <= 0) {
-    //          clearInterval(timer);
-    //          return 0;
-    //        }
-    //        return prevTime - 1;
-    //      });
-    //    }, 1000);
+    const fullCode = newCode.join('');
+    if (fullCode.length === 6) {
+      handleVerify(fullCode);
+    }
+  };
 
-    //    return () => clearInterval(timer);
-    //  }, [loading]);
+  const handleKeyDown = (index, e) => {
+    // Handle backspace
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
-     const handleChange = (index, value) => {
-       // Only allow numbers
-       if (!/^\d*$/.test(value)) return;
+  const handleResend = () => {
+    setTimeLeft(60);
+    // TODO: Implement resend logic
+  };
 
-       const newCode = [...code];
-       newCode[index] = value;
-       setCode(newCode);
+  const handleVerify = async (fullCode) => {
+    if (fullCode.length !== 6) {
+      toast.error('The code must be 6 characters long.');
+      return;
+    }
+    isVerifyAccount({email, code: fullCode.join('')})
+  };
 
-       // Auto-focus next input if not the last
-       if (value && index < 5 && inputRefs.current[index + 1]) {
-         inputRefs.current[index + 1].focus();
-       }
-
-       // Check if the full code is entered
-       const fullCode = newCode.join('');
-       if (fullCode.length === 6) {
-         handleVerify(fullCode);
-       }
-     };
-
-     const handleKeyDown = (index, e) => {
-       // Handle backspace
-       if (e.key === 'Backspace' && !code[index] && index > 0) {
-         inputRefs.current[index - 1].focus();
-       }
-     };
-
-     const handleResend = () => {
-       // Reset timer
-       setTimeLeft(60);
-       // TODO: Implement resend logic
-     };
-
-     const handleVerify = async()=>{
-        console.log("Submit");
-     }
-
-    //  const handleVerify = async (fullCode) => {
-    //    if (fullCode.length !== 6) {
-    //      toast.error('The code must be 6 characters long.');
-    //      return;
-    //    }
-
-    //    const loadingToast = toast.loading('Verifying account...');
-
-    //    try {
-    //      await verifyAccount(
-    //        { code: fullCode, email: email },
-    //        {
-    //          onSuccess: () => {
-    //            toast.dismiss(loadingToast);
-    //          },
-    //          onError: () => {
-    //            toast.dismiss(loadingToast);
-    //          },
-    //        }
-    //      );
-    //    } catch (error) {
-    //      toast.dismiss(loadingToast);
-    //      toast.error(error.message || 'Verification failed. Please try again.');
-    //    }
-    //  };
-
-     const formatTime = (seconds) => {
-       const mins = Math.floor(seconds / 60);
-       const secs = seconds % 60;
-       return `${mins}:${secs.toString().padStart(2, '0')}`;
-     };
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-black/80 px-4 py-8">
