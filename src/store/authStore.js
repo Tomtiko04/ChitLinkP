@@ -13,7 +13,7 @@ const useAuthStore = create(
       logout: () => set({ isAuthenticated: false, user: null, token: null, email: null }),
     }),
     {
-      name: 'auth-storage', // name of the item in the storage (must be unique)
+      name: 'auth-storage',
     }
   )
 );

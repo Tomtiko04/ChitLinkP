@@ -30,8 +30,8 @@ const {data} = await apiClient.post("/api/verify/user", details);
 return data;
 }
 
-const resendCode = async (email) => {
-  const { data } = await apiClient.post('/api/verify/email/resend', email);
+const resendCode = async (details) => {
+  const { data } = await apiClient.post('/api/verify/email/resend', details);
 
   return data;
 }

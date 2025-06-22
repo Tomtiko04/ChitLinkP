@@ -6,11 +6,11 @@ import useAuthStore from '../store/authStore';
 export default function VerifyAccount() {
   const emailStored = useAuthStore((state) => state.user);
   const email = emailStored?.email;
-  
+
   const { isVerifyingAccount, isVerifyAccount } = useVerifyAccount();
-  const {isResend, isResending} = useResendCode();
+  const { isResend, isResending } = useResendCode();
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [timeLeft, setTimeLeft] = useState(6);
+  const [timeLeft, setTimeLeft] = useState(600);
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -59,12 +59,16 @@ export default function VerifyAccount() {
   };
 
   const handleResend = () => {
-    console.log("resend", email);
-    isResend(email, {
-      onSuccess: () => {
-        setTimeLeft(600);
+    if (!email) return;
+
+    isResend(
+      { email },
+      {
+        onSuccess: () => {
+          setTimeLeft(600);
+        },
       }
-    });
+    );
   };
 
   const handleVerify = async (fullCode) => {
@@ -72,7 +76,7 @@ export default function VerifyAccount() {
       toast.error('The code must be 6 characters long.');
       return;
     }
-    isVerifyAccount({email, code: fullCode});
+    isVerifyAccount({ email, code: fullCode });
   };
 
   const formatTime = (seconds) => {
@@ -121,16 +125,14 @@ export default function VerifyAccount() {
               <button
                 onClick={handleResend}
                 disabled={timeLeft > 0 || isResending}
-                className="text-sm text-[#D29C3E] cursor-pointer transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+                className="cursor-pointer text-sm text-[#D29C3E] transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
               >
                 {isResending ? 'Resending...' : 'Resend'}
               </button>
             </div>
           </div>
 
-          {isVerifyingAccount && (
-            <p className="mt-4 text-sm text-gray-500">Verifying...</p>
-          )}
+          {isVerifyingAccount && <p className="mt-4 text-sm text-gray-500">Verifying...</p>}
 
           <div className="pt-10 text-center text-sm">
             <p className="text-[#22180E]/60">Didn't get a code?</p>
