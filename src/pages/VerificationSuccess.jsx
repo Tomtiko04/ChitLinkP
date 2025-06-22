@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function VerificationSuccess() {
   return (
@@ -13,7 +14,7 @@ export default function VerificationSuccess() {
             Verification successful
           </h2>
           <div className="w-full rounded-full bg-[#C59139] py-2 text-center sm:text-base text-sm font-bold text-white mt-20 cursor-pointer">
-            Go to Dashboard
+           <Link to="/auth/login">Go to Dashboard</Link>
           </div>
         </div>
       </div>

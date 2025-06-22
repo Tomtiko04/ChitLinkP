@@ -24,4 +24,16 @@ const signupUser = async (credentials) => {
   return data;
 }
 
-export {loginUser, signupUser}
+const verifyAccount = async (details) =>{
+const {data} = await apiClient.post("/api/verify/user", details);
+
+return data;
+}
+
+const resendCode = async (details) => {
+  const { data } = await apiClient.post('/api/verify/email/resend', details);
+
+  return data;
+}
+
+export { loginUser, signupUser, verifyAccount, resendCode };

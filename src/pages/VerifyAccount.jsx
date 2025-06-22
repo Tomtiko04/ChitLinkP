@@ -1,116 +1,89 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useResendCode, useVerifyAccount } from '../components/features/authetication/useAuth';
+import useAuthStore from '../store/authStore';
 
 export default function VerifyAccount() {
-     const navigate = useNavigate();
-    //  const { verifyAccount, isVerifying } = useVerifyAccount();
-     const [email, setEmail] = useState(null);
-     const [loading, setLoading] = useState(true);
-     const [code, setCode] = useState(['', '', '', '', '', '']);
-     const [timeLeft, setTimeLeft] = useState(600); // 10 minute countdown
-     const inputRefs = useRef([]);
+  const emailStored = useAuthStore((state) => state.user);
+  const email = emailStored?.email;
 
-    //  useEffect(() => {
-    //    const storedEmail = localStorage.getItem('pendingVerificationEmail');
-    //    if (storedEmail) {
-    //      setEmail(storedEmail);
-    //    } else {
-    //      navigate('/auth/signup', { replace: true });
-    //      return; 
-    //    }
-    //    setLoading(false);
-    //  }, [navigate]);
+  const { isVerifyingAccount, isVerifyAccount } = useVerifyAccount();
+  const { isResend, isResending } = useResendCode();
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [timeLeft, setTimeLeft] = useState(600);
+  const inputRefs = useRef([]);
 
-    //  useEffect(() => {
-    //    if (loading) return; // Prevents running before email is checked
+  useEffect(() => {
+    if (timeLeft === 0) return;
 
-    //    // Focus the first input on mount
-    //    if (inputRefs.current[0]) {
-    //      inputRefs.current[0].focus();
-    //    }
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
 
-    //    // Start countdown timer
-    //    const timer = setInterval(() => {
-    //      setTimeLeft((prevTime) => {
-    //        if (prevTime <= 0) {
-    //          clearInterval(timer);
-    //          return 0;
-    //        }
-    //        return prevTime - 1;
-    //      });
-    //    }, 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
-    //    return () => clearInterval(timer);
-    //  }, [loading]);
+  const handlePaste = (e) => {
+    const paste = e.clipboardData.getData('text');
+    if (paste.length === 6 && /^\d+$/.test(paste)) {
+      const newCode = paste.split('');
+      setCode(newCode);
+      handleVerify(paste);
+      inputRefs.current[5]?.focus();
+    }
+  };
 
-     const handleChange = (index, value) => {
-       // Only allow numbers
-       if (!/^\d*$/.test(value)) return;
+  const handleChange = (index, value) => {
+    // Only allow numbers
+    if (!/^\d*$/.test(value)) return;
 
-       const newCode = [...code];
-       newCode[index] = value;
-       setCode(newCode);
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
 
-       // Auto-focus next input if not the last
-       if (value && index < 5 && inputRefs.current[index + 1]) {
-         inputRefs.current[index + 1].focus();
-       }
+    if (value && index < 5 && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
 
-       // Check if the full code is entered
-       const fullCode = newCode.join('');
-       if (fullCode.length === 6) {
-         handleVerify(fullCode);
-       }
-     };
+    const fullCode = newCode.join('');
+    if (fullCode.length === 6) {
+      handleVerify(fullCode);
+    }
+  };
 
-     const handleKeyDown = (index, e) => {
-       // Handle backspace
-       if (e.key === 'Backspace' && !code[index] && index > 0) {
-         inputRefs.current[index - 1].focus();
-       }
-     };
+  const handleKeyDown = (index, e) => {
+    // Handle backspace
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
-     const handleResend = () => {
-       // Reset timer
-       setTimeLeft(60);
-       // TODO: Implement resend logic
-     };
+  const handleResend = () => {
+    if (!email) return;
 
-     const handleVerify = async()=>{
-        console.log("Submit");
-     }
+    isResend(
+      { email },
+      {
+        onSuccess: () => {
+          setTimeLeft(600);
+        },
+      }
+    );
+  };
 
-    //  const handleVerify = async (fullCode) => {
-    //    if (fullCode.length !== 6) {
-    //      toast.error('The code must be 6 characters long.');
-    //      return;
-    //    }
+  const handleVerify = async (fullCode) => {
+    if (fullCode.length !== 6) {
+      toast.error('The code must be 6 characters long.');
+      return;
+    }
+    isVerifyAccount({ email, code: fullCode });
+  };
 
-    //    const loadingToast = toast.loading('Verifying account...');
-
-    //    try {
-    //      await verifyAccount(
-    //        { code: fullCode, email: email },
-    //        {
-    //          onSuccess: () => {
-    //            toast.dismiss(loadingToast);
-    //          },
-    //          onError: () => {
-    //            toast.dismiss(loadingToast);
-    //          },
-    //        }
-    //      );
-    //    } catch (error) {
-    //      toast.dismiss(loadingToast);
-    //      toast.error(error.message || 'Verification failed. Please try again.');
-    //    }
-    //  };
-
-     const formatTime = (seconds) => {
-       const mins = Math.floor(seconds / 60);
-       const secs = seconds % 60;
-       return `${mins}:${secs.toString().padStart(2, '0')}`;
-     };
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-black/80 px-4 py-8">
@@ -136,6 +109,7 @@ export default function VerifyAccount() {
                     value={digit}
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={handlePaste}
                     className={`h-10 w-10 rounded-lg text-center text-sm font-medium transition-colors duration-300 focus:outline-none sm:h-12 sm:w-12 sm:text-base md:h-14 md:w-14 ${
                       digit ? 'bg-[#FFF4DD]' : 'bg-[#F8F8F8]'
                     } text-[#D29C3E]/60`}
@@ -150,16 +124,18 @@ export default function VerifyAccount() {
               </p>
               <button
                 onClick={handleResend}
-                disabled={timeLeft > 0}
-                className="text-sm text-[#D29C3E] transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+                disabled={timeLeft > 0 || isResending}
+                className="cursor-pointer text-sm text-[#D29C3E] transition-colors duration-300 hover:text-[#A73957] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
               >
-                Resend
+                {isResending ? 'Resending...' : 'Resend'}
               </button>
             </div>
           </div>
 
+          {isVerifyingAccount && <p className="mt-4 text-sm text-gray-500">Verifying...</p>}
+
           <div className="pt-10 text-center text-sm">
-            <p className="text-[#22180E]/60">Didn’t get a code?</p>
+            <p className="text-[#22180E]/60">Didn't get a code?</p>
             <p className="text-[#D29C3E]">Change Email or Phone Number</p>
           </div>
         </div>
