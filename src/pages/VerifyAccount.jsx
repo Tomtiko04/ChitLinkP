@@ -1,15 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import useAuthStore from '../store/authStore';
 import { useVerifyAccount } from '../components/features/authetication/useAuth';
+import useAuthStore from '../store/authStore';
 
 export default function VerifyAccount() {
-  const email = 'ritixej144@forcrack.com';
+  const email = useAuthStore((state) => state.email) || 'ritixej144@forcrack.com';
   
-  const {isErrorVerifyAccount, isVerifingAccount, isVerifyAccount} = useVerifyAccount();
+  const { isVerifyingAccount, isVerifyAccount } = useVerifyAccount();
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minute countdown
+  const [timeLeft, setTimeLeft] = useState(600);
   const inputRefs = useRef([]);
+
+  useEffect(() => {
+    if (timeLeft === 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const handlePaste = (e) => {
+    const paste = e.clipboardData.getData('text');
+    if (paste.length === 6 && /^\d+$/.test(paste)) {
+      const newCode = paste.split('');
+      setCode(newCode);
+      handleVerify(paste);
+      inputRefs.current[5]?.focus();
+    }
+  };
 
   const handleChange = (index, value) => {
     // Only allow numbers
@@ -46,7 +66,7 @@ export default function VerifyAccount() {
       toast.error('The code must be 6 characters long.');
       return;
     }
-    isVerifyAccount({email, code: fullCode.join('')})
+    isVerifyAccount({email, code: fullCode});
   };
 
   const formatTime = (seconds) => {
@@ -61,7 +81,7 @@ export default function VerifyAccount() {
         <div className="mx-auto flex flex-col items-center">
           <h4 className="text-center text-xl font-semibold text-[#22180E]">Verify Account</h4>
           <p className="mt-1 text-center text-sm text-[#22180E]/60 sm:text-base">
-            Check your mail/sms for the verification code.
+            Check your mail/sms for the verification code sent to {email}
           </p>
 
           <div className="mt-6 w-full max-w-sm sm:mt-8">
@@ -79,6 +99,7 @@ export default function VerifyAccount() {
                     value={digit}
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={handlePaste}
                     className={`h-10 w-10 rounded-lg text-center text-sm font-medium transition-colors duration-300 focus:outline-none sm:h-12 sm:w-12 sm:text-base md:h-14 md:w-14 ${
                       digit ? 'bg-[#FFF4DD]' : 'bg-[#F8F8F8]'
                     } text-[#D29C3E]/60`}
@@ -101,8 +122,12 @@ export default function VerifyAccount() {
             </div>
           </div>
 
+          {isVerifyingAccount && (
+            <p className="mt-4 text-sm text-gray-500">Verifying...</p>
+          )}
+
           <div className="pt-10 text-center text-sm">
-            <p className="text-[#22180E]/60">Didn’t get a code?</p>
+            <p className="text-[#22180E]/60">Didn't get a code?</p>
             <p className="text-[#D29C3E]">Change Email or Phone Number</p>
           </div>
         </div>

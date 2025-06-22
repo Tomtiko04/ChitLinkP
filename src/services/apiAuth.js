@@ -25,7 +25,7 @@ const signupUser = async (credentials) => {
 }
 
 const verifyAccount = async (details) =>{
-const {data} = await apiClient.post("/api/verify/user");
+const {data} = await apiClient.post("/api/verify/user", details);
 
 return data;
 }

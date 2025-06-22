@@ -59,20 +59,22 @@ const useSignup = () => {
 const useVerifyAccount = () =>{
   const {
     mutate: isVerifyAccount,
-    isPending: isVerifingAccount,
+    isPending: isVerifyingAccount,
     error: isErrorVerifyAccount,
   } = useMutation({
     mutationFn: verifyAccountApi,
     onSuccess: (data)=>{
       console.log("Verify data", data);
-      toast.success(data?.message || "Account verified successfully")
+      toast.success(data?.message || "Account verified successfully");
+      navigate('/auth/verify/success');
     }, 
     onError: (err)=>{
+      console.log(err);
       toast.error(err.response?.data?.message || 'An unexpected error occurred.');
     }
   });
 
-  return {isErrorVerifyAccount, isVerifingAccount, isVerifyAccount}
+  return {isErrorVerifyAccount, isVerifyingAccount, isVerifyAccount}
 }
 
 export { useLogin, useSignup, useVerifyAccount };
