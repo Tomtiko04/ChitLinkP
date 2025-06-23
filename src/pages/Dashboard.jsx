@@ -32,40 +32,42 @@ const statCards = [
 
 export default function Dashboard() {
   return (
-    <div className="pb-10">
-      {/* User greeting */}
-      <h1 className="text-xl font-medium text-[#22180E]">Hello, marriam</h1>
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-        <div className="sm:col-span-2 lg:col-span-3">
-          <BalanceCard />
+    <div className="px-4 pt-20 lg:px-8">
+      {' '}
+      <div className="pb-10">
+        {/* User greeting */}
+        <h1 className="text-xl font-medium text-[#22180E]">Hello, marriam</h1>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="sm:col-span-2 lg:col-span-3">
+            <BalanceCard />
+          </div>
+          <div className="grid grid-cols-2 gap-4 sm:col-span-2 lg:col-span-3">
+            {statCards.map((card, idx) => (
+              <DashboardStatCard key={idx} {...card} />
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:col-span-2 lg:col-span-3">
-          {statCards.map((card, idx) => (
-            <DashboardStatCard key={idx} {...card} />
-          ))}
+        {/* flex Quick links and balance graph */}
+        <div className="mt-4 flex w-full flex-col gap-4 lg:flex-row">
+          <div className="w-full max-w-md flex-[1.5]">
+            <QuickLinks />
+          </div>
+          <div className="w-full flex-[2]">
+            <BalanceGraphCard />
+          </div>
         </div>
-      </div>
-      {/* flex Quick links and balance graph */}
-      <div className="mt-4 flex w-full flex-col gap-4 lg:flex-row">
-        <div className="w-full max-w-md flex-[1.5]">
-          <QuickLinks />
+        {/* Ongoing Savings and Recent Transactions */}
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
+          <div className="h-[400px] lg:col-span-3">
+            <OngoingSavings />
+          </div>
+          <div className="h-[400px] lg:col-span-2">
+            <RecentTransactions />
+          </div>
         </div>
-        <div className="w-full flex-[2]">
-          <BalanceGraphCard />
-        </div>
-      </div>
-      {/* Ongoing Savings and Recent Transactions */}
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
-        <div className="h-[400px] lg:col-span-3">
-          <OngoingSavings />
-        </div>
-        <div className="h-[400px] lg:col-span-2">
-          <RecentTransactions />
-        </div>
-      </div>
 
-      {/* Ongoing Savings and Recent Transactions */}
-      {/* <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
+        {/* Ongoing Savings and Recent Transactions */}
+        {/* <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <OngoingSavings />
         </div>
@@ -73,6 +75,7 @@ export default function Dashboard() {
           <RecentTransactions />
         </div>
       </div> */}
+      </div>
     </div>
   );
 }

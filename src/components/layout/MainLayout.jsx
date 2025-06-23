@@ -48,7 +48,7 @@ const MainLayout = () => {
             </div>
           </div>
         </div>
-        <main className="pt-20 px-4 lg:px-8">
+        <main>
           <Outlet />
         </main>
       </div>

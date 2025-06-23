@@ -9,9 +9,9 @@ import Login from './pages/Login';
 import VerifyAccount from './pages/VerifyAccount';
 import VerificationSuccess from './pages/VerificationSuccess';
 import Signup from './pages/Signup';
+import Contacts from './pages/Contacts';
 
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
-const Contacts = () => <div className="py-12 text-center">Contacts Page</div>;
 const Finance = () => <div className="py-12 text-center">Finance Page</div>;
 const Profile = () => <div className="py-12 text-center">Profile Page</div>;
 
