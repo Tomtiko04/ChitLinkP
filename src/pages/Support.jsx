@@ -348,64 +348,66 @@ export default function Support() {
   };
 
   return (
-    <div className="rounded-[22px">
-      <div className="mx-auto max-w-7xl !rounded-[22px] bg-white">
-        <div className="flex h-auto flex-col px-1 sm:px-4 lg:flex-row">
-          {/* Sidebar */}
-          <div className="rounded-custom w-full px-4 py-[55px] lg:w-1/3">
-            <div className="flex flex-col items-center justify-center">
-              <Icon icon="streamline:customer-support-1" color="#C59139" fontSize={32} />
-              <p className="mt-2 text-base font-semibold text-[#22180E] sm:text-sm">
-                Hi, How may we help you?
-              </p>
-            </div>
-            <div className="mt-7">
-              {supportItems.map((item, index) => (
-                <div
-                  key={item.title}
-                  onClick={() => handleItemClick(item)}
-                  className={`mb-2 flex cursor-pointer items-center justify-between rounded-[5px] bg-[#F8F8F8] p-3 transition-all duration-200 hover:bg-[#C59139]/10 sm:p-3 ${
-                    selectedItem?.path === item.path ? '!bg-[#C59139]' : ''
-                  } ${index < supportItems.length - 1 ? '' : ''}`}
-                >
-                  <div className="flex flex-row items-center gap-3 sm:gap-4">
-                    <div
-                      className={`text-primary transition-colors duration-200 ${
-                        selectedItem?.path === item.path ? 'text-white' : ''
-                      }`}
-                    >
+    <div className="px-4 pt-20 lg:px-8">
+      <div className="rounded-[22px">
+        <div className="mx-auto max-w-7xl !rounded-[22px] bg-white">
+          <div className="flex h-auto flex-col px-1 sm:px-4 lg:flex-row">
+            {/* Sidebar */}
+            <div className="rounded-custom w-full px-4 py-[55px] lg:w-1/3">
+              <div className="flex flex-col items-center justify-center">
+                <Icon icon="streamline:customer-support-1" color="#C59139" fontSize={32} />
+                <p className="mt-2 text-base font-semibold text-[#22180E] sm:text-sm">
+                  Hi, How may we help you?
+                </p>
+              </div>
+              <div className="mt-7">
+                {supportItems.map((item, index) => (
+                  <div
+                    key={item.title}
+                    onClick={() => handleItemClick(item)}
+                    className={`mb-2 flex cursor-pointer items-center justify-between rounded-[5px] bg-[#F8F8F8] p-3 transition-all duration-200 hover:bg-[#C59139]/10 sm:p-3 ${
+                      selectedItem?.path === item.path ? '!bg-[#C59139]' : ''
+                    } ${index < supportItems.length - 1 ? '' : ''}`}
+                  >
+                    <div className="flex flex-row items-center gap-3 sm:gap-4">
+                      <div
+                        className={`text-primary transition-colors duration-200 ${
+                          selectedItem?.path === item.path ? 'text-white' : ''
+                        }`}
+                      >
+                        <Icon
+                          icon={item.icon}
+                          color={selectedItem?.path === item.path ? '#FFFFFF' : '#CE973A'}
+                          className="h-6 w-6 sm:h-5 sm:w-5"
+                        />
+                      </div>
+                      <span
+                        className={`text-base font-bold transition-colors duration-200 sm:text-sm ${
+                          selectedItem?.path === item.path ? 'text-white' : 'text-[#62340A]'
+                        } sm:text-sm`}
+                      >
+                        {item.title}
+                      </span>
+                    </div>
+                    <div>
                       <Icon
-                        icon={item.icon}
-                        color={selectedItem?.path === item.path ? '#FFFFFF' : '#CE973A'}
-                        className="h-6 w-6 sm:h-5 sm:w-5"
+                        icon="ic:round-arrow-back-ios"
+                        color={selectedItem?.path === item.path ? '#FFFFFF' : '#B88743'}
+                        className="rotate-180"
                       />
                     </div>
-                    <span
-                      className={`text-base font-bold transition-colors duration-200 sm:text-sm ${
-                        selectedItem?.path === item.path ? 'text-white' : 'text-[#62340A]'
-                      } sm:text-sm`}
-                    >
-                      {item.title}
-                    </span>
                   </div>
-                  <div>
-                    <Icon
-                      icon="ic:round-arrow-back-ios"
-                      color={selectedItem?.path === item.path ? '#FFFFFF' : '#B88743'}
-                      className="rotate-180"
-                    />
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Divider */}
-          <div className="hidden w-px bg-[#E3E2DF] lg:flex" />
+            {/* Divider */}
+            <div className="hidden w-px bg-[#E3E2DF] lg:flex" />
 
-          {/* Content */}
-          <div className="w-full lg:w-2/3">
-            <div>{selectedItem?.content}</div>
+            {/* Content */}
+            <div className="w-full lg:w-2/3">
+              <div>{selectedItem?.content}</div>
+            </div>
           </div>
         </div>
       </div>
