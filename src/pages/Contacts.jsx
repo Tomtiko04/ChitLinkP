@@ -1,34 +1,30 @@
-import React, { useState, useEffect } from 'react';
 import ContactsTab from '../components/ContactsTab';
 import ContactSkeleton from '../components/ContactSkeleton';
+import { useGetAllContact } from '../components/features/contacts/useContacts';
+import ContactItem from '../components/ContactItem';
+import EmptyContacts from '../components/EmptyContacts';
 
 const Contacts = () => {
-  const [loading, setLoading] = useState(true);
-
-  // Simulate data fetching
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000); // Simulate a 3-second loading time
-    return () => clearTimeout(timer);
-  }, []);
+  const { contacts, isGettingContacts } = useGetAllContact();
 
   return (
     <div>
       <ContactsTab />
       <div className="bg-white">
-        {loading ? (
-          // Show skeleton loader while loading
+        {isGettingContacts ? (
           <div>
             {Array.from({ length: 8 }).map((_, index) => (
               <ContactSkeleton key={index} />
             ))}
           </div>
-        ) : (
-          // Show actual content when loaded
-          <div className="p-4 text-center text-gray-500">
-            Contacts will be displayed here.
+        ) : contacts.data && contacts.data && contacts.data.length > 0 ? (
+          <div>
+            {contacts.data.map((contact) => (
+              <ContactItem key={contact.id} contact={contact} />
+            ))}
           </div>
+        ) : (
+          <EmptyContacts />
         )}
       </div>
     </div>

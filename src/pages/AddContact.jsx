@@ -43,14 +43,27 @@ const AddContact = () => {
   };
 
   const onSubmit = (data) => {
-    isCreateContact(data, {
+    const formData = new FormData();
+
+    Object.keys(data).forEach(key => {
+      if (key === 'phone') {
+        formData.append('phone_number', data[key]);
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+
+    if (imageFile) {
+      formData.append('profile_image', imageFile);
+    }
+
+    isCreateContact(formData, {
       onSettled: () => {
         reset();
         setProfileImage(defaultAvatar);
         setImageFile(null);
       },
     });
-    console.log('New Contact:', { ...data, profileImage: imageFile });
   };
 
   return (

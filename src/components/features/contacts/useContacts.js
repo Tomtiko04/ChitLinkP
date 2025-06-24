@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
   createContact as createContactApi,
   getAllContact as getAllContactApi,
@@ -6,9 +6,13 @@ import {
 import toast from "react-hot-toast";
 
 const useCreateContact = () =>{
+    const queryClient = useQueryClient();
     const {mutate:isCreateContact, isPending: isCreatingContact, error: isErrorCreatingContact} = useMutation({
         mutationFn: createContactApi, 
         onSuccess: (data) =>{
+            queryClient.invalidateQueries({
+              queryKey: ['contacts'],
+            });
             toast.success(data.message);
         },
         onError: (err)=>{
