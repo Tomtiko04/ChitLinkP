@@ -37,7 +37,6 @@ const Login = () => {
   }, [setValue]);
 
   const onLoginSubmit = (data) => {
-    console.log(data);
     isLogin(data, {
       onSuccess: ()=>{
         if (getValues('rememberMe')) {
@@ -52,6 +51,8 @@ const Login = () => {
         setValue("rememberMe", false);
       }
     })
+
+
   };
 
   return (

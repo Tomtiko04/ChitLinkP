@@ -21,8 +21,8 @@ const useLogin = () => {
   } = useMutation({
     mutationFn: ({ email, password }) => loginUserApi({ email, password }),
     onSuccess: (data) => {
-      storeLogin(data.user, data.token);
-      toast.success('Login successful!');
+      storeLogin(data.user, data.authorization.token);
+      toast.success(data.message);
       queryClient.setQueryData(['user'], data.user);
       navigate('/', { replace: true });
     },
