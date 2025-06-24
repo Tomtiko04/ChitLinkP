@@ -40,87 +40,91 @@ const AddContact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-6 md:p-8">
-        <h1 className="text-2xl font-bold text-gray-800 pb-4 border-b border-gray-200 mb-6">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-gray-800 pb-4 border-b border-gray-200 mb-8">
           Add Contact
         </h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
-              />
+        <div className="max-w-md mx-auto">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="w-36 h-36 rounded-full p-1 bg-gradient-to-br from-yellow-200 via-amber-400 to-yellow-300">
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="w-full h-full rounded-full object-cover border-4 border-white"
+                  />
+                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  className="hidden"
+                  accept="image/*"
+                />
+                <button
+                  type="button"
+                  onClick={handleEditClick}
+                  className="absolute bottom-2 right-2 bg-amber-500 p-2 rounded-full text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-transform duration-200 ease-in-out transform hover:scale-110"
+                  aria-label="Edit profile picture"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                    <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-600 mb-1">
+                Contact's Name
+              </label>
               <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                className="hidden"
-                accept="image/*"
+                type="text"
+                id="name"
+                {...register('name')}
+                className={`mt-1 block w-full px-4 py-3 bg-white border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                placeholder="*******"
               />
+              {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-600 mb-1">
+                Contact's Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                {...register('email')}
+                className={`mt-1 block w-full px-4 py-3 bg-white border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                placeholder="sample@gmail.com"
+              />
+              {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-600 mb-1">
+                Contact's Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                {...register('phone')}
+                className={`mt-1 block w-full px-4 py-3 bg-white border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                placeholder="000-000-000-0000"
+              />
+              {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
+            </div>
+            <div className="pt-4">
               <button
-                type="button"
-                onClick={handleEditClick}
-                className="absolute bottom-1 right-1 bg-blue-600 p-2 rounded-full text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform duration-200 ease-in-out transform hover:scale-110"
-                aria-label="Edit profile picture"
+                type="submit"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-150 ease-in-out"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                  <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
-                </svg>
+                Save Contact
               </button>
             </div>
-          </div>
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              {...register('name')}
-              className={`mt-1 block w-full border bg-gray-50 px-4 py-2 ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm`}
-              placeholder="Enter full name"
-            />
-            {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              {...register('email')}
-              className={`mt-1 block w-full border bg-gray-50 px-4 py-2 ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm`}
-              placeholder="you@example.com"
-            />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              {...register('phone')}
-              className={`mt-1 block w-full border bg-gray-50 px-4 py-2 ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm`}
-              placeholder="1234567890"
-            />
-            {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
-            >
-              Save Contact
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

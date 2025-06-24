@@ -1,7 +1,7 @@
 import apiClient from "./api";
 
 const loginUser = async (credentials) => {
-  const { data } = await apiClient.post('/api/login?user_type=merchant', credentials);
+  const { data } = await apiClient.post('/login?user_type=merchant', credentials);
   return data;
 };
 
@@ -15,7 +15,7 @@ const signupUser = async (credentials) => {
     }
   });
 
-  const { data } = await apiClient.post('/api/register', formData, {
+  const { data } = await apiClient.post('/register', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -25,13 +25,13 @@ const signupUser = async (credentials) => {
 }
 
 const verifyAccount = async (details) =>{
-const {data} = await apiClient.post("/api/verify/user", details);
+const {data} = await apiClient.post("/verify/user", details);
 
 return data;
 }
 
 const resendCode = async (details) => {
-  const { data } = await apiClient.post('/api/verify/email/resend', details);
+  const { data } = await apiClient.post('/verify/email/resend', details);
 
   return data;
 }
