@@ -64,7 +64,7 @@ const useCreateGroup = () =>{
       queryClient.invalidateQueries({
         queryKey: ['groups'],
       });
-      toast.success(data.message);
+      toast.success('Group created successfully.');
     },
     onError: (err) => {
       toast.error(err?.response?.data?.message || 'An unexpected error occurred.');

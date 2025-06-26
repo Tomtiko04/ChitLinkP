@@ -18,8 +18,8 @@ const deleteContact = async (details)=>{
     return data;
 }
 
-const createGroup = async () =>{
-    const { data } = await apiClient.post('/merchants/contact-groups');
+const createGroup = async (groupData) =>{
+    const { data } = await apiClient.post('/merchants/contact-groups', groupData);
 
     return {data}
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -14,6 +14,7 @@ const AddGroup = () => {
   const [color, setColor] = useState('#D29C3E');
   const [showColorPicker, setShowColorPicker] = useState(false);
   const {isCreateGroup, isCreatingGroup} = useCreateGroup()
+  const colorPickerRef = useRef(null);
 
   const {
     register,
@@ -23,6 +24,19 @@ const AddGroup = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setShowColorPicker(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const onSubmit = (data) => {
     const groupData = { ...data, color };
@@ -38,6 +52,14 @@ const AddGroup = () => {
     );
   };
 
+  const handleColorChange = (newColor) => {
+    setColor(newColor.hex);
+  };
+
+  const handleColorPickerClose = () => {
+    setShowColorPicker(false);
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-white p-4">
       <div className="w-full max-w-4xl rounded-lg bg-white p-8 shadow-lg">
@@ -48,12 +70,12 @@ const AddGroup = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="mb-6 flex justify-center">
               <div
-                className="h-36 w-36 rounded-full p-1 flex items-center justify-center"
+                className="relative h-36 w-36 rounded-full p-1 flex items-center justify-center"
                 style={{ backgroundColor: color }}
               >
                 <button
                   type="button"
-                  onClick={() => setShowColorPicker(!showColorPicker)}
+                  onClick={() => setShowColorPicker((prev) => !prev)}
                   className="rounded-full bg-white bg-opacity-50 p-2 text-black transition-transform duration-200 ease-in-out hover:scale-110"
                   aria-label="Change group color"
                 >
@@ -61,8 +83,9 @@ const AddGroup = () => {
                 </button>
               </div>
               {showColorPicker && (
-                <div className="absolute z-10 mt-40">
-                  <ChromePicker color={color} onChangeComplete={(color) => setColor(color.hex)} />
+                <div className="absolute z-10 mt-40" ref={colorPickerRef}>
+                  <div className="fixed top-0 right-0 bottom-0 left-0" onClick={handleColorPickerClose} />
+                  <ChromePicker color={color} onChangeComplete={handleColorChange} />
                 </div>
               )}
             </div>
@@ -92,9 +115,9 @@ const AddGroup = () => {
             </div>
             <div className="pt-4">
               <button
-              disabled={isCreatingGroup}
                 type="submit"
-                className="flex w-full justify-center rounded-md border border-transparent bg-amber-500 px-4 py-3 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
+                disabled={isCreatingGroup}
+                className="flex w-full justify-center rounded-md border border-transparent bg-amber-500 px-4 py-3 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
               >
                 Save Group
               </button>
