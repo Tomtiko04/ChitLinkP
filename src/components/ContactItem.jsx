@@ -1,8 +1,21 @@
 import { Icon } from '@iconify/react';
 import React from 'react';
+import useModalStore from '../store/modalStore';
+import { useDeleteContact } from './features/contacts/useContacts';
 
 const ContactItem = ({ contact }) => {
   const defaultAvatar = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2EwYTVhZSI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MxLjY2IDAgMyAxLjM0IDMgMyAwIDEuNjYtMS4zNCAzLTMgMy0xLjY2IDAtMy0xLjM0LTMtMyAwLTEuNjYgMS4zNC0zIDMtM3ptMCAxNC4yYy0yLjUgMC00LjcxLTEuMjgtNi4yMi0zLjIyLjc4LTEuNTUgMy4xLTEuNzggNS4yMi0xLjc4czQuNDQuMjMgNS4yMiAxLjc4Yy0xLjUxIDEuOTQtMy43MiAzLjIyLTYuMjIgMy4yMnoiLz48L3N2Zz4=`;
+  const { showModal } = useModalStore();
+  const { isDeleteContact, isDeletingContact } = useDeleteContact();
+
+  const handleDelete = () => {
+    showModal(() =>
+      isDeleteContact({
+        id: contact.id,
+        type: 'contact',
+      })
+    );
+  };
 
   return (
     <div className="flex items-center justify-between border-b border-gray-200 p-4 transition-colors duration-200 hover:bg-gray-50">
@@ -18,7 +31,11 @@ const ContactItem = ({ contact }) => {
         </div>
       </div>
       {/* You can add action buttons here, e.g., edit, delete */}
-      <button className="text-gray-400 hover:text-gray-600">
+      <button
+        onClick={handleDelete}
+        disabled={isDeletingContact}
+        className="text-gray-400 hover:text-gray-600 disabled:cursor-not-allowed disabled:text-gray-300"
+      >
         {/* Placeholder for an options icon, e.g., three dots */}
         <Icon icon="mingcute:delete-2-fill" />
       </button>

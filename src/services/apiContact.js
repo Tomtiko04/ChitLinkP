@@ -13,9 +13,9 @@ const getAllContact = async () =>{
 }
 
 const deleteContact = async (details)=>{
-    const { data } = await apiClient.delete('/merchants/contacts', details);
+    const { data } = await apiClient.post('/merchants/contact/delete', details);
 
-    return data
+    return data;
 }
 
 const createGroup = async () =>{
