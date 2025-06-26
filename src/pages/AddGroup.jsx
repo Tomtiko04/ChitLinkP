@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ChromePicker } from 'react-color';
+import { useCreateGroup } from '../components/features/contacts/useContacts';
 
 const schema = yup.object().shape({
   name: yup.string().required('Group name is required'),
@@ -12,6 +13,7 @@ const schema = yup.object().shape({
 const AddGroup = () => {
   const [color, setColor] = useState('#D29C3E');
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const {isCreateGroup, isCreatingGroup} = useCreateGroup()
 
   const {
     register,
@@ -24,14 +26,16 @@ const AddGroup = () => {
 
   const onSubmit = (data) => {
     const groupData = { ...data, color };
-    console.log(groupData);
-    // Replace with your API call to create a group
-    // e.g., createGroup(groupData, {
-    //   onSettled: () => {
-    //     reset();
-    //     setColor('#D29C3E');
-    //   },
-    // });
+    isCreateGroup(groupData);
+    console.log(
+      { groupData },
+      {
+        onSettled: () => {
+          reset();
+          setColor('#D29C3E');
+        },
+      }
+    );
   };
 
   return (
@@ -88,6 +92,7 @@ const AddGroup = () => {
             </div>
             <div className="pt-4">
               <button
+              disabled={isCreatingGroup}
                 type="submit"
                 className="flex w-full justify-center rounded-md border border-transparent bg-amber-500 px-4 py-3 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
               >

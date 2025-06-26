@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createContact as createContactApi,
+  createGroup as createGroupApi,
   deleteContact as deleteContactApi,
   getAllContact as getAllContactApi,
 } from '../../../services/apiContact';
@@ -55,4 +56,22 @@ const useDeleteContact = () => {
   return { isDeleteContact, isDeletingContact };
 };
 
-export { useCreateContact, useGetAllContact, useDeleteContact };
+const useCreateGroup = () =>{
+  const queryClient = useQueryClient();
+  const { mutate: isCreateGroup, isPending: isCreatingGroup } = useMutation({
+    mutationFn: createGroupApi,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['groups'],
+      });
+      toast.success(data.message);
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
+
+  return { isCreateGroup, isCreatingGroup };
+}
+
+export { useCreateContact, useGetAllContact, useDeleteContact, useCreateGroup };
