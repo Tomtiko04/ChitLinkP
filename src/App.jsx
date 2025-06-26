@@ -12,6 +12,7 @@ import VerificationSuccess from './pages/VerificationSuccess';
 import Signup from './pages/Signup';
 import Contacts from './pages/Contacts';
 import AddContact from './pages/AddContact';
+import AddGroup from './pages/AddGroup';
 
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
 const Finance = () => <div className="py-12 text-center">Finance Page</div>;
@@ -54,6 +55,7 @@ function App() {
           <Route path="contacts">
             <Route index element={<Contacts />} />
             <Route path='add-contact' element={<AddContact />}/>
+            <Route path='add-group' element={<AddGroup />}/>
           </Route>
           <Route path="finance" element={<Finance />} />
           <Route path="profile" element={<Profile />} />
