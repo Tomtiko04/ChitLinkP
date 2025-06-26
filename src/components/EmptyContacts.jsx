@@ -1,3 +1,5 @@
+import { Icon } from "@iconify/react";
+
 const EmptyContacts = () => {
   return (
     <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-[#C7964A] text-center max-w-sm mx-auto">

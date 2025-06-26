@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import MainLayout from './components/layout/MainLayout';
+import ConfirmDeleteModal from './components/ConfirmDeleteModal';
 
 import Dashboard from './pages/Dashboard';
 import BankAccounts from './pages/BankAccounts';
@@ -40,6 +41,7 @@ function App() {
           },
         }}
       />
+      <ConfirmDeleteModal />
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />

@@ -1,31 +1,58 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createContact as createContactApi,
+  deleteContact as deleteContactApi,
   getAllContact as getAllContactApi,
 } from '../../../services/apiContact';
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 
-const useCreateContact = () =>{
-    const {mutate:isCreateContact, isPending: isCreatingContact, error: isErrorCreatingContact} = useMutation({
-        mutationFn: createContactApi, 
-        onSuccess: (data) =>{
-            toast.success(data.message);
-        },
-        onError: (err)=>{
-            toast.error(err.response?.data?.message || 'An unexpected error occurred.');
-        }
-    })
+const useCreateContact = () => {
+  const queryClient = useQueryClient();
+  const {
+    mutate: isCreateContact,
+    isPending: isCreatingContact,
+    error: isErrorCreatingContact,
+  } = useMutation({
+    mutationFn: createContactApi,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['contacts'],
+      });
+      toast.success(data.message);
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
 
-    return { isCreateContact, isCreatingContact, isErrorCreatingContact };
-}
+  return { isCreateContact, isCreatingContact, isErrorCreatingContact };
+};
 
 const useGetAllContact = () => {
-    const {data:contacts, isPending:isGettingContacts} = useQuery({
-        queryKey: ["contacts"],
-        queryFn: getAllContactApi
-    })
+  const { data: contacts, isPending: isGettingContacts } = useQuery({
+    queryKey: ['contacts'],
+    queryFn: getAllContactApi,
+  });
 
-    return {contacts, isGettingContacts}
-}
+  return { contacts, isGettingContacts };
+};
 
-export { useCreateContact, useGetAllContact };
+const useDeleteContact = () => {
+  const queryClient = useQueryClient();
+  const { mutate: isDeleteContact, isPending: isDeletingContact } = useMutation({
+    mutationFn: deleteContactApi,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['contacts'],
+      });
+      toast.success(data.message);
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
+
+  return { isDeleteContact, isDeletingContact };
+};
+
+export { useCreateContact, useGetAllContact, useDeleteContact };
