@@ -12,4 +12,10 @@ const getAllContact = async () =>{
     return data;
 }
 
-export { createContact, getAllContact };
+const createGroup = async () =>{
+    const { data } = await apiClient.post('/merchants/contact-groups');
+
+    return {data}
+}
+
+export { createContact, getAllContact, createGroup };
