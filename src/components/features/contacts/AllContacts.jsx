@@ -30,7 +30,6 @@ const AllContacts = () => {
   const ITEMS_PER_PAGE = 10;
 
   useEffect(() => {
-    // In a real app, you would fetch this data from an API
     setContacts(generateDummyContacts(25));
   }, []);
 
@@ -60,7 +59,15 @@ const AllContacts = () => {
 
   return (
     <div className="h-full flex flex-col bg-gray-900 text-white p-4 sm:p-6">
-      <div className="flex-grow overflow-x-auto">
+      {/* Mobile Card View - Hidden on sm and up */}
+      <div className="sm:hidden flex-grow space-y-4">
+        {currentItems.map((contact) => (
+          <ContactItem key={contact.id} contact={contact} view="card" />
+        ))}
+      </div>
+
+      {/* Desktop Table View - Hidden below sm */}
+      <div className="hidden sm:block flex-grow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-700">
           <thead className="bg-gray-800">
             <tr>
@@ -86,7 +93,7 @@ const AllContacts = () => {
           </thead>
           <tbody className="bg-gray-900 divide-y divide-gray-700">
             {currentItems.map((contact) => (
-              <ContactItem key={contact.id} contact={contact} />
+              <ContactItem key={contact.id} contact={contact} view="table" />
             ))}
           </tbody>
         </table>
