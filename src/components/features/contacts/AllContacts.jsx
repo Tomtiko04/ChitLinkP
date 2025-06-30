@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Icon } from '@iconify/react';
 import useContactSelectionStore from '../../../store/contactSelectionStore';
 import ContactItem from '../../ContactItem';
 import EmptyContacts from '../../EmptyContacts';
+import SelectionActionBar from '../../SelectionActionBar';
+import { useGetAllContact } from './useContacts';
 
 // Dummy contact data generator
-const generateDummyContacts = (count) => {
-  const contacts = [];
-  for (let i = 1; i <= count; i++) {
-    contacts.push({
-      id: i,
-      name: 'Aminat Ambali',
-      email: 'AminatAmbali@gmail.com',
-      phone: '+23480974567',
-      occupation: 'Self Employed',
-      avatar: `https://i.pravatar.cc/40?u=${i}`,
-      thriftGroups: [{ id: 1, name: 'Group A' }, { id: 2, name: 'Group B' }],
-    });
-  }
-  return contacts;
-};
+// const generateDummyContacts = (count) => {
+//   const contacts = [];
+//   for (let i = 1; i <= count; i++) {
+//     contacts.push({
+//       id: i,
+//       name: 'Aminat Ambali',
+//       email: 'AminatAmbali@gmail.com',
+//       phone: '+23480974567',
+//       occupation: 'Self Employed',
+//       avatar: `https://i.pravatar.cc/40?u=${i}`,
+//       thriftGroups: [{ id: 1, name: 'Group A' }, { id: 2, name: 'Group B' }],
+//     });
+//   }
+//   return contacts;
+// };
 
 const AllContacts = () => {
-  const [contacts, setContacts] = useState([]);
+  const {contacts, isGettingContacts} = useGetAllContact();
   const [currentPage, setCurrentPage] = useState(0);
   const { selectedContactIds, selectAll, deselectAll } = useContactSelectionStore();
 
   const ITEMS_PER_PAGE = 10;
+  const isSelectionActive = selectedContactIds.length > 0;
 
-  useEffect(() => {
-    setContacts(generateDummyContacts(25));
-  }, []);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
   };
 
   const offset = currentPage * ITEMS_PER_PAGE;
-  const currentItems = contacts.slice(offset, offset + ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(contacts.length / ITEMS_PER_PAGE);
+  const currentItems = contacts?.slice(offset, offset + ITEMS_PER_PAGE);
+  const pageCount = Math.ceil(contacts?.length / ITEMS_PER_PAGE);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -49,7 +49,7 @@ const AllContacts = () => {
     }
   };
 
-  if (contacts.length === 0) {
+  if (contacts?.length === 0) {
     return (
       <div className="flex-grow flex items-center justify-center">
         <EmptyContacts />
@@ -58,15 +58,15 @@ const AllContacts = () => {
   }
 
   return (
-    <div className="h-full flex flex-col bg-gray-900 text-white p-4 sm:p-6">
-      {/* Mobile Card View - Hidden on sm and up */}
+    <div className={`h-full flex flex-col bg-gray-900 text-white p-4 sm:p-6 transition-all duration-300 ${isSelectionActive ? 'pb-24' : ''}`}>
+      {/* Mobile Card View */}
       <div className="sm:hidden flex-grow space-y-4">
-        {currentItems.map((contact) => (
+        {currentItems?.map((contact) => (
           <ContactItem key={contact.id} contact={contact} view="card" />
         ))}
       </div>
 
-      {/* Desktop Table View - Hidden below sm */}
+      {/* Desktop Table View */}
       <div className="hidden sm:block flex-grow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-700">
           <thead className="bg-gray-800">
@@ -76,7 +76,7 @@ const AllContacts = () => {
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll}
-                    checked={selectedContactIds.length === contacts.length && contacts.length > 0}
+                    checked={selectedContactIds.length === contacts?.length && contacts?.length > 0}
                     className="h-4 w-4 rounded border-gray-600 bg-gray-900 text-amber-600 focus:ring-amber-500"
                   />
                   Name
@@ -92,7 +92,7 @@ const AllContacts = () => {
             </tr>
           </thead>
           <tbody className="bg-gray-900 divide-y divide-gray-700">
-            {currentItems.map((contact) => (
+            {currentItems?.map((contact) => (
               <ContactItem key={contact.id} contact={contact} view="table" />
             ))}
           </tbody>
@@ -102,7 +102,7 @@ const AllContacts = () => {
       {/* Pagination Container */}
       <div className="flex items-center justify-between pt-4">
         <div className="text-sm text-gray-400">
-          Showing <span className="font-medium text-white">{offset + 1}</span> to <span className="font-medium text-white">{Math.min(offset + ITEMS_PER_PAGE, contacts.length)}</span> of <span className="font-medium text-white">{contacts.length}</span> results
+          Showing <span className="font-medium text-white">{offset + 1}</span> to <span className="font-medium text-white">{Math.min(offset + ITEMS_PER_PAGE, contacts?.length)}</span> of <span className="font-medium text-white">{contacts?.length}</span> results
         </div>
         <ReactPaginate
           previousLabel={<Icon icon="heroicons-outline:chevron-left" className="h-5 w-5" />}
@@ -122,6 +122,8 @@ const AllContacts = () => {
           disabledClassName={'opacity-50 cursor-not-allowed'}
         />
       </div>
+
+      <SelectionActionBar />
     </div>
   );
 };
