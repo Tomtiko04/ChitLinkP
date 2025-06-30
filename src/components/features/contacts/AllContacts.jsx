@@ -4,42 +4,21 @@ import { Icon } from '@iconify/react';
 import useContactSelectionStore from '../../../store/contactSelectionStore';
 import ContactItem from '../../ContactItem';
 import EmptyContacts from '../../EmptyContacts';
-
-// Dummy contact data generator
-const generateDummyContacts = (count) => {
-  const contacts = [];
-  for (let i = 1; i <= count; i++) {
-    contacts.push({
-      id: i,
-      name: 'Aminat Ambali',
-      email: 'AminatAmbali@gmail.com',
-      phone: '+23480974567',
-      occupation: 'Self Employed',
-      avatar: `https://i.pravatar.cc/40?u=${i}`,
-      thriftGroups: [{ id: 1, name: 'Group A' }, { id: 2, name: 'Group B' }],
-    });
-  }
-  return contacts;
-};
+import SelectionActionBar from '../../SelectionActionBar';
+import { useGetAllContact } from './useContacts';
 
 const AllContacts = () => {
-  const [contacts, setContacts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const { data, isGettingContacts: isLoading } = useGetAllContact(page);
   const { selectedContactIds, selectAll, deselectAll } = useContactSelectionStore();
 
-  const ITEMS_PER_PAGE = 10;
-
-  useEffect(() => {
-    setContacts(generateDummyContacts(25));
-  }, []);
+  const contacts = data?.data || [];
+  const pageCount = data?.last_page || 0;
+  const isSelectionActive = selectedContactIds.length > 0;
 
   const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
+    setPage(event.selected + 1);
   };
-
-  const offset = currentPage * ITEMS_PER_PAGE;
-  const currentItems = contacts.slice(offset, offset + ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(contacts.length / ITEMS_PER_PAGE);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -49,79 +28,115 @@ const AllContacts = () => {
     }
   };
 
-  if (contacts.length === 0) {
+  if (isLoading) {
     return (
-      <div className="flex-grow flex items-center justify-center">
+      <div className="flex-grow flex items-center justify-center sm:h-[80vh] h-[50vh]">
+        <Icon icon="line-md:loading-twotone-loop" className="w-12 h-12 text-amber-500" />
+      </div>
+    );
+  }
+
+  if (!isLoading && contacts.length === 0) {
+    return (
+      <div className="flex h-[50vh] flex-grow items-center justify-center sm:h-[80vh]">
         <EmptyContacts />
       </div>
     );
   }
 
   return (
-    <div className="h-full flex flex-col bg-gray-900 text-white p-4 sm:p-6">
-      {/* Mobile Card View - Hidden on sm and up */}
-      <div className="sm:hidden flex-grow space-y-4">
-        {currentItems.map((contact) => (
+    <div
+      className={`flex h-full flex-col sm:bg-[#f5f4f0] bg-[#ffffff] p-4 text-white transition-all duration-300 sm:p-0 ${isSelectionActive ? 'pb-24' : ''}`}
+    >
+      {/* Mobile Card View */}
+      <div className="flex-grow space-y-4 sm:hidden">
+        {contacts.map((contact) => (
           <ContactItem key={contact.id} contact={contact} view="card" />
         ))}
       </div>
-
-      {/* Desktop Table View - Hidden below sm */}
-      <div className="hidden sm:block flex-grow overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-800">
+      {/* Desktop Table View */}
+      <div className="hidden flex-grow overflow-x-auto sm:block">
+        <table className="min-w-full divide-y divide-[#D9D8D5]">
+          <thead className="bg-[#F4F3F0]">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-[#241505]"
+              >
                 <div className="flex items-center gap-4">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     onChange={handleSelectAll}
-                    checked={selectedContactIds.length === contacts.length && contacts.length > 0}
-                    className="h-4 w-4 rounded border-gray-600 bg-gray-900 text-amber-600 focus:ring-amber-500"
+                    checked={contacts.length > 0 && selectedContactIds.length === contacts.length}
+                    className="h-4 w-4 cursor-pointer rounded border-[#00000040]"
                   />
                   Name
                 </div>
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Email</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Phone Number</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Occupation</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Thrift Groups</th>
+              <th
+                scope="col"
+                className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-[#241505]"
+              >
+                Email
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-[#241505]"
+              >
+                Phone Number
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-[#241505]"
+              >
+                Groups
+              </th>
               <th scope="col" className="relative px-6 py-3">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
-          <tbody className="bg-gray-900 divide-y divide-gray-700">
-            {currentItems.map((contact) => (
+          <tbody className="bg-[#F4F3F0]">
+            {contacts.map((contact) => (
               <ContactItem key={contact.id} contact={contact} view="table" />
             ))}
           </tbody>
         </table>
       </div>
-
       {/* Pagination Container */}
-      <div className="flex items-center justify-between pt-4">
-        <div className="text-sm text-gray-400">
-          Showing <span className="font-medium text-white">{offset + 1}</span> to <span className="font-medium text-white">{Math.min(offset + ITEMS_PER_PAGE, contacts.length)}</span> of <span className="font-medium text-white">{contacts.length}</span> results
+      {pageCount > 1 && (
+        <div className="my-6 flex items-center justify-between rounded-lg bg-[#f5f4f0] sm:bg-[#ffffff] px-6 py-2 sm:rounded-none">
+          <div className="text-sm text-[#00000040]">
+            Showing page <span className="font-medium text-[#241505]">{data.current_page}</span> of{' '}
+            <span className="font-medium text-[#241505]">{data.last_page}</span>
+          </div>
+          <ReactPaginate
+            forcePage={page - 1}
+            previousLabel={<Icon icon="ion:chevron-back" className="h-5 w-5" />}
+            nextLabel={<Icon icon="ion:chevron-right" className="h-5 w-5" />}
+            breakLabel={'...'}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageClick}
+            containerClassName={'flex items-center space-x-1'}
+            pageClassName={
+              'w-8 h-8 flex items-center justify-center rounded-md text-sm text-[#C7C1BA] cursor-pointer'
+            }
+            pageLinkClassName={'w-full h-full flex items-center justify-center'}
+            previousClassName={
+              'w-8 h-8 flex items-center justify-center rounded-md hover:bg-[#cf983a]'
+            }
+            nextClassName={
+              'w-8 h-8 flex items-center justify-center rounded-md hover:bg-[#cf983a] cursor-pointer'
+            }
+            breakClassName={'w-8 h-8 flex items-center justify-center rounded-md'}
+            activeClassName={'bg-[#cf983a] text-white font-bold'}
+            disabledClassName={'opacity-50 cursor-not-allowed'}
+          />
         </div>
-        <ReactPaginate
-          previousLabel={<Icon icon="heroicons-outline:chevron-left" className="h-5 w-5" />}
-          nextLabel={<Icon icon="heroicons-outline:chevron-right" className="h-5 w-5" />}
-          breakLabel={'...'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
-          containerClassName={'flex items-center space-x-1'}
-          pageClassName={'w-8 h-8 flex items-center justify-center rounded-md text-sm'}
-          pageLinkClassName={'w-full h-full flex items-center justify-center'}
-          previousClassName={'w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-700'}
-          nextClassName={'w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-700'}
-          breakClassName={'w-8 h-8 flex items-center justify-center rounded-md'}
-          activeClassName={'bg-amber-600 text-white font-bold'}
-          disabledClassName={'opacity-50 cursor-not-allowed'}
-        />
-      </div>
+      )}
+      <SelectionActionBar />
     </div>
   );
 };

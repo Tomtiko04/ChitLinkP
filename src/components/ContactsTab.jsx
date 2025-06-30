@@ -11,7 +11,7 @@ const ContactsTab = () => {
 
   return (
     <div className="h-full flex flex-col pt-16">
-      <div className="bg-[#EBEAE7] px-4 sm:py-4 py-0 sm:px-6 lg:px-8">
+      <div className="bg-[#EBEAE7] px-4 sm:py-2 py-0 sm:px-6 lg:px-8">
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-end sm:justify-between">
           {/* Left Section: Tabs and Add Button */}
           <div className="flex items-end space-x-4">

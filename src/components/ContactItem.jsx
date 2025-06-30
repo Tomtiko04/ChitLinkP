@@ -16,20 +16,24 @@ const ContactItem = ({ contact, view = 'table' }) => {
       type="checkbox"
       checked={isSelected}
       onChange={() => toggleContact(contact.id)}
-      className="h-4 w-4 rounded border-gray-600 bg-gray-900 text-amber-600 focus:ring-amber-500 cursor-pointer"
+      className="h-4 w-4 rounded border-[#00000040] cursor-pointer"
     />
   );
 
   const sharedAvatarAndName = (
     <div className="flex items-center gap-3">
-      <img className="h-8 w-8 rounded-full" src={contact.avatar || `https://i.pravatar.cc/40?u=${contact.id}`} alt="Avatar" />
-      <span className="font-medium text-amber-500 whitespace-nowrap">{contact.name}</span>
+      <img
+        className="h-10 w-10 rounded-full object-cover"
+        src={contact.profile_image || `https://i.pravatar.cc/40?u=${contact.id}`}
+        alt="Avatar Image"
+      />
+      <span className="font-semibold whitespace-nowrap text-[#241505]">{contact.name}</span>
     </div>
   );
 
   const sharedThriftGroups = (
     <div className="flex items-center -space-x-2">
-      {contact.thriftGroups?.slice(0, 4).map((group, index) => (
+      {contact.groups?.slice(0, 4).map((group, index) => (
         <div
           key={group.id || index}
           className={`h-6 w-6 rounded-full border-2 border-gray-800 ${getGroupColor(index)}`}
@@ -39,16 +43,18 @@ const ContactItem = ({ contact, view = 'table' }) => {
     </div>
   );
 
-  const sharedDeleteButton = (
-    <button className="text-gray-400 hover:text-red-500 transition-colors">
-      <Icon icon="solar:trash-bin-trash-bold" className="w-5 h-5" />
+  const sharedDeleteButton = contact.deletable ? (
+    <button className="cursor-pointer text-[#C35549] transition-colors hover:text-red-500">
+      <Icon icon="mingcute:delete-2-fill" className="h-5 w-5" />
     </button>
-  );
+  ) : null;
 
   if (view === 'card') {
     return (
-      <div className={`p-4 rounded-lg border border-gray-700 bg-gray-800 text-sm text-gray-300 ${isSelected ? 'bg-gray-900 ring-2 ring-amber-500' : ''}`}>
-        <div className="flex items-center justify-between gap-4 mb-4">
+      <div
+        className={`rounded-lg bg-[#f5f4f0] p-4 text-sm text-[#62340A] ${isSelected ? 'bg-[#f5f4f0] ring-2 ring-[#cf983a]' : ''}`}
+      >
+        <div className="mb-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {sharedCheckbox}
             {sharedAvatarAndName}
@@ -56,11 +62,14 @@ const ContactItem = ({ contact, view = 'table' }) => {
           {sharedDeleteButton}
         </div>
         <div className="space-y-2 pl-8">
-          <p><span className="font-semibold text-gray-400">Email:</span> {contact.email}</p>
-          <p><span className="font-semibold text-gray-400">Phone:</span> {contact.phone}</p>
-          <p><span className="font-semibold text-gray-400">Occupation:</span> {contact.occupation}</p>
+          <p>
+            <span className="font-semibold text-[#241505]">Email:</span> {contact.email}
+          </p>
+          <p>
+            <span className="font-semibold text-[#241505]">Phone:</span> {contact.phone_number}
+          </p>
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-gray-400">Groups:</span>
+            <span className="font-semibold text-[#241505]">Groups:</span>
             {sharedThriftGroups}
           </div>
         </div>
@@ -70,7 +79,7 @@ const ContactItem = ({ contact, view = 'table' }) => {
 
   // Default to table view
   return (
-    <tr className={`border-b border-gray-700 text-sm text-gray-300 hover:bg-gray-800 ${isSelected ? 'bg-gray-900' : ''}`}>
+    <tr className={`text-xs text-[#62340A] font-normal hover:cursor-pointer hover:bg-[#FFFAF1] ${isSelected ? 'bg-[#FFFAF1]' : ''}`}>
       <td className="px-6 py-3 whitespace-nowrap">
         <div className="flex items-center gap-4">
           {sharedCheckbox}
@@ -78,10 +87,9 @@ const ContactItem = ({ contact, view = 'table' }) => {
         </div>
       </td>
       <td className="px-6 py-3 whitespace-nowrap">{contact.email}</td>
-      <td className="px-6 py-3 whitespace-nowrap">{contact.phone}</td>
-      <td className="px-6 py-3 whitespace-nowrap">{contact.occupation}</td>
+      <td className="px-6 py-3 whitespace-nowrap">{contact.phone_number}</td>
       <td className="px-6 py-3 whitespace-nowrap">{sharedThriftGroups}</td>
-      <td className="px-6 py-3 whitespace-nowrap text-right">{sharedDeleteButton}</td>
+      <td className="px-6 py-3 text-right whitespace-nowrap">{sharedDeleteButton}</td>
     </tr>
   );
 };

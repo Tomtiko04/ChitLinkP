@@ -30,13 +30,13 @@ const useCreateContact = () => {
   return { isCreateContact, isCreatingContact, isErrorCreatingContact };
 };
 
-const useGetAllContact = () => {
-  const { data: contacts, isPending: isGettingContacts } = useQuery({
-    queryKey: ['contacts'],
-    queryFn: getAllContactApi,
+const useGetAllContact = (page) => {
+  const { data, isPending: isGettingContacts } = useQuery({
+    queryKey: ['contacts', page],
+    queryFn: () => getAllContactApi(page),
   });
 
-  return { contacts, isGettingContacts };
+  return { data, isGettingContacts };
 };
 
 const useDeleteContact = () => {
