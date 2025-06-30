@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetAllContact } from './useContacts';
 import ContactSkeleton from '../../ContactSkeleton';
 import ContactItem from '../../ContactItem';
@@ -6,10 +6,11 @@ import EmptyContacts from '../../EmptyContacts';
 
 
 export default function AllContacts() {
-    const {isGettingContacts, contacts} = useGetAllContact();
+    // const {isGettingContacts, contacts} = useGetAllContact();
+    const [contacts, setContact] = useState([])
   return (
     <div className="bg-white">
-      {isGettingContacts ? (
+      {false ? (
         <div>
           {Array.from({ length: 8 }).map((_, index) => (
             <ContactSkeleton key={index} />
@@ -22,7 +23,9 @@ export default function AllContacts() {
           ))}
         </div>
       ) : (
-        <EmptyContacts />
+        <div className="flex flex-grow items-center justify-center sm:h-[80vh] h-[50vh]">
+          <EmptyContacts />
+        </div>
       )}
     </div>
   );
