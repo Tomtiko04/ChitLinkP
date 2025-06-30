@@ -24,4 +24,10 @@ const createGroup = async (groupData) =>{
     return {data}
 }
 
-export { createContact, getAllContact, deleteContact, createGroup };
+const getAllGroups = async ()=>{
+    const { data } = await apiClient.get('/merchants/contact-groups');
+
+    return data;
+}
+
+export { createContact, getAllContact, deleteContact, createGroup, getAllGroups };

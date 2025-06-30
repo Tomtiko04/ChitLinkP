@@ -4,6 +4,7 @@ import {
   createGroup as createGroupApi,
   deleteContact as deleteContactApi,
   getAllContact as getAllContactApi,
+  getAllGroups as getAllGroupsApi,
 } from '../../../services/apiContact';
 import toast from 'react-hot-toast';
 
@@ -74,4 +75,13 @@ const useCreateGroup = () =>{
   return { isCreateGroup, isCreatingGroup };
 }
 
-export { useCreateContact, useGetAllContact, useDeleteContact, useCreateGroup };
+const useGetAllGroups = () =>{
+  const {data: isGetAllGroups, isPending: isGettingAllGroups} = useQuery({
+    queryKey: ["groups"],
+    queryFn: getAllGroupsApi
+  })
+
+  return {isGetAllGroups, isGettingAllGroups}
+}
+
+export { useCreateContact, useGetAllContact, useDeleteContact, useCreateGroup, useGetAllGroups };
