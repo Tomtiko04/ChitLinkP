@@ -6,11 +6,10 @@ import EmptyContacts from '../../EmptyContacts';
 
 
 export default function AllContacts() {
-    // const {isGettingContacts, contacts} = useGetAllContact();
-    const [contacts, setContact] = useState([])
+    const {isGettingContacts, contacts} = useGetAllContact();
   return (
     <div className="bg-white">
-      {false ? (
+      {isGettingContacts ? (
         <div>
           {Array.from({ length: 8 }).map((_, index) => (
             <ContactSkeleton key={index} />
@@ -23,7 +22,7 @@ export default function AllContacts() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-grow items-center justify-center sm:h-[80vh] h-[50vh]">
+        <div className="flex h-[50vh] flex-grow items-center justify-center sm:h-[80vh]">
           <EmptyContacts />
         </div>
       )}
