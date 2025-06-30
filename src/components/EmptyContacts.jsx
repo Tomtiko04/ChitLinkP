@@ -2,10 +2,10 @@ import { Icon } from "@iconify/react";
 
 const EmptyContacts = () => {
   return (
-    <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-[#C7964A] text-center max-w-sm mx-auto">
-      <p className="text-gray-600 text-xl mb-6">You have no contacts added yet</p>
-      <button className="bg-[#D4A056] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-opacity-90 transition-colors flex items-center space-x-2 mx-auto">
-        <Icon icon="solar:user-plus-bold" className="w-6 h-6" />
+    <div className="mx-auto w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-md sm:p-10">
+      <p className="mb-6 text-base text-[#6C4119] sm:text-lg">You have no contacts added yet</p>
+      <button className="mx-auto flex cursor-pointer items-center space-x-2 rounded-lg bg-[#CE973A] px-5 py-3 font-bold text-white">
+        <Icon icon="solar:user-plus-bold" className="h-6 w-6 sm:h-7 sm:w-7" />
         <span>Add Contact</span>
       </button>
     </div>

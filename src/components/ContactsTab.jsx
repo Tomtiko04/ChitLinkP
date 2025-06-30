@@ -1,51 +1,61 @@
+import React from 'react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import useTabStore from '../store/useTabStore';
 
 const ContactsTab = () => {
-  const [activeTab, setActiveTab] = useState('All');
-  const tabs = ['All', 'Groups', 'Frequent Members'];
+  const { activeTab, setActiveTab } = useTabStore();
+  const tabs = [
+    { id: 'allContacts', label: 'All' },
+    { id: 'allGroups', label: 'Groups' },
+  ];
 
   return (
-    <div className="pt-16.5">
-      <div className="flex flex-col items-center justify-between bg-[#FDFBF7] sm:flex-row px-4 lg:px-8">
-        {/* Left Section: Tabs and Add Button */}
-        <div className="mb-4 flex items-center space-x-4 sm:mb-0">
-          <div className="flex space-x-4 text-gray-500">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`pb-1 transition-colors duration-300 ${
-                  activeTab === tab
-                    ? 'border-b-2 border-[#D4A056] font-bold text-[#D4A056]'
-                    : 'hover:text-gray-700'
-                }`}
-              >
-                {tab === 'All' ? 'All (453)' : tab}
-              </button>
-            ))}
+    <div className="h-full flex flex-col pt-16">
+      <div className="bg-[#EBEAE7] px-4 sm:py-4 py-0 sm:px-6 lg:px-8">
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-end sm:justify-between">
+          {/* Left Section: Tabs and Add Button */}
+          <div className="flex items-end space-x-4">
+            <div className="flex space-x-4 sm:space-x-8 text-[#2415054A]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`whitespace-nowrap cursor-pointer border-b-4 py-2 transition-colors duration-300 focus:outline-none ${
+                    activeTab === tab.id
+                      ? 'border-[#CE973A] font-extrabold text-[#CE973A]'
+                      : 'border-transparent font-semibold text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <button className="rounded-lg bg-[#F5F4F1] p-3 shadow-sm cursor-pointer">
+              <Icon icon="ic:round-plus" className="text-[#C59139]" />
+            </button>
           </div>
-          <button className="rounded-lg bg-white p-2 shadow-sm">
-            <Icon icon="ic:round-plus" className="text-[#D4A056]" />
-          </button>
-        </div>
 
-        {/* Right Section: Search and Filter */}
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search"
-              className="rounded-lg bg-white p-2 pr-8 shadow-sm focus:outline-none"
-            />
-            <Icon
-              icon="ic:round-search"
-              className="absolute top-1/2 right-2 -translate-y-1/2 text-gray-400"
-            />
+          {/* Right Section: Search and Filter */}
+          <div className="mt-4 flex items-center space-x-4 sm:mt-0">
+            <div className="relative flex-grow sm:flex-grow-0">
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-full rounded-lg bg-white p-2 pr-8 text-[#6C4119] shadow-sm placeholder:text-[#62340A4D] focus:outline-none"
+              />
+              <Icon
+                icon="iconamoon:search"
+                fontSize={20}
+                className="absolute top-1/2 right-2 -translate-y-1/2 text-[#CE973A]"
+              />
+            </div>
+            <button className="flex-shrink-0 rounded-lg bg-[#CE973A] p-2 shadow-sm">
+              <Icon icon="solar:user-plus-bold" className="text-white" />
+            </button>
+            <button className="flex-shrink-0 rounded-lg bg-[#CE973A] p-2 shadow-sm">
+              <Icon icon="solar:user-plus-bold" className="text-white" />
+            </button>
           </div>
-          <button className="rounded-lg bg-[#D4A056] p-2 shadow-sm">
-            <Icon icon="solar:user-plus-bold" className="text-white" />
-          </button>
         </div>
       </div>
     </div>

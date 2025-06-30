@@ -18,10 +18,16 @@ const deleteContact = async (details)=>{
     return data;
 }
 
-const createGroup = async () =>{
-    const { data } = await apiClient.post('/merchants/contact-groups');
+const createGroup = async (groupData) =>{
+    const { data } = await apiClient.post('/merchants/contact-groups', groupData);
 
     return {data}
 }
 
-export { createContact, getAllContact, deleteContact, createGroup };
+const getAllGroups = async ()=>{
+    const { data } = await apiClient.get('/merchants/contact-groups');
+
+    return data;
+}
+
+export { createContact, getAllContact, deleteContact, createGroup, getAllGroups };
