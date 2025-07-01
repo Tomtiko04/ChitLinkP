@@ -1,8 +1,10 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import useTabStore from '../store/useTabStore';
+import { useNavigate } from 'react-router-dom';
 
 const ContactsTab = () => {
+  const navigate = useNavigate();
   const { activeTab, setActiveTab } = useTabStore();
   const tabs = [
     { id: 'allContacts', label: 'All' },
@@ -52,7 +54,7 @@ const ContactsTab = () => {
             <button className="flex-shrink-0 rounded-lg bg-[#CE973A] p-2 shadow-sm">
               <Icon icon="solar:user-plus-bold" className="text-white" />
             </button>
-            <button className="flex-shrink-0 rounded-lg bg-[#CE973A] p-2 shadow-sm">
+            <button onClick={() => navigate('add-contact')} className="flex-shrink-0 cursor-pointer rounded-lg bg-[#CE973A] p-2 shadow-sm">
               <Icon icon="solar:user-plus-bold" className="text-white" />
             </button>
           </div>

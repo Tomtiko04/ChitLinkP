@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useCreateContact } from '../components/features/contacts/useContacts';
+import { Icon } from '@iconify/react';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -67,20 +68,20 @@ const AddContact = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white p-4">
-      <div className="w-full max-w-4xl rounded-lg bg-white p-8 shadow-lg">
-        <h1 className="mb-8 border-b border-gray-200 pb-4 text-3xl font-bold text-gray-800">
+    <div className="flex min-h-screen items-center justify-center px-4 pt-20 lg:px-8">
+      <div className="mx-auto w-full max-w-4xl rounded-[22px] bg-white pb-8">
+        <h1 className="mb-8 border-b border-[#E6DFD8] px-6 pt-3 pb-4 text-xl font-bold text-[#22180E] sm:px-11 sm:text-2xl">
           Add Contact
         </h1>
-        <div className="mx-auto max-w-md">
+        <div className="mx-auto max-w-sm px-2 sm:px-0">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="mb-6 flex justify-center">
+            <div className="flex justify-center">
               <div className="relative">
-                <div className="h-36 w-36 rounded-full bg-gradient-to-br from-yellow-200 via-amber-400 to-yellow-300 p-1">
+                <div className="h-24 w-24 rounded-full shadow-sm sm:h-26 sm:w-26">
                   <img
                     src={profileImage}
                     alt="Profile"
-                    className="h-full w-full rounded-full border-4 border-white object-cover"
+                    className="h-full w-full rounded-full border-2 border-white object-cover"
                   />
                 </div>
                 <input
@@ -93,69 +94,71 @@ const AddContact = () => {
                 <button
                   type="button"
                   onClick={handleEditClick}
-                  className="absolute right-2 bottom-2 transform rounded-full bg-amber-500 p-2 text-white transition-transform duration-200 ease-in-out hover:scale-110 hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
+                  className="absolute right-1 bottom-1 rounded-full bg-white p-2 text-white hover:scale-110 hover:bg-[#C59139] focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
                   aria-label="Edit profile picture"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                    <path
-                      fillRule="evenodd"
-                      d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Icon
+                    icon="carbon:edit"
+                    fontSize={24}
+                    className="text-[#C59139] hover:text-white"
+                  />
                 </button>
               </div>
             </div>
+
             <div>
-              <label htmlFor="name" className="mb-1 block text-sm font-semibold text-gray-600">
+              <label htmlFor="name" className="mb-1 block text-sm font-semibold text-[#62340A]">
                 Contact's Name
               </label>
               <input
                 type="text"
                 id="name"
                 {...register('name')}
-                className={`mt-1 block w-full border bg-white px-4 py-3 ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-amber-500 focus:ring-amber-500 focus:outline-none sm:text-sm`}
+                className={`mt-2 block w-full rounded-lg border bg-transparent px-4 py-3 placeholder-[#62340A4D] focus:border-[#C59139] focus:ring-[#C59139] focus:outline-none sm:text-sm ${
+                  errors.name ? 'border-red-500' : 'border-[#EEEBE7]'
+                }`}
                 placeholder="*******"
               />
               {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
             </div>
+
             <div>
-              <label htmlFor="email" className="mb-1 block text-sm font-semibold text-gray-600">
+              <label htmlFor="email" className="mb-1 block text-sm font-semibold text-[#62340A]">
                 Contact's Email
               </label>
               <input
                 type="email"
                 id="email"
                 {...register('email')}
-                className={`mt-1 block w-full border bg-white px-4 py-3 ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-amber-500 focus:ring-amber-500 focus:outline-none sm:text-sm`}
+                className={`mt-2 block w-full rounded-lg border bg-transparent px-4 py-3 placeholder-[#62340A4D] focus:border-[#C59139] focus:ring-[#C59139] focus:outline-none sm:text-sm ${
+                  errors.email ? 'border-red-500' : 'border-[#EEEBE7]'
+                }`}
                 placeholder="sample@gmail.com"
               />
               {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
             </div>
+
             <div>
-              <label htmlFor="phone" className="mb-1 block text-sm font-semibold text-gray-600">
+              <label htmlFor="phone" className="mb-1 block text-sm font-semibold text-[#62340A]">
                 Contact's Number
               </label>
               <input
                 type="tel"
                 id="phone"
                 {...register('phone')}
-                className={`mt-1 block w-full border bg-white px-4 py-3 ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md placeholder-gray-400 shadow-sm focus:border-amber-500 focus:ring-amber-500 focus:outline-none sm:text-sm`}
+                className={`mt-2 block w-full rounded-lg border bg-transparent px-4 py-3 placeholder-[#62340A4D] focus:border-[#C59139] focus:ring-[#C59139] focus:outline-none sm:text-sm ${
+                  errors.phone ? 'border-red-500' : 'border-[#EEEBE7]'
+                }`}
                 placeholder="000-000-000-0000"
               />
               {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
             </div>
-            <div className="pt-4">
+
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isCreatingContact}
-                className="flex w-full justify-center rounded-md border border-transparent bg-amber-500 px-4 py-3 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out hover:bg-amber-600 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
+                className="w-full rounded-xl bg-[#C59139] px-4 py-3 text-sm font-bold text-white transition duration-150 hover:bg-[#C59139]/90 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none sm:text-lg"
               >
                 Save Contact
               </button>
