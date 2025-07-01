@@ -21,33 +21,33 @@ const SelectionActionBar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 shadow-lg z-50 animate-in slide-in-from-bottom duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <div className="animate-in slide-in-from-bottom fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white shadow-lg duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={deselectAll}
-              className="p-2 rounded-full text-gray-400 hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white transition-all"
+              className="rounded-full p-2 cursor-pointer text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-800 focus:ring-2 focus:ring-[#cf983a] focus:ring-offset-2 focus:outline-none"
               aria-label="Deselect all"
             >
               <Icon icon="heroicons-outline:x" className="h-6 w-6" />
             </button>
-            <p className="font-medium text-white">{selectedCount} selected</p>
+            <p className="font-medium text-[#241505]">{selectedCount} selected</p>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={handleAddToGroup}
-              className="flex items-center gap-2 px-3 py-2 sm:px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-amber-500 transition-all"
+              className="flex cursor-pointer items-center gap-2 rounded-md  bg-[#cf983a] px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#cf983a]/90 sm:px-4"
             >
               <Icon icon="heroicons-outline:plus-sm" className="h-5 w-5" />
-              <span className="hidden sm:inline">Add to Group</span>
+              <span className="hidden sm:inline">Add to Thrift Group</span>
             </button>
             <button
               onClick={handleDelete}
-              className="flex items-center gap-2 px-3 py-2 sm:px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-500 transition-all"
+              className="flex cursor-pointer items-center gap-2 rounded-md bg-[#C35549] px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#C35549]/90 sm:px-4"
             >
               <Icon icon="solar:trash-bin-trash-bold" className="h-5 w-5" />
-              <span className="hidden sm:inline">Delete</span>
+              <span className="hidden sm:inline">Delete Contacts</span>
             </button>
           </div>
         </div>
