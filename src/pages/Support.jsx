@@ -349,7 +349,7 @@ export default function Support() {
 
   return (
     <div className="px-4 pt-20 lg:px-8">
-      <div className="rounded-[22px">
+      <div>
         <div className="mx-auto max-w-7xl !rounded-[22px] bg-white">
           <div className="flex h-auto flex-col px-1 sm:px-4 lg:flex-row">
             {/* Sidebar */}
