@@ -160,7 +160,7 @@ const AddContact = () => {
                 disabled={isCreatingContact}
                 className="w-full rounded-xl bg-[#C59139] px-4 py-3 text-sm font-bold text-white transition duration-150 hover:bg-[#C59139]/90 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none sm:text-lg"
               >
-                Save Contact
+               {isCreatingContact ? 'Creating...' : 'Save Contact'}
               </button>
             </div>
           </form>
