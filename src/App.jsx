@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import MainLayout from './components/layout/MainLayout';
 import ConfirmDeleteModal from './components/ConfirmDeleteModal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import Dashboard from './pages/Dashboard';
 import BankAccounts from './pages/BankAccounts';
@@ -49,19 +50,21 @@ function App() {
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/verify" element={<VerifyAccount />} />
         <Route path="/auth/verify/success" element={<VerificationSuccess />} />
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="bank-accounts" element={<BankAccounts />} />
-          <Route path="savings" element={<Savings />} />
-          <Route path="contacts">
-            <Route index element={<Contacts />} />
-            <Route path='add-contact' element={<AddContact />}/>
-            <Route path='add-group' element={<AddGroup />}/>
-            <Route path='groups' element={<AllGroups />}/>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="bank-accounts" element={<BankAccounts />} />
+            <Route path="savings" element={<Savings />} />
+            <Route path="contacts">
+              <Route index element={<Contacts />} />
+              <Route path='add-contact' element={<AddContact />}/>
+              <Route path='add-group' element={<AddGroup />}/>
+              <Route path='groups' element={<AllGroups />}/>
+            </Route>
+            <Route path="finance" element={<Finance />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="support/*" element={<Support />} />
           </Route>
-          <Route path="finance" element={<Finance />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="support/*" element={<Support />} />
         </Route>
       </Routes>
     </Router>

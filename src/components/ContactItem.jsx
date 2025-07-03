@@ -11,6 +11,8 @@ const ContactItem = ({ contact, view = 'table' }) => {
   const { selectedContactIds, toggleContact } = useContactSelectionStore();
   const isSelected = selectedContactIds.includes(contact.id);
 
+  const defaultAvatar = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2EwYTVhZSI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MxLjY2IDAgMyAxLjM0IDMgMyAwIDEuNjYtMS4zNCAzLTMgMy0xLjY2IDAtMy0xLjM0LTMtMyAwLTEuNjYgMS4zNC0zIDMtM3ptMCAxNC4yYy0yLjUgMC00LjcxLTEuMjgtNi4yMi0zLjIyLjc4LTEuNTUgMy4xLTEuNzggNS4yMi0xLjc4czQuNDQuMjMgNS4yMiAxLjc4Yy0xLjUxIDEuOTQtMy43MiAzLjIyLTYuMjIgMy4yMnoiLz48L3N2Zz4=`;
+
   const sharedCheckbox = (
     <input
       type="checkbox"
@@ -24,7 +26,7 @@ const ContactItem = ({ contact, view = 'table' }) => {
     <div className="flex items-center gap-3">
       <img
         className="h-10 w-10 rounded-full object-cover"
-        src={contact.profile_image || `https://i.pravatar.cc/40?u=${contact.id}`}
+        src={contact.profile_image || defaultAvatar}
         alt="Avatar Image"
       />
       <span className="font-semibold whitespace-nowrap text-[#241505]">{contact.name}</span>

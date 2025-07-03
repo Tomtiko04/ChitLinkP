@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from "../assets/images/Logo.png";
 import LogoutModal from './LogoutModal';
+import useAuthStore from '../store/authStore';
 
 const navItems = [
   {
@@ -206,6 +207,7 @@ const bottomItems = [
 
 export default function Sidebar({ isOpen, onClose }) {
   const [logoutOpen, setLogoutOpen] = useState(false);
+  const {logout} = useAuthStore();
   return (
     <>
       <aside
@@ -295,8 +297,8 @@ export default function Sidebar({ isOpen, onClose }) {
         open={logoutOpen}
         onClose={() => setLogoutOpen(false)}
         onConfirm={() => {
+          logout();
           setLogoutOpen(false);
-          // Place your logout logic here (e.g., redirect, clear auth, etc.)
         }}
       />
     </>

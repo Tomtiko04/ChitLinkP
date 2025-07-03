@@ -5,7 +5,7 @@ import QuickLinks from '../components/QuickLinks';
 import BalanceGraphCard from '../components/BalanceGraphCard';
 import OngoingSavings from '../components/OngoingSavings';
 import RecentTransactions from '../components/RecentTransactions';
-import { Icon } from '@iconify/react';
+import useAuthStore from '../store/authStore';
 
 const statCards = [
   {
@@ -31,12 +31,14 @@ const statCards = [
 ];
 
 export default function Dashboard() {
+  const {user} = useAuthStore();
+  console.log(user);
   return (
     <div className="px-4 pt-20 lg:px-8">
       {' '}
       <div className="pb-10">
         {/* User greeting */}
-        <h1 className="text-xl font-medium text-[#22180E]">Hello, marriam</h1>
+        <h1 className="text-xl font-medium text-[#22180E]">Hello, {user.business_name}</h1>
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
           <div className="sm:col-span-2 lg:col-span-3">
             <BalanceCard />
