@@ -6,6 +6,8 @@ import {
   deleteContact as deleteContactApi,
   getAllContact as getAllContactApi,
   getAllGroups as getAllGroupsApi,
+  importContacts,
+  getContacts,
 } from '../../../services/apiContact';
 import toast from 'react-hot-toast';
 
@@ -31,7 +33,7 @@ const useCreateContact = () => {
   return { isCreateContact, isCreatingContact, isErrorCreatingContact };
 };
 
-const useCreateBulkContactImport = () =>{
+const useCreateBulkContactImport = () => {
   const { mutate: isImport, isPending: isImporting } = useMutation({
     mutationFn: bulkContactImportApi,
     onSuccess: (data) => {
@@ -42,8 +44,8 @@ const useCreateBulkContactImport = () =>{
     },
   });
 
-  return {isImport, isImporting}
-}
+  return { isImport, isImporting };
+};
 
 const useGetAllContact = (page) => {
   const { data, isPending: isGettingContacts } = useQuery({
@@ -72,7 +74,7 @@ const useDeleteContact = () => {
   return { isDeleteContact, isDeletingContact };
 };
 
-const useCreateGroup = () =>{
+const useCreateGroup = () => {
   const queryClient = useQueryClient();
   const { mutate: isCreateGroup, isPending: isCreatingGroup } = useMutation({
     mutationFn: createGroupApi,
@@ -88,16 +90,38 @@ const useCreateGroup = () =>{
   });
 
   return { isCreateGroup, isCreatingGroup };
-}
+};
 
-const useGetAllGroups = () =>{
-  const {data: isGetAllGroups, isPending: isGettingAllGroups} = useQuery({
-    queryKey: ["groups"],
-    queryFn: getAllGroupsApi
-  })
+const useGetAllGroups = () => {
+  const { data: isGetAllGroups, isPending: isGettingAllGroups } = useQuery({
+    queryKey: ['groups'],
+    queryFn: getAllGroupsApi,
+  });
 
-  return {isGetAllGroups, isGettingAllGroups}
-}
+  return { isGetAllGroups, isGettingAllGroups };
+};
+
+const useGetContacts = (params) => {
+  return useQuery({
+    queryKey: ['contacts', params],
+    queryFn: () => getContacts(params),
+  });
+};
+
+const useImportContacts = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: importContacts,
+    onSuccess: () => {
+      toast.success('Contacts imported successfully!');
+      queryClient.invalidateQueries(['contacts']);
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || 'An error occurred while importing contacts.');
+    },
+  });
+};
 
 export {
   useCreateContact,
@@ -106,4 +130,6 @@ export {
   useCreateGroup,
   useGetAllGroups,
   useCreateBulkContactImport,
+  useGetContacts,
+  useImportContacts,
 };
