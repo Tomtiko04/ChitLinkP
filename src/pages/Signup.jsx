@@ -58,7 +58,7 @@ const Signup = () => {
       user_type: 'merchant',
       business_name: data.companyName,
       email: data.emailOrPhone,
-      phone_number: '08023620892',
+      // phone_number: '08023620892',
       reg_number: data.regNumber,
       address: data.address,
       cac_certificate: data.cacCertificate[0],

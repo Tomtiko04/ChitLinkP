@@ -55,7 +55,7 @@ const ContactsTab = () => {
               <Icon icon="mdi:import" />
               <span>Import Contacts</span>
             </Link>
-            <Link to="/add-contact" className="flex-shrink-0 cursor-pointer rounded-lg bg-[#CE973A] p-2 shadow-sm">
+            <Link to="add-contact" className="flex-shrink-0 cursor-pointer rounded-lg bg-[#CE973A] p-2 shadow-sm">
               <Icon icon="solar:user-plus-bold" className="text-white" />
             </Link>
           </div>
