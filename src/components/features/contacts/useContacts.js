@@ -7,7 +7,7 @@ import {
   getAllContact as getAllContactApi,
   getAllGroups as getAllGroupsApi,
   importContacts,
-  getContacts
+  getContacts,
 } from '../../../services/apiContact';
 import toast from 'react-hot-toast';
 
@@ -33,7 +33,7 @@ const useCreateContact = () => {
   return { isCreateContact, isCreatingContact, isErrorCreatingContact };
 };
 
-const useCreateBulkContactImport = () =>{
+const useCreateBulkContactImport = () => {
   const { mutate: isImport, isPending: isImporting } = useMutation({
     mutationFn: bulkContactImportApi,
     onSuccess: (data) => {
@@ -44,8 +44,8 @@ const useCreateBulkContactImport = () =>{
     },
   });
 
-  return {isImport, isImporting}
-}
+  return { isImport, isImporting };
+};
 
 const useGetAllContact = (page) => {
   const { data, isPending: isGettingContacts } = useQuery({
@@ -74,7 +74,7 @@ const useDeleteContact = () => {
   return { isDeleteContact, isDeletingContact };
 };
 
-const useCreateGroup = () =>{
+const useCreateGroup = () => {
   const queryClient = useQueryClient();
   const { mutate: isCreateGroup, isPending: isCreatingGroup } = useMutation({
     mutationFn: createGroupApi,
@@ -90,25 +90,25 @@ const useCreateGroup = () =>{
   });
 
   return { isCreateGroup, isCreatingGroup };
-}
+};
 
-const useGetAllGroups = () =>{
-  const {data: isGetAllGroups, isPending: isGettingAllGroups} = useQuery({
-    queryKey: ["groups"],
-    queryFn: getAllGroupsApi
-  })
+const useGetAllGroups = () => {
+  const { data: isGetAllGroups, isPending: isGettingAllGroups } = useQuery({
+    queryKey: ['groups'],
+    queryFn: getAllGroupsApi,
+  });
 
-  return {isGetAllGroups, isGettingAllGroups}
-}
+  return { isGetAllGroups, isGettingAllGroups };
+};
 
-export const useGetContacts = (params) => {
+const useGetContacts = (params) => {
   return useQuery({
     queryKey: ['contacts', params],
     queryFn: () => getContacts(params),
   });
 };
 
-export const useImportContacts = () => {
+const useImportContacts = () => {
   const queryClient = useQueryClient();
 
   return useMutation({

@@ -31,12 +31,12 @@ const getAllGroups = async () => {
     return data;
 };
 
-export const getContacts = async (params) => {
+const getContacts = async (params) => {
   const response = await apiClient.get("/contacts", { params });
   return response.data;
 };
 
-export const importContacts = async (file) => {
+ const importContacts = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
 
