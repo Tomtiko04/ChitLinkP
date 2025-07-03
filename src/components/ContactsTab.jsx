@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import useTabStore from '../store/useTabStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const ContactsTab = () => {
   const navigate = useNavigate();
@@ -51,12 +51,13 @@ const ContactsTab = () => {
                 className="absolute top-1/2 right-2 -translate-y-1/2 text-[#CE973A]"
               />
             </div>
-            <button className="flex-shrink-0 rounded-lg bg-[#CE973A] p-2 shadow-sm">
+            <Link to="import-contacts" className="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-white bg-[#CE973A] rounded-lg hover:bg-[#CE973A] shadow-sm">
+              <Icon icon="mdi:import" />
+              <span>Import Contacts</span>
+            </Link>
+            <Link to="/add-contact" className="flex-shrink-0 cursor-pointer rounded-lg bg-[#CE973A] p-2 shadow-sm">
               <Icon icon="solar:user-plus-bold" className="text-white" />
-            </button>
-            <button onClick={() => navigate('add-contact')} className="flex-shrink-0 cursor-pointer rounded-lg bg-[#CE973A] p-2 shadow-sm">
-              <Icon icon="solar:user-plus-bold" className="text-white" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>

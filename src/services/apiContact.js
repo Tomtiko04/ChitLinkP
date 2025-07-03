@@ -5,6 +5,12 @@ const createContact = async (contactData) => {
     return data;
 };
 
+const bulkContactImport = async (file)=>{
+    const { data } = await apiClient.post('/merchants/contacts/import', file);
+
+    return data;
+}
+
 const getAllContact = async (page = 1) => {
     const { data } = await apiClient.get(`/merchants/contacts?page=${page}`);
     return data;
@@ -25,4 +31,11 @@ const getAllGroups = async () => {
     return data;
 };
 
-export  {createContact, getAllContact, deleteContact, createGroup, getAllGroups}
+export {
+  createContact,
+  getAllContact,
+  deleteContact,
+  createGroup,
+  getAllGroups,
+  bulkContactImport,
+};

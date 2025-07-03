@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  bulkContactImport as bulkContactImportApi,
   createContact as createContactApi,
   createGroup as createGroupApi,
   deleteContact as deleteContactApi,
@@ -29,6 +30,20 @@ const useCreateContact = () => {
 
   return { isCreateContact, isCreatingContact, isErrorCreatingContact };
 };
+
+const useCreateBulkContactImport = () =>{
+  const { mutate: isImport, isPending: isImporting } = useMutation({
+    mutationFn: bulkContactImportApi,
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || 'An unexpected error occurred.');
+    },
+  });
+
+  return {isImport, isImporting}
+}
 
 const useGetAllContact = (page) => {
   const { data, isPending: isGettingContacts } = useQuery({
@@ -84,4 +99,11 @@ const useGetAllGroups = () =>{
   return {isGetAllGroups, isGettingAllGroups}
 }
 
-export { useCreateContact, useGetAllContact, useDeleteContact, useCreateGroup, useGetAllGroups };
+export {
+  useCreateContact,
+  useGetAllContact,
+  useDeleteContact,
+  useCreateGroup,
+  useGetAllGroups,
+  useCreateBulkContactImport,
+};

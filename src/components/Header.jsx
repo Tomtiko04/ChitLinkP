@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProfileImage from "../assets/images/Profile-image.png";
 import { Icon } from '@iconify/react';
 import useAuthStore from '../store/authStore';
@@ -16,6 +16,7 @@ const routeTitles = {
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const basePath = '/' + location.pathname.split('/').filter(Boolean)[0];
   const title = routeTitles[basePath] || 'Dashboard';
   const {user} = useAuthStore();
@@ -24,7 +25,7 @@ export default function Header() {
     <div className="flex items-center justify-between px-2 lg:px-4">
       <div className="flex items-center gap-3">
         {title !== 'Dashboard' && (
-          <Icon icon="weui:back-filled" fontSize={20} color="#CE973A" className="cursor-pointer" />
+          <Icon icon="weui:back-filled" fontSize={20} color="#CE973A" className="cursor-pointer" onClick={() => navigate(-1)} />
         )}
         <h1 className="truncate text-xl font-extrabold text-[#22180E] lg:text-[24px]">{title}</h1>
       </div>

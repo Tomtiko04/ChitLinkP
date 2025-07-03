@@ -15,6 +15,7 @@ import Contacts from './pages/Contacts';
 import AddContact from './pages/AddContact';
 import AddGroup from './pages/AddGroup';
 import AllGroups from './components/features/contacts/AllGroups';
+import ImportContacts from './pages/ImportContacts';
 
 const Savings = () => <div className="py-12 text-center">Savings Page</div>;
 const Finance = () => <div className="py-12 text-center">Finance Page</div>;
@@ -60,6 +61,7 @@ function App() {
               <Route path='add-contact' element={<AddContact />}/>
               <Route path='add-group' element={<AddGroup />}/>
               <Route path='groups' element={<AllGroups />}/>
+              <Route path="import-contacts" element={<ImportContacts />}/>
             </Route>
             <Route path="finance" element={<Finance />} />
             <Route path="profile" element={<Profile />} />
