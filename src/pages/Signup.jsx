@@ -21,10 +21,10 @@ const validationSchema = yup.object().shape({
     return step === 2 ? schema.required('Address is required') : schema.notRequired();
   }),
   regNumber: yup.string().when('$step', ([step], schema) => {
-    return step === 2 ? schema.required('Registration Number is required') : schema.notRequired();
+    return step === 2 ? schema.required('SIN Number is required') : schema.notRequired();
   }),
   cacCertificate: yup.mixed().when('$step', ([step], schema) => {
-    return step === 2 ? schema.test('required', 'CAC Certificate is required', (value) => value && value.length > 0) : schema.notRequired();
+    return step === 2 ? schema.test('required', 'FINTRAC Certificate is required', (value) => value && value.length > 0) : schema.notRequired();
   }),
 });
 
