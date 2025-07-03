@@ -150,11 +150,11 @@ const Login = () => {
                 {isLoggingIn ? 'Logging in...' : 'Login'}
               </button>
             </div>
-            {isErrorLogIn && (
+            {/* {isErrorLogIn && (
               <p className="animate-shake mt-2 text-center text-sm text-[#A73957]">
                 {isErrorLogIn?.response?.data?.message || 'An unexpected error occurred.'}
               </p>
-            )}
+            )} */}
           </form>
 
           <div className="mt-4">

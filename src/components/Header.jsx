@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ProfileImage from "../assets/images/Profile-image.png";
 import { Icon } from '@iconify/react';
+import useAuthStore from '../store/authStore';
 
 const routeTitles = {
   '/': 'Dashboard',
@@ -17,6 +18,7 @@ export default function Header() {
   const location = useLocation();
   const basePath = '/' + location.pathname.split('/').filter(Boolean)[0];
   const title = routeTitles[basePath] || 'Dashboard';
+  const {user} = useAuthStore();
 
   return (
     <div className="flex items-center justify-between px-2 lg:px-4">
@@ -40,8 +42,8 @@ export default function Header() {
             className="h-10 w-10 rounded-full object-cover"
           />
           <div className="hidden flex-col sm:flex">
-            <span className="text-xs font-bold text-[#241505]">Merchant's Name</span>
-            <span className="text-[10px] font-semibold text-[#241505]/50">Merchant's@email.com</span>
+            <span className="text-xs font-bold text-[#241505]">{user.business_name}</span>
+            <span className="text-[10px] font-semibold text-[#241505]/50">{user.email}</span>
           </div>
         </div>
       </div>
