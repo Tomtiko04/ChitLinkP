@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
-import Papa from 'papaparse';
 import { Icon } from '@iconify/react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-
-// This is a placeholder for your actual API call to save contacts.
-// You will need to replace this with your own implementation.
-const saveContacts = async (contacts) => {
-  console.log('Saving contacts:', contacts);
-  // Example of what a real implementation might look like:
-  // await fetch('/api/contacts/bulk', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ contacts }),
-  // });
-  return new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate a network request
-};
+import { useImportContacts } from '../components/features/contacts/useContacts';
 
 const ImportContacts = () => {
   const [file, setFile] = useState(null);
-  const [isImporting, setIsImporting] = useState(false);
+  const { mutate: importContacts, isPending: isImporting } = useImportContacts();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -36,50 +23,15 @@ const ImportContacts = () => {
       toast.error('Please select a file to import.');
       return;
     }
-
-    setIsImporting(true);
-    const toastId = toast.loading('Importing contacts...');
-
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: async (results) => {
-        const contacts = results.data.map((contact) => ({
-          // Ensure these keys match the headers in your CSV file
-          name: contact.name,
-          email: contact.email,
-          phone: contact.phone,
-        }));
-
-        if (contacts.length === 0) {
-          toast.error('The CSV file is empty or does not contain valid data.', { id: toastId });
-          setIsImporting(false);
-          return;
-        }
-
-        try {
-          await saveContacts(contacts);
-          toast.success(`${contacts.length} contacts imported successfully!`, { id: toastId });
-          setFile(null);
-          // You might want to redirect the user after a successful import
-          // navigate('/contacts');
-        } catch (error) {
-          toast.error('An error occurred while importing contacts.', { id: toastId });
-          console.error('Import error:', error);
-        } finally {
-          setIsImporting(false);
-        }
-      },
-      error: (error) => {
-        toast.error('Error parsing the CSV file.', { id: toastId });
-        console.error('CSV parsing error:', error);
-        setIsImporting(false);
+    importContacts(file, {
+      onSuccess: () => {
+        setFile(null);
       },
     });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 px-4 pt-20 lg:px-8">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -152,12 +104,9 @@ const ImportContacts = () => {
             <button
               onClick={handleImport}
               disabled={!file || isImporting}
-              className="flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
+              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
             >
-              <Icon
-                icon={isImporting ? 'eos-icons:loading' : 'mdi:import'}
-                className="mr-2 h-5 w-5"
-              />
+              <Icon icon={isImporting ? "eos-icons:loading" : "mdi:import"} className="mr-2 h-5 w-5" />
               {isImporting ? 'Importing...' : 'Import Contacts'}
             </button>
           </div>

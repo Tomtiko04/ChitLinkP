@@ -31,6 +31,24 @@ const getAllGroups = async () => {
     return data;
 };
 
+export const getContacts = async (params) => {
+  const response = await apiClient.get("/contacts", { params });
+  return response.data;
+};
+
+export const importContacts = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await apiClient.post("/contacts/import", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
 export {
   createContact,
   getAllContact,
@@ -38,4 +56,6 @@ export {
   createGroup,
   getAllGroups,
   bulkContactImport,
+  getContacts,
+  importContacts,
 };

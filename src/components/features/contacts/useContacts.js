@@ -6,6 +6,8 @@ import {
   deleteContact as deleteContactApi,
   getAllContact as getAllContactApi,
   getAllGroups as getAllGroupsApi,
+  importContacts,
+  getContacts
 } from '../../../services/apiContact';
 import toast from 'react-hot-toast';
 
@@ -99,6 +101,28 @@ const useGetAllGroups = () =>{
   return {isGetAllGroups, isGettingAllGroups}
 }
 
+export const useGetContacts = (params) => {
+  return useQuery({
+    queryKey: ['contacts', params],
+    queryFn: () => getContacts(params),
+  });
+};
+
+export const useImportContacts = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: importContacts,
+    onSuccess: () => {
+      toast.success('Contacts imported successfully!');
+      queryClient.invalidateQueries(['contacts']);
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || 'An error occurred while importing contacts.');
+    },
+  });
+};
+
 export {
   useCreateContact,
   useGetAllContact,
@@ -106,4 +130,6 @@ export {
   useCreateGroup,
   useGetAllGroups,
   useCreateBulkContactImport,
+  useGetContacts,
+  useImportContacts,
 };
