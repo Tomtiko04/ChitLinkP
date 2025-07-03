@@ -37,7 +37,7 @@ const CompanyInfoForm = ({ register, errors, prevStep, handleSubmit, isSigningUp
 
       <div>
         <label htmlFor="regNumber" className="mb-2 block text-sm font-medium text-[#22180E]">
-          Reg Number
+          SIN Number
         </label>
         <input
           id="regNumber"
@@ -53,7 +53,7 @@ const CompanyInfoForm = ({ register, errors, prevStep, handleSubmit, isSigningUp
 
       <div>
         <label htmlFor="cacCertificate" className="mb-2 block text-sm font-medium text-[#22180E]">
-          Cac Certificate
+          FINTRAC Certificate
         </label>
         <input
           id="cacCertificate"
